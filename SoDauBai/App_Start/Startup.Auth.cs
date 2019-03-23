@@ -46,9 +46,9 @@ namespace SoDauBai
             app.UseTwoFactorRememberBrowserCookie(DefaultAuthenticationTypes.TwoFactorRememberBrowserCookie);
 
             // Uncomment the following lines to enable logging in with third party login providers
-            //app.UseMicrosoftAccountAuthentication(
-            //    clientId: "",
-            //    clientSecret: "");
+            app.UseMicrosoftAccountAuthentication(
+                clientId: "adcfd7da-eda7-4140-9528-eac96c3e2e29",
+                clientSecret: "fjbfWGCP57:dkoITQ492_+#");
 
             //app.UseTwitterAuthentication(
             //   consumerKey: "",
@@ -58,11 +58,11 @@ namespace SoDauBai
             //   appId: "",
             //   appSecret: "");
 
-            //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
-            //{
-            //    ClientId = "",
-            //    ClientSecret = ""
-            //});
+            app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
+            {
+                ClientId = "21109320241-aqor6arhsib0bh15n5i2h1vvssvr3qsg.apps.googleusercontent.com",
+                ClientSecret = "w_jfO6HRBjPhyeLWAzpSjmY2"
+            });
         }
     }
 }
