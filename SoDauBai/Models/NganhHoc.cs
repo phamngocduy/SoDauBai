@@ -12,12 +12,10 @@ namespace SoDauBai.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class GiangVien
+    public partial class NganhHoc
     {
         public int id { get; set; }
-        public string Email { get; set; }
-        public string MaGV { get; set; }
-        public string HocVi { get; set; }
-        public string HoTen { get; set; }
+        public string MaNganh { get; set; }
+        public string TenNganh { get; set; }
     }
 }

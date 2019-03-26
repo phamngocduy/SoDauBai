@@ -4,7 +4,10 @@
 <!-- DataTales Example -->
 <div class="card shadow mb-4">
     <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">Danh sách Giảng viên</h6>
+        <h6 class="m-0 font-weight-bold text-primary d-inline">Danh sách Giảng viên</h6>
+        <a href="@Url.Action("Create")" class="btn btn-success btn-circle btn-sm float-right">
+            <i class="fas fa-plus"></i>
+        </a>
     </div>
     <div class="card-body">
         <div class="table-responsive">
@@ -28,13 +31,16 @@
                                 @Html.DisplayFor(modelItem => item.HocVi)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.HoTen)
+                                <abbr title="@item.Email">
+                                    @Html.DisplayFor(modelItem => item.HoTen)
+                                </abbr>
                             </td>
                             <td>
-                                <a href="@Url.Action("Edit", new { id = item.Email })" class="btn btn-warning btn-circle btn-sm">
+                                <span style="display:none">@item.Email</span>
+                                <a href="@Url.Action("Edit", new { id = item.id })" class="btn btn-warning btn-circle btn-sm">
                                     <i class="fas fa-pencil-alt"></i>
                                 </a>
-                                <a href="@Url.Action("Delete", new { id = item.Email })" class="btn btn-danger btn-circle btn-sm">
+                                <a href="@Url.Action("Delete", new { id = item.id })" class="btn btn-danger btn-circle btn-sm">
                                     <i class="fas fa-trash"></i>
                                 </a>
                             </td>
@@ -45,10 +51,6 @@
         </div>
     </div>
 </div>
-
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
 
 @section Scripts {
     <script>

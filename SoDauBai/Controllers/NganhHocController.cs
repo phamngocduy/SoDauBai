@@ -6,13 +6,13 @@ using SoDauBai.Models;
 
 namespace SoDauBai.Controllers
 {
-    public class GiangVienController : Controller
+    public class NganhHocController : Controller
     {
         private SoDauBaiEntities db = new SoDauBaiEntities();
 
         public ActionResult Index()
         {
-            return View(db.GiangViens.ToList());
+            return View(db.NganhHocs.ToList());
         }
 
         public ActionResult Create()
@@ -22,12 +22,12 @@ namespace SoDauBai.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(GiangVien model)
+        public ActionResult Create(NganhHoc model)
         {
             if (ModelState.IsValid)
                 try
                 {
-                    db.GiangViens.Add(model);
+                    db.NganhHocs.Add(model);
                     db.SaveChanges();
                     return RedirectToAction("Index");
                 }
@@ -41,7 +41,7 @@ namespace SoDauBai.Controllers
 
         public ActionResult Edit(int id)
         {
-            var model = db.GiangViens.Find(id);
+            var model = db.NganhHocs.Find(id);
             if (model == null)
                 return HttpNotFound();
             return View(model);
@@ -49,7 +49,7 @@ namespace SoDauBai.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(GiangVien model)
+        public ActionResult Edit(NganhHoc model)
         {
             if (ModelState.IsValid)
                 try
@@ -67,7 +67,7 @@ namespace SoDauBai.Controllers
 
         public ActionResult Delete(int id)
         {
-            var model = db.GiangViens.Find(id);
+            var model = db.NganhHocs.Find(id);
             if (model == null)
                 return HttpNotFound();
             return View(model);
@@ -77,8 +77,8 @@ namespace SoDauBai.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            var model = db.GiangViens.Find(id);
-            db.GiangViens.Remove(model);
+            var model = db.NganhHocs.Find(id);
+            db.NganhHocs.Remove(model);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

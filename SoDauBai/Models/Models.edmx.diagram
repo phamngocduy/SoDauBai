@@ -9,10 +9,11 @@
         <EntityTypeShape EntityType="SoDauBaiModel.AspNetUserClaim" Width="1.5" PointX="5.25" PointY="1" IsExpanded="true" />
         <EntityTypeShape EntityType="SoDauBaiModel.AspNetUserLogin" Width="1.5" PointX="5.25" PointY="3.75" IsExpanded="true" />
         <EntityTypeShape EntityType="SoDauBaiModel.AspNetUser" Width="1.5" PointX="3" PointY="1.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="SoDauBaiModel.GiangVien" Width="1.5" PointX="0.75" PointY="6.75" IsExpanded="true" />
         <AssociationConnector Association="SoDauBaiModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
         <AssociationConnector Association="SoDauBaiModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
         <AssociationConnector Association="SoDauBaiModel.AspNetUserRoles" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="SoDauBaiModel.GiangVien" Width="1.5" PointX="0.75" PointY="6.75" />
+        <EntityTypeShape EntityType="SoDauBaiModel.NganhHoc" Width="1.5" PointX="3.375" PointY="6.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
