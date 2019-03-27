@@ -30,5 +30,6 @@ namespace SoDauBai.Models
         public byte SoTiet { get; set; }
         public string MaGV { get; set; }
         public string MaPH { get; set; }
+        public byte HocKy { get; set; }
     }
 }

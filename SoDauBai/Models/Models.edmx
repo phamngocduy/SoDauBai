@@ -79,12 +79,12 @@
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="MaMH" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="MaMH" Type="nvarchar" MaxLength="10" Nullable="false" />
           <Property Name="TenMH" Type="nvarchar(max)" Nullable="false" />
           <Property Name="SoTinChi" Type="tinyint" Nullable="false" />
-          <Property Name="NhomTo" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="ToTH" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="TenToHop" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="NhomTo" Type="nvarchar(max)" />
+          <Property Name="ToTH" Type="nvarchar(max)" />
+          <Property Name="TenToHop" Type="nvarchar(max)" />
           <Property Name="MaNganh" Type="nvarchar" MaxLength="10" Nullable="false" />
           <Property Name="MaLop" Type="nvarchar(max)" Nullable="false" />
           <Property Name="TenLop" Type="nvarchar(max)" Nullable="false" />
@@ -94,6 +94,7 @@
           <Property Name="SoTiet" Type="tinyint" Nullable="false" />
           <Property Name="MaGV" Type="nvarchar" MaxLength="10" Nullable="false" />
           <Property Name="MaPH" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="HocKy" Type="tinyint" Nullable="false" />
         </EntityType>
         <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
           <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
@@ -306,12 +307,12 @@
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="MaMH" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="MaMH" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
           <Property Name="TenMH" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="SoTinChi" Type="Byte" Nullable="false" />
-          <Property Name="NhomTo" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="ToTH" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="TenToHop" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="NhomTo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ToTH" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TenToHop" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="MaNganh" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
           <Property Name="MaLop" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="TenLop" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
@@ -321,6 +322,7 @@
           <Property Name="SoTiet" Type="Byte" Nullable="false" />
           <Property Name="MaGV" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
           <Property Name="MaPH" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="HocKy" Type="Byte" Nullable="false" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -404,6 +406,7 @@
           <EntitySetMapping Name="ThoiKhoaBieux">
             <EntityTypeMapping TypeName="SoDauBaiModel.ThoiKhoaBieu">
               <MappingFragment StoreEntitySet="ThoiKhoaBieu">
+                <ScalarProperty Name="HocKy" ColumnName="HocKy" />
                 <ScalarProperty Name="MaPH" ColumnName="MaPH" />
                 <ScalarProperty Name="MaGV" ColumnName="MaGV" />
                 <ScalarProperty Name="SoTiet" ColumnName="SoTiet" />

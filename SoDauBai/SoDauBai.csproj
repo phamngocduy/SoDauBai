@@ -262,6 +262,7 @@
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.blockUI.js" />
+    <Content Include="Scripts\jquery.floatThead.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -313,7 +314,6 @@
     <Content Include="Views\NganhHoc\Delete.cshtml" />
     <Content Include="Views\NganhHoc\Edit.cshtml" />
     <Content Include="Views\NganhHoc\Index.cshtml" />
-    <Content Include="Views\ThoiKhoaBieu\Create.cshtml" />
     <Content Include="Views\ThoiKhoaBieu\Delete.cshtml" />
     <Content Include="Views\ThoiKhoaBieu\Edit.cshtml" />
     <Content Include="Views\ThoiKhoaBieu\Index.cshtml" />

@@ -28,6 +28,8 @@ namespace SoDauBai.Controllers
         public ActionResult Upload()
         {
             var list = new List<ThoiKhoaBieu>();
+            var NganhHoc = db.NganhHocs.ToList();
+            var GiangVien = db.GiangViens.ToList();
             using (var reader = ExcelReaderFactory.CreateReader(Request.Files[0].InputStream))
             {
                 reader.Read();
@@ -58,6 +60,8 @@ namespace SoDauBai.Controllers
                         row.MaNganh = reader.GetString(i) ?? "";
                         if (row.MaNganh.Length > 10)
                             throw new Exception("MaNganh dài hơn 10 ký tự!");
+                        if (NganhHoc.SingleOrDefault(nh => nh.MaNganh == row.MaNganh) == null)
+                            throw new Exception("Không có MaNganh trong hệ thống!");
                         i++;
                         row.MaLop = reader.GetString(i) ?? "";
                         i++;
@@ -82,6 +86,8 @@ namespace SoDauBai.Controllers
                         row.MaGV = reader.GetString(i) ?? "";
                         if (row.MaGV.Length > 10)
                             throw new Exception("MaGV dài hơn 10 ký tự!");
+                        if (GiangVien.SingleOrDefault(gv => gv.MaGV == row.MaGV) == null)
+                            throw new Exception("Không có MaGV trong hệ thống!");
                         i++;
                         row.MaPH = reader.GetString(i) ?? "";
                     }
@@ -93,79 +99,64 @@ namespace SoDauBai.Controllers
                     list.Add(row);
                 }
             }
+
+            TempData["ThoiKhoaBieu"] = list;
             return View(list);
         }
 
-        // POST: ThoiKhoaBieu/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id,MaMH,TenMH,SoTinChi,NhomTo,ToTH,TenToHop,MaNganh,MaLop,TenLop,TongSoSV,ThuKieuSo,TietBD,SoTiet,MaGV,MaPH")] ThoiKhoaBieu thoiKhoaBieu)
+        public ActionResult Create(byte HocKy)
         {
-            if (ModelState.IsValid)
+            foreach (var model in TempData["ThoiKhoaBieu"] as List<ThoiKhoaBieu>)
             {
-                db.ThoiKhoaBieux.Add(thoiKhoaBieu);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                model.HocKy = HocKy;
+                db.ThoiKhoaBieux.Add(model);
             }
-
-            return View(thoiKhoaBieu);
+            db.SaveChanges();
+            return RedirectToAction("Index");
         }
 
-        // GET: ThoiKhoaBieu/Edit/5
-        public ActionResult Edit(int? id)
+        public ActionResult Edit(int id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            ThoiKhoaBieu thoiKhoaBieu = db.ThoiKhoaBieux.Find(id);
-            if (thoiKhoaBieu == null)
-            {
+            var model = db.ThoiKhoaBieux.Find(id);
+            if (model == null)
                 return HttpNotFound();
-            }
-            return View(thoiKhoaBieu);
+            return View(model);
         }
 
-        // POST: ThoiKhoaBieu/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id,MaMH,TenMH,SoTinChi,NhomTo,ToTH,TenToHop,MaNganh,MaLop,TenLop,TongSoSV,ThuKieuSo,TietBD,SoTiet,MaGV,MaPH")] ThoiKhoaBieu thoiKhoaBieu)
+        public ActionResult Edit(ThoiKhoaBieu model)
         {
             if (ModelState.IsValid)
-            {
-                db.Entry(thoiKhoaBieu).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            return View(thoiKhoaBieu);
+                try
+                {
+                    db.Entry(model).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                catch (Exception e)
+                {
+                    ModelState.AddModelError("", e.GetBaseException().Message);
+                }
+            return View(model);
         }
 
-        // GET: ThoiKhoaBieu/Delete/5
-        public ActionResult Delete(int? id)
+        public ActionResult Delete(int id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            ThoiKhoaBieu thoiKhoaBieu = db.ThoiKhoaBieux.Find(id);
-            if (thoiKhoaBieu == null)
-            {
+            var model = db.ThoiKhoaBieux.Find(id);
+            if (model == null)
                 return HttpNotFound();
-            }
-            return View(thoiKhoaBieu);
+            return View(model);
         }
 
-        // POST: ThoiKhoaBieu/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            ThoiKhoaBieu thoiKhoaBieu = db.ThoiKhoaBieux.Find(id);
-            db.ThoiKhoaBieux.Remove(thoiKhoaBieu);
+            var model = db.ThoiKhoaBieux.Find(id);
+            db.ThoiKhoaBieux.Remove(model);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

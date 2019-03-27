@@ -1,5 +1,17 @@
 ﻿@model IEnumerable<ThoiKhoaBieu>
 
+@helper Display(string content)
+{
+    if (content.Length < 10)
+    {
+        <span>@content</span>
+    }
+    else
+    {
+        <abbr title="@content">@content.Substring(0, 10)</abbr>
+    }
+}
+
 <div class="card shadow mb-4">
     <div class="card-header py-3">
         <h6 class="m-0 font-weight-bold text-primary d-inline">Thời khóa biểu HK</h6>
@@ -20,8 +32,17 @@
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                     <tr>
-                        <th>Mã ngành</th>
-                        <th>Tên ngành</th>
+                        <th>Mã MH</th>
+                        <th>Tên MH</th>
+                        <th><abbr title="Số Tín Chỉ">TC</abbr></th>
+                        <th><abbr title="NhomTo:ToTH:TenToHop">Nhóm Tổ</abbr></th>
+                        <th><abbr title="Mã Ngành">N</abbr></th>
+                        <th>Mã Lớp</th>
+                        <th>Tên Lớp</th>
+                        <th><abbr title="Tổng số SV">SV</abbr></th>
+                        <th><abbr title="ThuKieuSo:TietBD-SoTiet">TKB</abbr></th>
+                        <th>Mã GV</th>
+                        <th>Mã PH</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -29,12 +50,17 @@
                     @foreach (var item in Model)
                     {
                         <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.MaNganh)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.TenLop)
-                            </td>
+                            <td>@item.MaMH</td>
+                            <td>@item.TenMH</td>
+                            <td>@item.SoTinChi</td>
+                            <td>@item.NhomTo:@item.ToTH:@item.TenToHop</td>
+                            <td>@item.MaNganh</td>
+                            <td>@Display(item.MaLop)</td>
+                            <td>@Display(item.TenLop)</td>
+                            <td>@item.TongSoSV</td>
+                            <td>@item.ThuKieuSo:@item.TietBD-@item.SoTiet</td>
+                            <td>@item.MaGV</td>
+                            <td>@item.MaPH</td>
                             <td>
                                 <a href="@Url.Action("Edit", new { id = item.id })" class="btn btn-warning btn-circle btn-sm">
                                     <i class="fas fa-pencil-alt"></i>

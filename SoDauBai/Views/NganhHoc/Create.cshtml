@@ -13,14 +13,14 @@
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                 <div class="form-group">
                     <div class="col-md-10">
-                        @Html.EditorFor(model => model.MaNganh, new { htmlAttributes = new { @class = "form-control", placeholder = "Mã ngành" } })
+                        @Html.EditorFor(model => model.MaNganh, new { htmlAttributes = new { @class = "form-control", placeholder = "Mã ngành", required = true } })
                         @Html.ValidationMessageFor(model => model.MaNganh, "", new { @class = "text-danger" })
                     </div>
                 </div>
 
                 <div class="form-group">
                     <div class="col-md-10">
-                        @Html.EditorFor(model => model.TenNganh, new { htmlAttributes = new { @class = "form-control", placeholder = "Tên ngành" } })
+                        @Html.EditorFor(model => model.TenNganh, new { htmlAttributes = new { @class = "form-control", placeholder = "Tên ngành", required = true } })
                         @Html.ValidationMessageFor(model => model.TenNganh, "", new { @class = "text-danger" })
                     </div>
                 </div>
