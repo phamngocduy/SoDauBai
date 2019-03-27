@@ -1,4 +1,5 @@
-﻿using System.Data.Entity;
+﻿using System;
+using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
@@ -23,29 +24,76 @@ namespace SoDauBai.Controllers
             return File(Server.MapPath("~/App_Data/Template_TKB.xls"), "application/vnd.ms-excel");
         }
 
-        class ExcelRow : ThoiKhoaBieu
-        {
-            public string RawData { get; set; }
-            public string ErrorMsg { get; set; }
-        }
-
         [HttpPost]
         public ActionResult Upload()
         {
-            var list = new List<ExcelRow>();
+            var list = new List<ThoiKhoaBieu>();
             using (var reader = ExcelReaderFactory.CreateReader(Request.Files[0].InputStream))
             {
                 reader.Read();
                 while (reader.Read())
                 {
-                    var row = new ExcelRow();
-                    var MaMH = reader.GetString(0);
-                    if (string.IsNullOrEmpty(MaMH))
-                        break;
-                    var TenMH = reader.GetString(1);
+                    var row = new ThoiKhoaBieu();
+                    try
+                    {
+                        int i = 0;
+                        row.MaMH = reader.GetString(i) ?? "";
+                        if (string.IsNullOrEmpty(row.MaMH))
+                            break;
+                        if (row.MaMH.Length > 10)
+                            throw new Exception("MaMH dài hơn 10 ký tự!");
+                        i++;
+                        row.TenMH = reader.GetString(i) ?? "";
+                        i++;
+                        row.SoTinChi = byte.Parse(reader.GetValue(i).ToString());
+                        if (row.SoTinChi < 1 || row.SoTinChi > 5)
+                            throw new Exception("SoTinChi không trong khoảng [1-5]!");
+                        i++;
+                        row.NhomTo = reader.GetString(i) ?? "";
+                        i++;
+                        row.ToTH = reader.GetString(i) ?? "";
+                        i++;
+                        row.TenToHop = reader.GetString(i) ?? "";
+                        i++;
+                        row.MaNganh = reader.GetString(i) ?? "";
+                        if (row.MaNganh.Length > 10)
+                            throw new Exception("MaNganh dài hơn 10 ký tự!");
+                        i++;
+                        row.MaLop = reader.GetString(i) ?? "";
+                        i++;
+                        row.TenLop = reader.GetString(i) ?? "";
+                        i++;
+                        row.TongSoSV = short.Parse(reader.GetValue(i).ToString());
+                        if (row.TongSoSV < 1)
+                            throw new Exception("Lớp không có đủ sinh viên!");
+                        i++;
+                        row.ThuKieuSo = byte.Parse(reader.GetValue(i).ToString());
+                        if (row.ThuKieuSo < 2 || row.ThuKieuSo > 7)
+                            throw new Exception("ThuKieuSo không trong khoảng [2-7]!");
+                        i++;
+                        row.TietBD = byte.Parse(reader.GetValue(i).ToString());
+                        if (row.TietBD < 0 || row.TietBD > 12)
+                            throw new Exception("TietBD không trong khoảng [1-12]!");
+                        i++;
+                        row.SoTiet = byte.Parse(reader.GetValue(i).ToString());
+                        if (row.SoTiet < 0 || row.SoTiet > 5)
+                            throw new Exception("SoTiet không trong khoảng [1-5]!");
+                        i++;
+                        row.MaGV = reader.GetString(i) ?? "";
+                        if (row.MaGV.Length > 10)
+                            throw new Exception("MaGV dài hơn 10 ký tự!");
+                        i++;
+                        row.MaPH = reader.GetString(i) ?? "";
+                    }
+                    catch (Exception e)
+                    {
+                        row.MaMH = null;
+                        row.TenMH = e.Message;
+                    }
+                    list.Add(row);
                 }
             }
-            return View();
+            return View(list);
         }
 
         // POST: ThoiKhoaBieu/Create

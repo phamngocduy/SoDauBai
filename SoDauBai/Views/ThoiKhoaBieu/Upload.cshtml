@@ -1,0 +1,72 @@
+﻿@model IEnumerable<ThoiKhoaBieu>
+@{ 
+    var errors = Model.Count(tkb => tkb.MaMH == null);
+}
+
+@helper Display(string content) {
+    if (content.Length < 10)
+    {
+        <span>@content</span>
+    }
+    else
+    {
+        <abbr title="@content">@content.Substring(0, 10)</abbr>
+    }
+}
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        @if (errors > 0)
+        {
+            <h6 class="m-0 font-weight-bold text-danger">Có @errors/@Model.Count() dòng bị lỗi. Vui lòng xem bên dưới!</h6>
+        }
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>MãMH</th>
+                        <th>TênMH</th>
+                        <th>TC</th>
+                        <th>TênTổHợp</th>
+                        <th>N</th>
+                        <th>MãLớp</th>
+                        <th>TênLớp</th>
+                        <th>SV</th>
+                        <th>TKB</th>
+                        <th>MãGV</th>
+                        <th>MãPH</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            @if (String.IsNullOrEmpty(item.MaMH))
+                            {
+                                <td colspan="15">
+                                    <span class="text-danger">@item.TenMH</span>
+                                </td>
+                            }
+                            else
+                            {
+                                <td>@item.MaMH</td>
+                                <td>@item.TenMH</td>
+                                <td>@item.SoTinChi</td>
+                                <td>@item.NhomTo:@item.ToTH:@item.TenToHop</td>
+                                <td>@item.MaNganh</td>
+                                <td>@Display(item.MaLop)</td>
+                                <td>@Display(item.TenLop)</td>
+                                <td>@item.TongSoSV</td>
+                                <td>@item.ThuKieuSo:@item.TietBD-@item.SoTiet</td>
+                                <td>@item.MaGV</td>
+                                <td>@item.MaPH</td>
+                            }
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

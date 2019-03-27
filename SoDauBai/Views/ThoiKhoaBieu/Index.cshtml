@@ -52,6 +52,7 @@
 </div>
 
 @section Scripts {
+    <script src="~/Scripts/jquery.blockUI.js"></script>
     <script>
         // Call the dataTables jQuery plugin
         $(document).ready(function() {
@@ -63,8 +64,10 @@
             });
 
             $('#UploadFile').change(function () {
-                if ($(this).val().length > 1)
+                if ($(this).val().length > 1) {
                     $('#UploadForm').submit();
+                    $.blockUI();
+                }
             });
         });
     </script>
