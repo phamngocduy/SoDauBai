@@ -74,6 +74,27 @@
           <Property Name="MaNganh" Type="nvarchar" MaxLength="10" Nullable="false" />
           <Property Name="TenNganh" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
+        <EntityType Name="ThoiKhoaBieu">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MaMH" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="TenMH" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="SoTinChi" Type="tinyint" Nullable="false" />
+          <Property Name="NhomTo" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="ToTH" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="TenToHop" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="MaNganh" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="MaLop" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="TenLop" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="TongSoSV" Type="smallint" Nullable="false" />
+          <Property Name="ThuKieuSo" Type="tinyint" Nullable="false" />
+          <Property Name="TietBD" Type="tinyint" Nullable="false" />
+          <Property Name="SoTiet" Type="tinyint" Nullable="false" />
+          <Property Name="MaGV" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="MaPH" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
         <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
           <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -138,6 +159,7 @@
           <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GiangVien" EntityType="Self.GiangVien" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="NganhHoc" EntityType="Self.NganhHoc" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ThoiKhoaBieu" EntityType="Self.ThoiKhoaBieu" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
@@ -259,6 +281,7 @@
           </AssociationSet>
           <EntitySet Name="GiangViens" EntityType="SoDauBaiModel.GiangVien" />
           <EntitySet Name="NganhHocs" EntityType="SoDauBaiModel.NganhHoc" />
+          <EntitySet Name="ThoiKhoaBieux" EntityType="SoDauBaiModel.ThoiKhoaBieu" />
         </EntityContainer>
         <EntityType Name="GiangVien">
           <Key>
@@ -277,6 +300,27 @@
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="MaNganh" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
           <Property Name="TenNganh" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="ThoiKhoaBieu">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MaMH" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TenMH" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SoTinChi" Type="Byte" Nullable="false" />
+          <Property Name="NhomTo" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ToTH" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TenToHop" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="MaNganh" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="MaLop" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TenLop" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TongSoSV" Type="Int16" Nullable="false" />
+          <Property Name="ThuKieuSo" Type="Byte" Nullable="false" />
+          <Property Name="TietBD" Type="Byte" Nullable="false" />
+          <Property Name="SoTiet" Type="Byte" Nullable="false" />
+          <Property Name="MaGV" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="MaPH" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -353,6 +397,28 @@
               <MappingFragment StoreEntitySet="NganhHoc">
                 <ScalarProperty Name="TenNganh" ColumnName="TenNganh" />
                 <ScalarProperty Name="MaNganh" ColumnName="MaNganh" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ThoiKhoaBieux">
+            <EntityTypeMapping TypeName="SoDauBaiModel.ThoiKhoaBieu">
+              <MappingFragment StoreEntitySet="ThoiKhoaBieu">
+                <ScalarProperty Name="MaPH" ColumnName="MaPH" />
+                <ScalarProperty Name="MaGV" ColumnName="MaGV" />
+                <ScalarProperty Name="SoTiet" ColumnName="SoTiet" />
+                <ScalarProperty Name="TietBD" ColumnName="TietBD" />
+                <ScalarProperty Name="ThuKieuSo" ColumnName="ThuKieuSo" />
+                <ScalarProperty Name="TongSoSV" ColumnName="TongSoSV" />
+                <ScalarProperty Name="TenLop" ColumnName="TenLop" />
+                <ScalarProperty Name="MaLop" ColumnName="MaLop" />
+                <ScalarProperty Name="MaNganh" ColumnName="MaNganh" />
+                <ScalarProperty Name="TenToHop" ColumnName="TenToHop" />
+                <ScalarProperty Name="ToTH" ColumnName="ToTH" />
+                <ScalarProperty Name="NhomTo" ColumnName="NhomTo" />
+                <ScalarProperty Name="SoTinChi" ColumnName="SoTinChi" />
+                <ScalarProperty Name="TenMH" ColumnName="TenMH" />
+                <ScalarProperty Name="MaMH" ColumnName="MaMH" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>

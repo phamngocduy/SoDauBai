@@ -14,6 +14,7 @@
         <AssociationConnector Association="SoDauBaiModel.AspNetUserRoles" ManuallyRouted="false" />
         <EntityTypeShape EntityType="SoDauBaiModel.GiangVien" Width="1.5" PointX="0.75" PointY="6.75" />
         <EntityTypeShape EntityType="SoDauBaiModel.NganhHoc" Width="1.5" PointX="3.375" PointY="6.75" />
+        <EntityTypeShape EntityType="SoDauBaiModel.ThoiKhoaBieu" Width="1.5" PointX="5.375" PointY="6.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
