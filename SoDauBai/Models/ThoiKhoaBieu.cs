@@ -14,6 +14,12 @@ namespace SoDauBai.Models
     
     public partial class ThoiKhoaBieu
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public ThoiKhoaBieu()
+        {
+            this.SoDauBais = new HashSet<SoDauBai>();
+        }
+    
         public int id { get; set; }
         public string MaMH { get; set; }
         public string TenMH { get; set; }
@@ -31,5 +37,8 @@ namespace SoDauBai.Models
         public string MaGV { get; set; }
         public string MaPH { get; set; }
         public byte HocKy { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SoDauBai> SoDauBais { get; set; }
     }
 }

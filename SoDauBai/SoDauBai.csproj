@@ -184,6 +184,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\NganhHocController.cs" />
+    <Compile Include="Controllers\SoDauBaiController.cs" />
     <Compile Include="Controllers\ThoiKhoaBieuController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -222,6 +223,9 @@
       <DependentUpon>Models.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\NganhHoc.cs">
+      <DependentUpon>Models.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SoDauBai.cs">
       <DependentUpon>Models.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ThoiKhoaBieu.cs">
@@ -318,6 +322,10 @@
     <Content Include="Views\ThoiKhoaBieu\Edit.cshtml" />
     <Content Include="Views\ThoiKhoaBieu\Index.cshtml" />
     <Content Include="Views\ThoiKhoaBieu\Upload.cshtml" />
+    <Content Include="Views\SoDauBai\Create.cshtml" />
+    <Content Include="Views\SoDauBai\Delete.cshtml" />
+    <Content Include="Views\SoDauBai\Edit.cshtml" />
+    <Content Include="Views\SoDauBai\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\css\" />

@@ -31,6 +31,7 @@ namespace SoDauBai.Models
         public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
         public virtual DbSet<GiangVien> GiangViens { get; set; }
         public virtual DbSet<NganhHoc> NganhHocs { get; set; }
+        public virtual DbSet<SoDauBai> SoDauBais { get; set; }
         public virtual DbSet<ThoiKhoaBieu> ThoiKhoaBieux { get; set; }
     }
 }
