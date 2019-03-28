@@ -74,7 +74,7 @@
           <Property Name="MaNganh" Type="nvarchar" MaxLength="10" Nullable="false" />
           <Property Name="TenNganh" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
-        <EntityType Name="SoDauBai">
+        <EntityType Name="SoGhiBai">
           <Key>
             <PropertyRef Name="id" />
           </Key>
@@ -172,12 +172,12 @@
         </Association>
         <Association Name="FK_SoDauBai_ThoiKhoaBieu">
           <End Role="ThoiKhoaBieu" Type="Self.ThoiKhoaBieu" Multiplicity="1" />
-          <End Role="SoDauBai" Type="Self.SoDauBai" Multiplicity="*" />
+          <End Role="SoGhiBai" Type="Self.SoGhiBai" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="ThoiKhoaBieu">
               <PropertyRef Name="id" />
             </Principal>
-            <Dependent Role="SoDauBai">
+            <Dependent Role="SoGhiBai">
               <PropertyRef Name="idTKB" />
             </Dependent>
           </ReferentialConstraint>
@@ -190,7 +190,7 @@
           <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GiangVien" EntityType="Self.GiangVien" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="NganhHoc" EntityType="Self.NganhHoc" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="SoDauBai" EntityType="Self.SoDauBai" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SoGhiBai" EntityType="Self.SoGhiBai" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ThoiKhoaBieu" EntityType="Self.ThoiKhoaBieu" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
@@ -210,7 +210,7 @@
           </AssociationSet>
           <AssociationSet Name="FK_SoDauBai_ThoiKhoaBieu" Association="Self.FK_SoDauBai_ThoiKhoaBieu">
             <End Role="ThoiKhoaBieu" EntitySet="ThoiKhoaBieu" />
-            <End Role="SoDauBai" EntitySet="SoDauBai" />
+            <End Role="SoGhiBai" EntitySet="SoGhiBai" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -224,7 +224,7 @@
           <EntitySet Name="AspNetUsers" EntityType="SoDauBaiModel.AspNetUser" />
           <EntitySet Name="GiangViens" EntityType="SoDauBaiModel.GiangVien" />
           <EntitySet Name="NganhHocs" EntityType="SoDauBaiModel.NganhHoc" />
-          <EntitySet Name="SoDauBais" EntityType="SoDauBaiModel.SoDauBai" />
+          <EntitySet Name="SoGhiBais" EntityType="SoDauBaiModel.SoGhiBai" />
           <EntitySet Name="ThoiKhoaBieux" EntityType="SoDauBaiModel.ThoiKhoaBieu" />
           <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="SoDauBaiModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
             <End Role="AspNetUser" EntitySet="AspNetUsers" />
@@ -236,7 +236,7 @@
           </AssociationSet>
           <AssociationSet Name="FK_SoDauBai_ThoiKhoaBieu" Association="SoDauBaiModel.FK_SoDauBai_ThoiKhoaBieu">
             <End Role="ThoiKhoaBieu" EntitySet="ThoiKhoaBieux" />
-            <End Role="SoDauBai" EntitySet="SoDauBais" />
+            <End Role="SoGhiBai" EntitySet="SoGhiBais" />
           </AssociationSet>
           <AssociationSet Name="AspNetUserRoles" Association="SoDauBaiModel.AspNetUserRoles">
             <End Role="AspNetRole" EntitySet="AspNetRoles" />
@@ -310,7 +310,7 @@
           <Property Name="MaNganh" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
           <Property Name="TenNganh" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
-        <EntityType Name="SoDauBai">
+        <EntityType Name="SoGhiBai">
           <Key>
             <PropertyRef Name="id" />
           </Key>
@@ -327,7 +327,7 @@
           <Property Name="DeXuat" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Email" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="idTKB" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="ThoiKhoaBieu" Relationship="SoDauBaiModel.FK_SoDauBai_ThoiKhoaBieu" FromRole="SoDauBai" ToRole="ThoiKhoaBieu" />
+          <NavigationProperty Name="ThoiKhoaBieu" Relationship="SoDauBaiModel.FK_SoDauBai_ThoiKhoaBieu" FromRole="SoGhiBai" ToRole="ThoiKhoaBieu" />
         </EntityType>
         <EntityType Name="ThoiKhoaBieu">
           <Key>
@@ -350,7 +350,7 @@
           <Property Name="MaGV" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
           <Property Name="MaPH" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="HocKy" Type="Byte" Nullable="false" />
-          <NavigationProperty Name="SoDauBais" Relationship="SoDauBaiModel.FK_SoDauBai_ThoiKhoaBieu" FromRole="ThoiKhoaBieu" ToRole="SoDauBai" />
+          <NavigationProperty Name="SoGhiBais" Relationship="SoDauBaiModel.FK_SoDauBai_ThoiKhoaBieu" FromRole="ThoiKhoaBieu" ToRole="SoGhiBai" />
         </EntityType>
         <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
           <End Type="SoDauBaiModel.AspNetUser" Role="AspNetUser" Multiplicity="1">
@@ -382,12 +382,12 @@
         </Association>
         <Association Name="FK_SoDauBai_ThoiKhoaBieu">
           <End Type="SoDauBaiModel.ThoiKhoaBieu" Role="ThoiKhoaBieu" Multiplicity="1" />
-          <End Type="SoDauBaiModel.SoDauBai" Role="SoDauBai" Multiplicity="*" />
+          <End Type="SoDauBaiModel.SoGhiBai" Role="SoGhiBai" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="ThoiKhoaBieu">
               <PropertyRef Name="id" />
             </Principal>
-            <Dependent Role="SoDauBai">
+            <Dependent Role="SoGhiBai">
               <PropertyRef Name="idTKB" />
             </Dependent>
           </ReferentialConstraint>
@@ -467,9 +467,9 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="SoDauBais">
-            <EntityTypeMapping TypeName="SoDauBaiModel.SoDauBai">
-              <MappingFragment StoreEntitySet="SoDauBai">
+          <EntitySetMapping Name="SoGhiBais">
+            <EntityTypeMapping TypeName="SoDauBaiModel.SoGhiBai">
+              <MappingFragment StoreEntitySet="SoGhiBai">
                 <ScalarProperty Name="idTKB" ColumnName="idTKB" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="DeXuat" ColumnName="DeXuat" />

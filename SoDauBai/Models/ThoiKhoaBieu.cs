@@ -17,7 +17,7 @@ namespace SoDauBai.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public ThoiKhoaBieu()
         {
-            this.SoDauBais = new HashSet<SoDauBai>();
+            this.SoGhiBais = new HashSet<SoGhiBai>();
         }
     
         public int id { get; set; }
@@ -39,6 +39,6 @@ namespace SoDauBai.Models
         public byte HocKy { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<SoDauBai> SoDauBais { get; set; }
+        public virtual ICollection<SoGhiBai> SoGhiBais { get; set; }
     }
 }

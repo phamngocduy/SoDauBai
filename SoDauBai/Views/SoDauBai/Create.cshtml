@@ -1,4 +1,4 @@
-﻿@model SoDauBai
+﻿@model SoGhiBai
 
 @using (Html.BeginForm()) 
 {
@@ -17,7 +17,7 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.NgayDay, "Ngày dạy", htmlAttributes: new { @class = "control-label col-md-10" })
                     <div class="col-md-10">
-                        @Html.TextBoxFor(model => model.NgayDay, Model.NgayDay.ToShortDateString(), new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.TextBoxFor(model => model.NgayDay, Model.NgayDay.ToShortDateString(), new { @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.NgayDay, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -99,7 +99,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.DeXuat, htmlAttributes: new { @class = "control-label col-md-10" })
+            @Html.LabelFor(model => model.DeXuat, "Đề xuất", htmlAttributes: new { @class = "control-label col-md-10" })
             <div class="col-md-12">
                 @Html.EditorFor(model => model.DeXuat, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.DeXuat, "", new { @class = "text-danger" })

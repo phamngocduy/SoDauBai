@@ -225,7 +225,7 @@
     <Compile Include="Models\NganhHoc.cs">
       <DependentUpon>Models.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\SoDauBai.cs">
+    <Compile Include="Models\SoGhiBai.cs">
       <DependentUpon>Models.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ThoiKhoaBieu.cs">

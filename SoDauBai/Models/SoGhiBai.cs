@@ -12,7 +12,7 @@ namespace SoDauBai.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class SoDauBai
+    public partial class SoGhiBai
     {
         public int id { get; set; }
         public System.DateTime NgayTao { get; set; }

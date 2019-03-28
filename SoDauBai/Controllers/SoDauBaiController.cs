@@ -8,7 +8,6 @@ using System.Web;
 using System.Web.Mvc;
 using SoDauBai.Models;
 using Microsoft.AspNet.Identity;
-using SDB = SoDauBai.Models.SoDauBai;
 
 namespace SoDauBai.Controllers
 {
@@ -22,7 +21,7 @@ namespace SoDauBai.Controllers
             if (model == null)
                 return HttpNotFound();
             ViewBag.TKB = model;
-            return View(model.SoDauBais.ToList());
+            return View(model.SoGhiBais.ToList());
         }
 
         private TimeSpan[] TIET =
@@ -45,7 +44,7 @@ namespace SoDauBai.Controllers
         public ActionResult Create(int id)
         {
             var tkb = db.ThoiKhoaBieux.Find(id);
-            var model = new SDB
+            var model = new SoGhiBai
             {
                 NgayDay = DateTime.Today,
                 ThoiGianBD = TIET[tkb.TietBD],
@@ -64,11 +63,11 @@ namespace SoDauBai.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(SDB soDauBai)
+        public ActionResult Create(SoGhiBai soDauBai)
         {
             if (ModelState.IsValid)
             {
-                db.SoDauBais.Add(soDauBai);
+                db.SoGhiBais.Add(soDauBai);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -84,7 +83,7 @@ namespace SoDauBai.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            SDB soDauBai = db.SoDauBais.Find(id);
+            SoGhiBai soDauBai = db.SoGhiBais.Find(id);
             if (soDauBai == null)
             {
                 return HttpNotFound();
@@ -98,7 +97,7 @@ namespace SoDauBai.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id,NgayTao,NgayDay,ThoiGianBD,ThoiGianKT,NDGiangDay,SoTietDay,MaPhong,NhanXetSV,TongSoSV,DeXuat,Email,idTKB")] SDB soDauBai)
+        public ActionResult Edit([Bind(Include = "id,NgayTao,NgayDay,ThoiGianBD,ThoiGianKT,NDGiangDay,SoTietDay,MaPhong,NhanXetSV,TongSoSV,DeXuat,Email,idTKB")] SoGhiBai soDauBai)
         {
             if (ModelState.IsValid)
             {
@@ -117,7 +116,7 @@ namespace SoDauBai.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            SDB soDauBai = db.SoDauBais.Find(id);
+            SoGhiBai soDauBai = db.SoGhiBais.Find(id);
             if (soDauBai == null)
             {
                 return HttpNotFound();
@@ -130,8 +129,8 @@ namespace SoDauBai.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            SDB soDauBai = db.SoDauBais.Find(id);
-            db.SoDauBais.Remove(soDauBai);
+            SoGhiBai soDauBai = db.SoGhiBais.Find(id);
+            db.SoGhiBais.Remove(soDauBai);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
