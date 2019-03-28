@@ -326,6 +326,7 @@
     <Content Include="Views\SoDauBai\Delete.cshtml" />
     <Content Include="Views\SoDauBai\Edit.cshtml" />
     <Content Include="Views\SoDauBai\Index.cshtml" />
+    <Content Include="Views\SoDauBai\Update.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\css\" />

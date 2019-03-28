@@ -8,12 +8,12 @@
         @Html.ActionLink("Back to List", "Index", new { id = Model.idTKB })
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
+        @Html.HiddenFor(model => model.id)
         @Html.Partial("Edit", Model)
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Update" class="btn btn-primary" />
             </div>
         </div>
     </div>

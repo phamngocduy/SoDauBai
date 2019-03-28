@@ -1,4 +1,8 @@
 ﻿@model IEnumerable<SoGhiBai>
+@{ 
+    var count = 1;
+    var start = Model.Count() > 0 ? Model.Min(s => s.NgayDay) : DateTime.MinValue;
+}
 
 <div class="card shadow mb-4">
     <div class="card-header py-3">
@@ -9,25 +13,43 @@
     </div>
     <div class="card-body">
         <div class="table-responsive">
-            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+            <table class="table table-bordered table-striped table-hover" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                     <tr>
-                        <th>Mã ngành</th>
-                        <th>Tên ngành</th>
+                        <th>STT</th>
+                        <th>Thời gian</th>
+                        <th>Phòng</th>
+                        <th>Nội dung</th>
+                        <th>Nhận xét</th>
                         <th></th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var item in Model)
+                    @foreach (var item in Model.OrderBy(s => s.NgayDay))
                     {
                         <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.ThoiGianKT)
+                            <td rowspan="2">
+                                Buổi @(count++)
+                                <br />
+                                Tuần @((item.NgayDay - start).TotalDays / 7 + 1)
+                            </td>
+                            <td rowspan="2">
+                                @item.NgayDay.ToShortDateString()
+                                <br />
+                                @item.ThoiGianBD.ToString(@"hh\:mm") - @item.ThoiGianKT.ToString(@"hh\:mm")
+                            </td>
+                            <td rowspan="2">
+                                P#@item.MaPhong
+                                <br />
+                                @item.TongSoSV<span>SV</span>
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.ThoiGianKT)
+                                @item.NDGiangDay
                             </td>
                             <td>
+                                @item.NhanXetSV
+                            </td>
+                            <td rowspan="2">
                                 <a href="@Url.Action("Edit", new { id = item.id })" class="btn btn-warning btn-circle btn-sm">
                                     <i class="fas fa-pencil-alt"></i>
                                 </a>
@@ -36,108 +58,12 @@
                                 </a>
                             </td>
                         </tr>
+                        <tr>
+                            <td colspan="2">@item.DeXuat</td>
+                        </tr>
                     }
                 </tbody>
             </table>
         </div>
     </div>
 </div>
-
-
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.NgayTao)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.NgayDay)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ThoiGianBD)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ThoiGianKT)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.NDGiangDay)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.SoTietDay)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.MaPhong)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.NhanXetSV)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TongSoSV)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.DeXuat)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Email)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.idTKB)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ThoiKhoaBieu.MaMH)
-        </th>
-        <th></th>
-    </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.NgayTao)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.NgayDay)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ThoiGianBD)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ThoiGianKT)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.NDGiangDay)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.SoTietDay)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.MaPhong)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.NhanXetSV)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TongSoSV)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DeXuat)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Email)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.idTKB)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ThoiKhoaBieu.MaMH)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.id })
-        </td>
-    </tr>
-}
-
-</table>

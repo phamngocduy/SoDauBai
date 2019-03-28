@@ -58,55 +58,46 @@ namespace SoDauBai.Controllers
             return View(model);
         }
 
-        // POST: SoDauBai/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(SoGhiBai soDauBai)
+        public ActionResult Create(SoGhiBai model)
         {
             if (ModelState.IsValid)
-            {
-                db.SoGhiBais.Add(soDauBai);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
+                try
+                {
+                    model.NgayTao = DateTime.Now;
+                    model.Email = User.Identity.GetUserName();
+                    db.SoGhiBais.Add(model);
+                    db.SaveChanges();
+                    return RedirectToAction("Index", new { id = model.idTKB });
+                }
+                catch (Exception e)
+                {
+                    ModelState.AddModelError("", e.GetBaseException().Message);
+                }
 
-            ViewBag.id = new SelectList(db.ThoiKhoaBieux, "id", "MaMH", soDauBai.id);
-            return View(soDauBai);
+            return View(model);
         }
 
-        // GET: SoDauBai/Edit/5
-        public ActionResult Edit(int? id)
+        public ActionResult Edit(int id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            SoGhiBai soDauBai = db.SoGhiBais.Find(id);
-            if (soDauBai == null)
-            {
+            var model = db.SoGhiBais.Find(id);
+            if (model == null)
                 return HttpNotFound();
-            }
-            ViewBag.id = new SelectList(db.ThoiKhoaBieux, "id", "MaMH", soDauBai.id);
-            return View(soDauBai);
+            return View("Update", model);
         }
 
-        // POST: SoDauBai/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id,NgayTao,NgayDay,ThoiGianBD,ThoiGianKT,NDGiangDay,SoTietDay,MaPhong,NhanXetSV,TongSoSV,DeXuat,Email,idTKB")] SoGhiBai soDauBai)
+        public ActionResult Edit(SoGhiBai model)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(soDauBai).State = EntityState.Modified;
+                db.Entry(model).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { id = model.idTKB });
             }
-            ViewBag.id = new SelectList(db.ThoiKhoaBieux, "id", "MaMH", soDauBai.id);
-            return View(soDauBai);
+            return View("Update", model);
         }
 
         // GET: SoDauBai/Delete/5
