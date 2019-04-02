@@ -79,7 +79,7 @@
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="NgayTao" Type="date" Nullable="false" />
+          <Property Name="NgayTao" Type="datetime" Nullable="false" />
           <Property Name="NgayDay" Type="date" Nullable="false" />
           <Property Name="ThoiGianBD" Type="time" Precision="7" Nullable="false" />
           <Property Name="ThoiGianKT" Type="time" Precision="7" Nullable="false" />
@@ -91,6 +91,7 @@
           <Property Name="DeXuat" Type="nvarchar(max)" />
           <Property Name="Email" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="idTKB" Type="int" Nullable="false" />
+          <Property Name="Loai" Type="tinyint" Nullable="false" />
         </EntityType>
         <EntityType Name="ThoiKhoaBieu">
           <Key>
@@ -315,7 +316,7 @@
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="NgayTao" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="NgayTao" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="NgayDay" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="ThoiGianBD" Type="Time" Nullable="false" Precision="7" />
           <Property Name="ThoiGianKT" Type="Time" Nullable="false" Precision="7" />
@@ -327,6 +328,7 @@
           <Property Name="DeXuat" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Email" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="idTKB" Type="Int32" Nullable="false" />
+          <Property Name="Loai" Type="Byte" Nullable="false" />
           <NavigationProperty Name="ThoiKhoaBieu" Relationship="SoDauBaiModel.FK_SoDauBai_ThoiKhoaBieu" FromRole="SoGhiBai" ToRole="ThoiKhoaBieu" />
         </EntityType>
         <EntityType Name="ThoiKhoaBieu">
@@ -470,6 +472,7 @@
           <EntitySetMapping Name="SoGhiBais">
             <EntityTypeMapping TypeName="SoDauBaiModel.SoGhiBai">
               <MappingFragment StoreEntitySet="SoGhiBai">
+                <ScalarProperty Name="Loai" ColumnName="Loai" />
                 <ScalarProperty Name="idTKB" ColumnName="idTKB" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="DeXuat" ColumnName="DeXuat" />

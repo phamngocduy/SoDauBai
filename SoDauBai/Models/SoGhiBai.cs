@@ -27,6 +27,7 @@ namespace SoDauBai.Models
         public string DeXuat { get; set; }
         public string Email { get; set; }
         public int idTKB { get; set; }
+        public byte Loai { get; set; }
     
         public virtual ThoiKhoaBieu ThoiKhoaBieu { get; set; }
     }

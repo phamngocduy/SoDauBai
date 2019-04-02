@@ -1,12 +1,15 @@
 ﻿@model IEnumerable<SoGhiBai>
 @{ 
     var count = 1;
+    var TKB = ViewBag.TKB as ThoiKhoaBieu;
+    var Tiet = new int[TKB.SoTiet];
+    Tiet.For(0, TKB.SoTiet - 1, i => Tiet[i] = TKB.TietBD + i);
     var start = Model.Count() > 0 ? Model.Min(s => s.NgayDay) : DateTime.MinValue;
 }
 
 <div class="card shadow mb-4">
     <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary d-inline">@((ViewBag.TKB as ThoiKhoaBieu).TenMH)</h6>
+        <h6 class="m-0 font-weight-bold text-primary d-inline">@TKB.TenMH - Thứ @TKB.ThuKieuSo, tiết @String.Join("", Tiet) #P:@TKB.MaPH</h6>
         <a href="@Url.Action("Create", new { id = (ViewBag.TKB as ThoiKhoaBieu).id })" class="btn btn-success btn-circle btn-sm float-right">
             <i class="fas fa-plus"></i>
         </a>
@@ -56,6 +59,9 @@
                                 <a href="@Url.Action("Delete", new { id = item.id })" class="btn btn-danger btn-circle btn-sm">
                                     <i class="fas fa-trash"></i>
                                 </a>
+                                <a href="#" title="@item.Email" data-content="@item.NgayTao" data-toggle="popover" data-placement="left" class="btn btn-info btn-circle btn-sm">
+                                    <i class="fas fa-info"></i>
+                                </a>
                             </td>
                         </tr>
                         <tr>
@@ -67,3 +73,11 @@
         </div>
     </div>
 </div>
+
+@section Scripts {
+    <script>
+        $(function () {
+            $('[data-toggle="popover"]').popover();
+        });
+    </script>
+}

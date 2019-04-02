@@ -93,6 +93,7 @@ namespace SoDauBai.Controllers
         {
             if (ModelState.IsValid)
             {
+                model.NgayTao = DateTime.Now;
                 db.Entry(model).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index", new { id = model.idTKB });
@@ -100,30 +101,22 @@ namespace SoDauBai.Controllers
             return View("Update", model);
         }
 
-        // GET: SoDauBai/Delete/5
-        public ActionResult Delete(int? id)
+        public ActionResult Delete(int id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            SoGhiBai soDauBai = db.SoGhiBais.Find(id);
-            if (soDauBai == null)
-            {
+            var model = db.SoGhiBais.Find(id);
+            if (model == null)
                 return HttpNotFound();
-            }
-            return View(soDauBai);
+            return View(model);
         }
 
-        // POST: SoDauBai/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            SoGhiBai soDauBai = db.SoGhiBais.Find(id);
-            db.SoGhiBais.Remove(soDauBai);
+            var model = db.SoGhiBais.Find(id);
+            db.SoGhiBais.Remove(model);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", new { id = model.idTKB });
         }
 
         protected override void Dispose(bool disposing)

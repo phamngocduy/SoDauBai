@@ -5,7 +5,22 @@
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        @Html.ActionLink("Back to List", "Index", new { id = Model.idTKB })
+        <div class="form-check-inline">
+            <label class="form-check-label">
+                <input type="radio" class="form-check-input" name="Loai" value="0" checked>Ghi SĐB
+            </label>
+        </div>
+        <div class="form-check-inline">
+            <label class="form-check-label">
+                <input type="radio" class="form-check-input" name="Loai" value="1">Báo nghỉ
+            </label>
+        </div>
+        <div class="form-check-inline disabled">
+            <label class="form-check-label">
+                <input type="radio" class="form-check-input" name="Loai" value="2">Dạy bù
+            </label>
+        </div>
+        @Html.ActionLink("Quay lại", "Index", new { id = Model.idTKB })
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
@@ -13,12 +28,41 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Ghi sổ" class="btn btn-primary" />
             </div>
         </div>
     </div>
 }
 
 @section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
+    <link href="~/Content/tempusdominus.min.css" rel="stylesheet" />
+    <script src="~/Scripts/moment-locales.js"></script>
+    <script src="~/Scripts/tempusdominus.js"></script>
+    <script>
+        $(function () {
+            $('#datetimepicker4').datetimepicker({
+                format: 'D/M/YYYY'
+            });
+            $('#datetimepicker2,#datetimepicker3').datetimepicker({
+                format: 'HH:mm'
+            });
+            $('[name=Loai]').click(function () {
+                if ($('[name=Loai]:checked').val() == 1)
+                    $('#NgayDay,#SoTietDay,#MaPhong,#ThoiGianBD,#ThoiGianKT,#TongSoSV,#NhanXetSV,#DeXuat').attr('readonly', true);
+                else
+                    $('[readonly=readonly]').attr('readonly', false);
+                switch ($('[name=Loai]:checked').val()) {
+                    case '0':
+                        $('[for=NDGiangDay]').text('Nội dung');
+                        break;
+                    case '1':
+                        $('[for=NDGiangDay]').text('Lý do nghỉ');
+                        break;
+                    case '2':
+                        $('[for=NDGiangDay]').text('Nội dung bù');
+                        break;
+                }
+            });
+        });
+    </script>
 }

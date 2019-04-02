@@ -8,7 +8,12 @@
         <div class="form-group">
             @Html.LabelFor(model => model.NgayDay, "Ngày dạy", htmlAttributes: new { @class = "control-label col-md-10" })
             <div class="col-md-10">
-                @Html.TextBoxFor(model => model.NgayDay, Model.NgayDay.ToShortDateString(), new { @class = "form-control" })
+                <div class="input-group date" id="datetimepicker4" data-target-input="nearest">
+                    @Html.TextBoxFor(model => model.NgayDay, Model.NgayDay.ToShortDateString(), new { @class = "form-control datetimepicker-input", data_target = "#datetimepicker4" })
+                    <div class="input-group-append" data-target="#datetimepicker4" data-toggle="datetimepicker">
+                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                    </div>
+                </div>
                 @Html.ValidationMessageFor(model => model.NgayDay, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -40,7 +45,12 @@
         <div class="form-group">
             @Html.LabelFor(model => model.ThoiGianBD, "Giờ bắt đầu", htmlAttributes: new { @class = "control-label col-md-10" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.ThoiGianBD, new { htmlAttributes = new { @class = "form-control" } })
+                <div class="input-group date" id="datetimepicker2" data-target-input="nearest">
+                    @Html.EditorFor(model => model.ThoiGianBD, new { htmlAttributes = new { @class = "form-control datetimepicker-input", data_target = "#datetimepicker2" } })
+                    <div class="input-group-append" data-target="#datetimepicker2" data-toggle="datetimepicker">
+                        <div class="input-group-text"><i class="fa fa-clock"></i></div>
+                    </div>
+                </div>
                 @Html.ValidationMessageFor(model => model.ThoiGianBD, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -50,7 +60,12 @@
         <div class="form-group">
             @Html.LabelFor(model => model.ThoiGianKT, "Giờ kết thúc", htmlAttributes: new { @class = "control-label col-md-10" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.ThoiGianKT, new { htmlAttributes = new { @class = "form-control" } })
+                <div class="input-group date" id="datetimepicker3" data-target-input="nearest">
+                    @Html.EditorFor(model => model.ThoiGianKT, new { htmlAttributes = new { @class = "form-control datetimepicker-input", data_target = "#datetimepicker3" } })
+                    <div class="input-group-append" data-target="#datetimepicker3" data-toggle="datetimepicker">
+                        <div class="input-group-text"><i class="fa fa-clock"></i></div>
+                    </div>
+                </div>
                 @Html.ValidationMessageFor(model => model.ThoiGianKT, "", new { @class = "text-danger" })
             </div>
         </div>
