@@ -335,6 +335,7 @@
     <Content Include="Views\SoDauBai\Index.cshtml" />
     <Content Include="Views\SoDauBai\Update.cshtml" />
     <Content Include="Views\ThongKe\ThongKeChung.cshtml" />
+    <Content Include="Views\ThongKe\LopDangDay.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\css\" />

@@ -20,31 +20,14 @@ namespace SoDauBai.Controllers
             return View(model.SoGhiBais.ToList());
         }
 
-        private TimeSpan[] TIET =
-        {
-            new TimeSpan(),
-            new TimeSpan(7, 0, 0),
-            new TimeSpan(7, 50, 0),
-            new TimeSpan(8, 40, 0),
-            new TimeSpan(9, 35, 0),
-            new TimeSpan(10, 25, 0),
-            new TimeSpan(11, 15, 0),
-            new TimeSpan(13, 0, 0),
-            new TimeSpan(13, 50, 0),
-            new TimeSpan(14, 40, 0),
-            new TimeSpan(15, 35, 0),
-            new TimeSpan(16, 25, 0),
-            new TimeSpan(17, 15, 0)
-        };
-
         public ActionResult Create(int id)
         {
             var tkb = db.ThoiKhoaBieux.Find(id);
             var model = new SoGhiBai
             {
                 NgayDay = DateTime.Today,
-                ThoiGianBD = TIET[tkb.TietBD],
-                ThoiGianKT = TIET[tkb.TietBD + tkb.SoTiet - 1].Add(new TimeSpan(0, 45, 0)),
+                ThoiGianBD = CONST.TIET[tkb.TietBD],
+                ThoiGianKT = CONST.TIET[tkb.TietBD + tkb.SoTiet - 1].Add(new TimeSpan(0, 45, 0)),
                 SoTietDay = tkb.SoTiet,
                 MaPhong = tkb.MaPH,
                 TongSoSV = tkb.TongSoSV,

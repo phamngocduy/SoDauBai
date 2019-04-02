@@ -18,6 +18,7 @@
                         <th><abbr title="SV trong lớp">SV 2</abbr></th>
                         <th>TL 1/2</th>
                         <th>Buổi dạy</th>
+                        <th>Tiết dạy</th>
                         <th>Dạy bù</th>
                         <th></th>
                     </tr>
@@ -38,6 +39,7 @@
                             <td>@Math.Round(sinhVien, 0)</td>
                             <td>@Math.Round(sinhVien / item.TongSoSV, 1)</td>
                             <td>@buoiDay</td>
+                            <td>@item.SoGhiBais.Where(sdb => sdb.Loai != 1).Sum(sdb => sdb.SoTietDay)</td>
                             <td>@buoiNghi/@buoiBu</td>
                             <td>
                                 <a id="@item.id" href="#" data-content="@String.Format("ThuKieuSo: {0}\nTietBD: {1}\nSoTiet: {2}\nMaPH: {3}\nMaLop: {4}\nTenLop: {5}", item.ThuKieuSo, item.TietBD, item.SoTiet, item.MaPH, item.MaLop, item.TenLop)" data-toggle="popover" data-placement="left" class="btn btn-info btn-circle btn-sm">

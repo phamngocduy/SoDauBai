@@ -48,6 +48,8 @@
                 <tbody>
                     @foreach (var item in Model)
                     {
+                        var Tiet = new int[item.SoTiet];
+                        Tiet.For(0, item.SoTiet - 1, i => Tiet[i] = item.TietBD + i);
                         <tr>
                             <td><abbr title="@item.MaMH">@item.TenMH</abbr></td>
                             <td>@item.SoTinChi</td>
@@ -56,7 +58,7 @@
                             <td>@Display(item.MaLop)</td>
                             <td>@Display(item.TenLop)</td>
                             <td>@item.TongSoSV</td>
-                            <td>@item.ThuKieuSo:@item.TietBD-@item.SoTiet</td>
+                            <td>T@(item.ThuKieuSo): @String.Join("", Tiet)</td>
                             <td>@item.MaGV</td>
                             <td>@item.MaPH</td>
                             <td>
