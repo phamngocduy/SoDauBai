@@ -31,7 +31,7 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="~/">
                 <div class="sidebar-brand-icon">
                     <img src="~/favicon.png" />
                 </div>
@@ -53,11 +53,11 @@
             <hr class="sidebar-divider">
 
             <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#DanhMuc">
                     <i class="fas fa-fw fa-cog"></i>
                     <span>Danh mục</span>
                 </a>
-                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar" style="">
+                <div id="DanhMuc" class="collapse" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <a class="collapse-item" href="@Url.Action("Index", "NganhHoc")">Ngành học</a>
                         <a class="collapse-item" href="@Url.Action("Index", "GiangVien")">Giảng viên</a>
@@ -66,13 +66,14 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="false" aria-controls="collapseUtilities">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#PhanQuyen">
                     <i class="fas fa-fw fa-wrench"></i>
                     <span>Phân quyền</span>
                 </a>
-                <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar" style="">
+                <div id="PhanQuyen" class="collapse" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="utilities-color.html">P. Đào tạo</a>
+                        <a class="collapse-item" href="utilities-color.html">Nhóm Hỗ trợ</a>
+                        <a class="collapse-item" href="utilities-color.html">Phòng Đào tạo</a>
                     </div>
                 </div>
             </li>
@@ -87,10 +88,18 @@
             <!-- Divider -->
             <hr class="sidebar-divider">
 
-            <!-- Heading -->
-            <div class="sidebar-heading">
-                P. Đào tạo
-            </div>
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#ThongKe">
+                    <i class="fas fa-fw fa-chart-area"></i>
+                    <span>Thống kê</span>
+                </a>
+                <div id="ThongKe" class="collapse" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a class="collapse-item" href="utilities-color.html">Lớp đang dạy</a>
+                        <a class="collapse-item" href="@Url.Action("ThongKeChung", "ThongKe")">Thống kê chung</a>
+                    </div>
+                </div>
+            </li>
 
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">

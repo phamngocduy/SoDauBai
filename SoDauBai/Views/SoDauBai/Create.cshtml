@@ -48,7 +48,7 @@
             });
             $('[name=Loai]').click(function () {
                 if ($('[name=Loai]:checked').val() == 1)
-                    $('#NgayDay,#SoTietDay,#MaPhong,#ThoiGianBD,#ThoiGianKT,#TongSoSV,#NhanXetSV,#DeXuat').attr('readonly', true);
+                    $('#SoTietDay,#MaPhong,#ThoiGianBD,#ThoiGianKT,#TongSoSV,#NhanXetSV,#DeXuat').attr('readonly', true);
                 else
                     $('[readonly=readonly]').attr('readonly', false);
                 switch ($('[name=Loai]:checked').val()) {
@@ -63,6 +63,7 @@
                         break;
                 }
             });
+            $('.form-check-input[value=@Model.Loai]').trigger('click').trigger('click');
         });
     </script>
 }

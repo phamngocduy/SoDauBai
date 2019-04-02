@@ -5,6 +5,7 @@
     var Tiet = new int[TKB.SoTiet];
     Tiet.For(0, TKB.SoTiet - 1, i => Tiet[i] = TKB.TietBD + i);
     var start = Model.Count() > 0 ? Model.Min(s => s.NgayDay) : DateTime.MinValue;
+    int demNghi = 0, tongBu = Model.Count(sdb => sdb.Loai == 2);
 }
 
 <div class="card shadow mb-4">
@@ -30,11 +31,15 @@
                 <tbody>
                     @foreach (var item in Model.OrderBy(s => s.NgayDay))
                     {
-                        <tr>
+                        var style = item.Loai == 1 ?
+                            ++demNghi > tongBu ? "table-danger" : "table-warning" :
+                            item.Loai == 2 ? "table-success" : null;
+                        <tr class="@style">
                             <td rowspan="2">
                                 Buổi @(count++)
                                 <br />
                                 Tuần @((item.NgayDay - start).TotalDays / 7 + 1)
+                                : @demNghi - @tongBu
                             </td>
                             <td rowspan="2">
                                 @item.NgayDay.ToShortDateString()

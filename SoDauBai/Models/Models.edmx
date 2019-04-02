@@ -86,7 +86,7 @@
           <Property Name="NDGiangDay" Type="nvarchar(max)" Nullable="false" />
           <Property Name="SoTietDay" Type="tinyint" Nullable="false" />
           <Property Name="MaPhong" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="NhanXetSV" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="NhanXetSV" Type="nvarchar(max)" />
           <Property Name="TongSoSV" Type="smallint" Nullable="false" />
           <Property Name="DeXuat" Type="nvarchar(max)" />
           <Property Name="Email" Type="nvarchar" MaxLength="50" Nullable="false" />
@@ -323,7 +323,7 @@
           <Property Name="NDGiangDay" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="SoTietDay" Type="Byte" Nullable="false" />
           <Property Name="MaPhong" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="NhanXetSV" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="NhanXetSV" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="TongSoSV" Type="Int16" Nullable="false" />
           <Property Name="DeXuat" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Email" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />

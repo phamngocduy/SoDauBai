@@ -1,0 +1,72 @@
+﻿@model IEnumerable<ThoiKhoaBieu>
+@{ 
+    var GiangViens = ViewBag.GiangViens as List<GiangVien>;
+}
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary d-inline">Thống kê môn học</h6>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Môn học</th>
+                        <th>Giảng viên</th>
+                        <th><abbr title="Tổng số SV">SV 1</abbr></th>
+                        <th><abbr title="SV trong lớp">SV 2</abbr></th>
+                        <th>TL 1/2</th>
+                        <th>Buổi dạy</th>
+                        <th>Dạy bù</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        var giangVien = GiangViens.SingleOrDefault(gv => gv.MaGV == item.MaGV).Init();
+                        var sinhVien = item.SoGhiBais.AverageOrDefault(sdb => sdb.TongSoSV);
+                        var buoiDay = item.SoGhiBais.Count(sdb => sdb.Loai == 0);
+                        var buoiNghi = item.SoGhiBais.Count(sdb => sdb.Loai == 1);
+                        var buoiBu = item.SoGhiBais.Count(sdb => sdb.Loai == 2);
+
+                        <tr>
+                            <td><abbr title="@item.MaMH">@item.TenMH</abbr></td>
+                            <td><abbr title="@giangVien.MaGV">@giangVien.HoTen</abbr></td>
+                            <td>@item.TongSoSV</td>
+                            <td>@Math.Round(sinhVien, 0)</td>
+                            <td>@Math.Round(sinhVien / item.TongSoSV, 1)</td>
+                            <td>@buoiDay</td>
+                            <td>@buoiNghi/@buoiBu</td>
+                            <td>
+                                <a id="@item.id" href="#" data-content="@String.Format("ThuKieuSo: {0}\nTietBD: {1}\nSoTiet: {2}\nMaPH: {3}\nMaLop: {4}\nTenLop: {5}", item.ThuKieuSo, item.TietBD, item.SoTiet, item.MaPH, item.MaLop, item.TenLop)" data-toggle="popover" data-placement="left" class="btn btn-info btn-circle btn-sm">
+                                    <i class="fas fa-info"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/Scripts/jquery.blockUI.js"></script>
+    <script>
+        // Call the dataTables jQuery plugin
+        $(document).ready(function() {
+            $('#dataTable').DataTable({
+                stateSave: true,
+                language: {
+                    url: 'https://cdn.datatables.net/plug-ins/1.10.19/i18n/Vietnamese.json'
+                }
+            });
+
+            $(function () {
+                $('[data-toggle="popover"]').popover();
+            });
+        });
+    </script>
+}

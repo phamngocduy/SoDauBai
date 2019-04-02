@@ -186,6 +186,7 @@
     <Compile Include="Controllers\NganhHocController.cs" />
     <Compile Include="Controllers\SoDauBaiController.cs" />
     <Compile Include="Controllers\ThoiKhoaBieuController.cs" />
+    <Compile Include="Controllers\ThongKeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -333,6 +334,7 @@
     <Content Include="Views\SoDauBai\Edit.cshtml" />
     <Content Include="Views\SoDauBai\Index.cshtml" />
     <Content Include="Views\SoDauBai\Update.cshtml" />
+    <Content Include="Views\ThongKe\ThongKeChung.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\css\" />

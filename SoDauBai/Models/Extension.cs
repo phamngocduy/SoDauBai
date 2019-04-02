@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
+using System.Collections.Generic;
 
 namespace SoDauBai.Models
 {
@@ -12,6 +10,16 @@ namespace SoDauBai.Models
         {
             for (int i = from; i <= to; i++)
                 action(i);
+        }
+
+        public static T Init<T>(this T obj)
+        {
+            return obj != null ? obj : Activator.CreateInstance<T>();
+        }
+
+        public static double AverageOrDefault<TSource>(this IEnumerable<TSource> source, Func<TSource, int> selector)
+        {
+            return source.Count() > 0 ? source.Average(selector) : 0;
         }
     }
 }
