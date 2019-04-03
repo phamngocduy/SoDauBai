@@ -9,7 +9,7 @@
             @Html.LabelFor(model => model.NgayDay, "Ngày dạy", htmlAttributes: new { @class = "control-label col-md-10" })
             <div class="col-md-10">
                 <div class="input-group date" id="datetimepicker4" data-target-input="nearest">
-                    @Html.TextBoxFor(model => model.NgayDay, Model.NgayDay.ToShortDateString(), new { @class = "form-control datetimepicker-input", data_target = "#datetimepicker4" })
+                    @Html.TextBoxFor(model => model.NgayDay, Model.NgayDay.ToString("dd/MM/yyyy"), new { @class = "form-control datetimepicker-input", data_target = "#datetimepicker4" })
                     <div class="input-group-append" data-target="#datetimepicker4" data-toggle="datetimepicker">
                         <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                     </div>

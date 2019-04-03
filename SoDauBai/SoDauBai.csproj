@@ -182,6 +182,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\GiangVienController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LienHeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\NganhHocController.cs" />
     <Compile Include="Controllers\NhanXetController.cs" />
@@ -210,6 +211,9 @@
     </Compile>
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Extension.cs" />
+    <Compile Include="Models\LienHe.cs">
+      <DependentUpon>Models.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Models.Context.cs">
       <AutoGen>True</AutoGen>
@@ -350,6 +354,11 @@
     <Content Include="Views\NhanXet\Index.cshtml" />
     <Content Include="Views\PhanQuyen\Delete.cshtml" />
     <Content Include="Views\PhanQuyen\Index.cshtml" />
+    <Content Include="Views\LienHe\Create.cshtml" />
+    <Content Include="Views\LienHe\Delete.cshtml" />
+    <Content Include="Views\LienHe\Update.cshtml" />
+    <Content Include="Views\LienHe\Index.cshtml" />
+    <Content Include="Views\LienHe\Answer.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\css\" />

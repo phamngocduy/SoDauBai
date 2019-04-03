@@ -66,6 +66,18 @@
           <Property Name="HocVi" Type="nvarchar" MaxLength="10" />
           <Property Name="HoTen" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
+        <EntityType Name="LienHe">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="on" Type="datetime" Nullable="false" />
+          <Property Name="Question" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Answer" Type="nvarchar(max)" />
+          <Property Name="from" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="to" Type="nvarchar" MaxLength="50" />
+          <Property Name="at" Type="datetime" />
+        </EntityType>
         <EntityType Name="NganhHoc">
           <Key>
             <PropertyRef Name="id" />
@@ -197,6 +209,7 @@
           <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GiangVien" EntityType="Self.GiangVien" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LienHe" EntityType="Self.LienHe" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="NganhHoc" EntityType="Self.NganhHoc" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="NhanXet" EntityType="Self.NhanXet" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SoGhiBai" EntityType="Self.SoGhiBai" Schema="dbo" store:Type="Tables" />
@@ -232,7 +245,9 @@
           <EntitySet Name="AspNetUserLogins" EntityType="SoDauBaiModel.AspNetUserLogin" />
           <EntitySet Name="AspNetUsers" EntityType="SoDauBaiModel.AspNetUser" />
           <EntitySet Name="GiangViens" EntityType="SoDauBaiModel.GiangVien" />
+          <EntitySet Name="LienHes" EntityType="SoDauBaiModel.LienHe" />
           <EntitySet Name="NganhHocs" EntityType="SoDauBaiModel.NganhHoc" />
+          <EntitySet Name="NhanXets" EntityType="SoDauBaiModel.NhanXet" />
           <EntitySet Name="SoGhiBais" EntityType="SoDauBaiModel.SoGhiBai" />
           <EntitySet Name="ThoiKhoaBieux" EntityType="SoDauBaiModel.ThoiKhoaBieu" />
           <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="SoDauBaiModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
@@ -251,7 +266,6 @@
             <End Role="AspNetRole" EntitySet="AspNetRoles" />
             <End Role="AspNetUser" EntitySet="AspNetUsers" />
           </AssociationSet>
-          <EntitySet Name="NhanXets" EntityType="SoDauBaiModel.NhanXet" />
         </EntityContainer>
         <EntityType Name="AspNetRole">
           <Key>
@@ -312,6 +326,18 @@
           <Property Name="HocVi" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
           <Property Name="HoTen" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
+        <EntityType Name="LienHe">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="on" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Question" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Answer" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="from" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="to" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="at" Type="DateTime" Precision="3" />
+        </EntityType>
         <EntityType Name="NganhHoc">
           <Key>
             <PropertyRef Name="id" />
@@ -319,6 +345,13 @@
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="MaNganh" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
           <Property Name="TenNganh" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="NhanXet">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NoiDung" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="SoGhiBai">
           <Key>
@@ -407,14 +440,7 @@
           <End Type="SoDauBaiModel.AspNetRole" Role="AspNetRole" Multiplicity="*" />
           <End Type="SoDauBaiModel.AspNetUser" Role="AspNetUser" Multiplicity="*" />
         </Association>
-        <EntityType Name="NhanXet">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="NoiDung" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-        </EntityType>
-      </Schema>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -476,11 +502,32 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="LienHes">
+            <EntityTypeMapping TypeName="SoDauBaiModel.LienHe">
+              <MappingFragment StoreEntitySet="LienHe">
+                <ScalarProperty Name="at" ColumnName="at" />
+                <ScalarProperty Name="to" ColumnName="to" />
+                <ScalarProperty Name="from" ColumnName="from" />
+                <ScalarProperty Name="Answer" ColumnName="Answer" />
+                <ScalarProperty Name="Question" ColumnName="Question" />
+                <ScalarProperty Name="on" ColumnName="on" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="NganhHocs">
             <EntityTypeMapping TypeName="SoDauBaiModel.NganhHoc">
               <MappingFragment StoreEntitySet="NganhHoc">
                 <ScalarProperty Name="TenNganh" ColumnName="TenNganh" />
                 <ScalarProperty Name="MaNganh" ColumnName="MaNganh" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NhanXets">
+            <EntityTypeMapping TypeName="SoDauBaiModel.NhanXet">
+              <MappingFragment StoreEntitySet="NhanXet">
+                <ScalarProperty Name="NoiDung" ColumnName="NoiDung" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -536,14 +583,6 @@
               <ScalarProperty Name="Id" ColumnName="RoleId" />
             </EndProperty>
           </AssociationSetMapping>
-          <EntitySetMapping Name="NhanXets">
-            <EntityTypeMapping TypeName="SoDauBaiModel.NhanXet">
-              <MappingFragment StoreEntitySet="NhanXet">
-                <ScalarProperty Name="NoiDung" ColumnName="NoiDung" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

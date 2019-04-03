@@ -10,14 +10,15 @@
         <EntityTypeShape EntityType="SoDauBaiModel.AspNetUserLogin" Width="1.5" PointX="5.25" PointY="1" />
         <EntityTypeShape EntityType="SoDauBaiModel.AspNetUser" Width="1.5" PointX="3" PointY="1.375" />
         <EntityTypeShape EntityType="SoDauBaiModel.GiangVien" Width="1.5" PointX="5.75" PointY="6.75" />
-        <EntityTypeShape EntityType="SoDauBaiModel.NganhHoc" Width="1.5" PointX="7.75" PointY="0.75" />
+        <EntityTypeShape EntityType="SoDauBaiModel.LienHe" Width="1.5" PointX="7.75" PointY="0.75" />
+        <EntityTypeShape EntityType="SoDauBaiModel.NganhHoc" Width="1.5" PointX="7.75" PointY="4.75" />
+        <EntityTypeShape EntityType="SoDauBaiModel.NhanXet" Width="1.5" PointX="7.75" PointY="7.75" />
         <EntityTypeShape EntityType="SoDauBaiModel.SoGhiBai" Width="1.5" PointX="3" PointY="7.375" />
         <EntityTypeShape EntityType="SoDauBaiModel.ThoiKhoaBieu" Width="1.5" PointX="0.75" PointY="7" />
         <AssociationConnector Association="SoDauBaiModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" />
         <AssociationConnector Association="SoDauBaiModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" />
         <AssociationConnector Association="SoDauBaiModel.FK_SoDauBai_ThoiKhoaBieu" />
         <AssociationConnector Association="SoDauBaiModel.AspNetUserRoles" />
-        <EntityTypeShape EntityType="SoDauBaiModel.NhanXet" Width="1.5" PointX="7.375" PointY="3.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

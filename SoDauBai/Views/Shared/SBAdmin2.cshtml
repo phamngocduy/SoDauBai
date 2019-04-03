@@ -203,6 +203,7 @@
     <!-- Page level custom scripts -->
     <script src="~/Content/vendor/datatables/jquery.dataTables.min.js"></script>
     <script src="~/Content/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+    <script src="~/Scripts/jquery.blockUI.js"></script>
     <script src="~/Scripts/jquery.cookie.js"></script>
     @RenderSection("scripts", required: false)
     <script>
@@ -215,6 +216,12 @@
             if (Cookies.get('SIDEBAR') == "true")
                 $('#sidebarToggle').trigger('click');
         });
+        $('a[href!="#"]').click(function () {
+            $.blockUI({ message: '<i class="fas fa-spinner"></i>' });
+        });
+        window.onbeforeunload = function () {
+            $.blockUI({ message: '<i class="fas fa-spinner"></i>' });
+        }
     </script>
 </body>
 

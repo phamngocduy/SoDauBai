@@ -41,7 +41,7 @@
                                 Tuần @((item.NgayDay - start).TotalDays / 7 + 1)
                             </td>
                             <td rowspan="2">
-                                @item.NgayDay.ToShortDateString()
+                                @item.NgayDay.ToString("dd/MM/yyyy")
                                 <br />
                                 @item.ThoiGianBD.ToString(@"hh\:mm") - @item.ThoiGianKT.ToString(@"hh\:mm")
                             </td>

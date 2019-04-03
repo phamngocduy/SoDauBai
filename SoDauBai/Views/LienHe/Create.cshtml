@@ -1,0 +1,34 @@
+﻿@model LienHe
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Đặt câu hỏi/ Báo lỗi</h6>
+    </div>
+    <div class="card-body">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    <div class="col-md-10">
+                        @Html.TextAreaFor(model => model.Question, new { @class = "form-control", placeholder = "Nội dung", required = true })
+                        @Html.ValidationMessageFor(model => model.Question, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Liên hệ" class="btn btn-success" /> |
+                        <a href="@Url.Action("Index")" class="btn btn-default">Quay lại</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

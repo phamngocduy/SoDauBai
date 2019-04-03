@@ -1,0 +1,65 @@
+﻿@model IEnumerable<LienHe>
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary d-inline">Liên hệ/ Báo lỗi</h6>
+        <a href="@Url.Action("Create")" class="btn btn-success btn-circle btn-sm float-right">
+            <i class="fas fa-plus"></i>
+        </a>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Câu hỏi</th>
+                        <th>Trả lời</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @item.from<br />
+                                <pre>@item.Question</pre>
+                                <abbr title="@item.on">@item.on.ToString("dd/MM/yyyy")</abbr>
+                                <a href="@Url.Action("Update", new { id = item.id })" class="btn btn-warning btn-circle btn-sm">
+                                    <i class="fas fa-pencil-alt"></i>
+                                </a>
+                            </td>
+                            <td>
+                                @item.to<br />
+                                <pre>@item.Answer</pre>
+                                <abbr title="@item.at">@(item.at.HasValue ? item.at.Value.ToString("dd/MM/yyyy") : null)</abbr>
+                                <a href="@Url.Action("Answer", new { id = item.id })" class="btn btn-warning btn-circle btn-sm">
+                                    <i class="fas fa-pencil-alt"></i>
+                                </a>
+                            </td>
+                            <td>
+                                <a href="@Url.Action("Delete", new { id = item.id })" class="btn btn-danger btn-circle btn-sm">
+                                    <i class="fas fa-trash"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Call the dataTables jQuery plugin
+        $(document).ready(function() {
+            $('#dataTable').DataTable({
+                stateSave: true,
+                language: {
+                    url: 'https://cdn.datatables.net/plug-ins/1.10.19/i18n/Vietnamese.json'
+                }
+            });
+        });
+    </script>
+}
