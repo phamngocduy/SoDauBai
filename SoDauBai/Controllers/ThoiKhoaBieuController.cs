@@ -9,6 +9,7 @@ using System.Collections.Generic;
 
 namespace SoDauBai.Controllers
 {
+    [Authorize(Roles = "DaoTao")]
     public class ThoiKhoaBieuController : Controller
     {
         private SoDauBaiEntities db = new SoDauBaiEntities();

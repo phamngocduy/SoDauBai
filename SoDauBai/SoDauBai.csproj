@@ -185,6 +185,7 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\NganhHocController.cs" />
     <Compile Include="Controllers\NhanXetController.cs" />
+    <Compile Include="Controllers\PhanQuyenController.cs" />
     <Compile Include="Controllers\SoDauBaiController.cs" />
     <Compile Include="Controllers\ThoiKhoaBieuController.cs" />
     <Compile Include="Controllers\ThongKeController.cs" />
@@ -231,6 +232,8 @@
     <Compile Include="Models\NhanXet.cs">
       <DependentUpon>Models.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\SDBAuthenticationAttribute.cs" />
+    <Compile Include="Models\TKBAuthenticationAttribute.cs" />
     <Compile Include="Models\SoGhiBai.cs">
       <DependentUpon>Models.tt</DependentUpon>
     </Compile>
@@ -244,6 +247,7 @@
     <Content Include="Content\anh-co-so-3.jpg" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Scripts\jquery-ui.min.js" />
     <Content Include="Scripts\moment-locales.js" />
     <Content Include="Scripts\tempusdominus.js" />
     <Content Include="favicon.png" />
@@ -344,6 +348,8 @@
     <Content Include="Views\NhanXet\Delete.cshtml" />
     <Content Include="Views\NhanXet\Edit.cshtml" />
     <Content Include="Views\NhanXet\Index.cshtml" />
+    <Content Include="Views\PhanQuyen\Delete.cshtml" />
+    <Content Include="Views\PhanQuyen\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\css\" />

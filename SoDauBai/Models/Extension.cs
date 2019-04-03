@@ -52,5 +52,11 @@ namespace SoDauBai.Models
         {
             return source.Count() > 0 ? source.Average(selector) : 0;
         }
+
+        public static int ToIntOrDefault(this string strValue, int defValue)
+        {
+            int.TryParse(strValue, out defValue);
+            return defValue;
+        }
     }
 }

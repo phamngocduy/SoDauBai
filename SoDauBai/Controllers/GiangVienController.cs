@@ -6,6 +6,7 @@ using SoDauBai.Models;
 
 namespace SoDauBai.Controllers
 {
+    [Authorize(Roles = "DaoTao")]
     public class GiangVienController : Controller
     {
         private SoDauBaiEntities db = new SoDauBaiEntities();

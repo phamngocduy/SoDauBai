@@ -1,0 +1,129 @@
+﻿@model IEnumerable<AspNetUser>
+@{ 
+    var role = ViewContext.RouteData.Values["id"].ToString();
+}
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary d-inline">Phân quyền <mark>@role</mark></h6>
+        @using (Html.BeginForm("Create", "PhanQuyen", new { id = role }, FormMethod.Post, new { @class = "form-inline float-right" }))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-group mb-2">
+                <div class="form-group">
+                    @Html.TextBox("UserName", null, new { @class = "form-control", placeholder = "Email", required = true })
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-success btn-circle btn-sm mb-2">
+                <i class="fas fa-plus"></i>
+            </button>
+        }
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Email</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Where(u => u.AspNetRoles.Count(r => r.Name == role) > 0))
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.UserName)
+                            </td>
+                            <td>
+                                <a href="@Url.Action("Delete", new { id = role, email = item.UserName })" class="btn btn-danger btn-circle btn-sm">
+                                    <i class="fas fa-trash"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+@Scripts.Render("~/bundles/jqueryval")
+<script src="~/Scripts/jquery-ui.min.js"></script>
+    <script>
+        // Call the dataTables jQuery plugin
+        $(document).ready(function() {
+            $('#dataTable').DataTable({
+                stateSave: true,
+                language: {
+                    url: 'https://cdn.datatables.net/plug-ins/1.10.19/i18n/Vietnamese.json'
+                }
+            });
+
+            var emails = [
+                @foreach(var item in Model)
+                {
+                    @MvcHtmlString.Create(String.Format("'{0}',", item.UserName))
+                }
+            ];
+            $('#UserName').autocomplete({
+                source: emails
+            });
+        });
+    </script>
+}
+
+<style>
+    .ui-autocomplete {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        z-index: 1000;
+        float: left;
+        display: none;
+        min-width: 160px;   
+        padding: 4px 0;
+        margin: 0 0 10px 25px;
+        list-style: none;
+        background-color: #ffffff;
+        border-color: #ccc;
+        border-color: rgba(0, 0, 0, 0.2);
+        border-style: solid;
+        border-width: 1px;
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+        border-radius: 5px;
+        -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        -moz-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        -webkit-background-clip: padding-box;
+        -moz-background-clip: padding;
+        background-clip: padding-box;
+        *border-right-width: 2px;
+        *border-bottom-width: 2px;
+    }
+
+    .ui-menu-item > a.ui-corner-all {
+        display: block;
+        padding: 3px 15px;
+        clear: both;
+        font-weight: normal;
+        line-height: 18px;
+        color: #555555;
+        white-space: nowrap;
+        text-decoration: none;
+    }
+
+    .ui-state-hover, .ui-state-active {
+        color: #ffffff;
+        text-decoration: none;
+        background-color: #0088cc;
+        border-radius: 0px;
+        -webkit-border-radius: 0px;
+        -moz-border-radius: 0px;
+        background-image: none;
+    }
+</style>

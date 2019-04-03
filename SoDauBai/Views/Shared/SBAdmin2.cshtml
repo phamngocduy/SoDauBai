@@ -52,58 +52,61 @@
             <!-- Divider -->
             <hr class="sidebar-divider">
 
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#DanhMuc">
-                    <i class="fas fa-fw fa-cog"></i>
-                    <span>Danh mục</span>
-                </a>
-                <div id="DanhMuc" class="collapse" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="@Url.Action("Index", "NganhHoc")">Ngành học</a>
-                        <a class="collapse-item" href="@Url.Action("Index", "GiangVien")">Giảng viên</a>
-                        <a class="collapse-item" href="@Url.Action("Index", "NhanXet")">Nhận xét SV</a>
+            @if (User.IsInRole("DaoTao"))
+            {
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#DanhMuc">
+                        <i class="fas fa-fw fa-cog"></i>
+                        <span>Danh mục</span>
+                    </a>
+                    <div id="DanhMuc" class="collapse" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <a class="collapse-item" href="@Url.Action("Index", "NganhHoc")">Ngành học</a>
+                            <a class="collapse-item" href="@Url.Action("Index", "GiangVien")">Giảng viên</a>
+                            <a class="collapse-item" href="@Url.Action("Index", "NhanXet")">Nhận xét SV</a>
+                        </div>
                     </div>
-                </div>
-            </li>
+                </li>
 
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#PhanQuyen">
-                    <i class="fas fa-fw fa-wrench"></i>
-                    <span>Phân quyền</span>
-                </a>
-                <div id="PhanQuyen" class="collapse" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="utilities-color.html">Nhóm Hỗ trợ</a>
-                        <a class="collapse-item" href="utilities-color.html">Phòng Đào tạo</a>
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#PhanQuyen">
+                        <i class="fas fa-fw fa-wrench"></i>
+                        <span>Phân quyền</span>
+                    </a>
+                    <div id="PhanQuyen" class="collapse" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <a class="collapse-item" href="@Url.Action("Index", "PhanQuyen", new { id = "HoTro" })">Nhóm Hỗ trợ</a>
+                            <a class="collapse-item" href="@Url.Action("Index", "PhanQuyen", new { id = "DaoTao" })">Phòng Đào tạo</a>
+                        </div>
                     </div>
-                </div>
-            </li>
+                </li>
 
-            <li class="nav-item">
-                <a class="nav-link" href="@Url.Action("Index", "ThoiKhoaBieu")">
-                    <i class="fas fa-fw fa-table"></i>
-                    <span>Thời khóa biểu</span>
-                </a>
-            </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.Action("Index", "ThoiKhoaBieu")">
+                        <i class="fas fa-fw fa-table"></i>
+                        <span>Thời khóa biểu</span>
+                    </a>
+                </li>
 
-            <!-- Divider -->
-            <hr class="sidebar-divider">
+                <!-- Divider -->
+                <hr class="sidebar-divider">
 
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#ThongKe">
-                    <i class="fas fa-fw fa-chart-area"></i>
-                    <span>Thống kê</span>
-                </a>
-                <div id="ThongKe" class="collapse" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="@Url.Action("LopDangDay", "ThongKe")">Lớp đang dạy</a>
-                        <a class="collapse-item" href="@Url.Action("ThongKeChung", "ThongKe")">Thống kê chung</a>
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#ThongKe">
+                        <i class="fas fa-fw fa-chart-area"></i>
+                        <span>Thống kê</span>
+                    </a>
+                    <div id="ThongKe" class="collapse" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <a class="collapse-item" href="@Url.Action("LopDangDay", "ThongKe")">Lớp đang dạy</a>
+                            <a class="collapse-item" href="@Url.Action("ThongKeChung", "ThongKe")">Thống kê chung</a>
+                        </div>
                     </div>
-                </div>
-            </li>
+                </li>
 
-            <!-- Divider -->
-            <hr class="sidebar-divider d-none d-md-block">
+                <!-- Divider -->
+                <hr class="sidebar-divider d-none d-md-block">
+            }
 
             <!-- Sidebar Toggler (Sidebar) -->
             <div class="text-center d-none d-md-inline">
