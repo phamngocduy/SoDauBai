@@ -4,6 +4,9 @@ using System.Linq;
 using System.Web.Mvc;
 using SoDauBai.Models;
 using Microsoft.AspNet.Identity;
+using System.Globalization;
+using System.Threading;
+using System.Web.Routing;
 
 namespace SoDauBai.Controllers
 {
@@ -18,6 +21,20 @@ namespace SoDauBai.Controllers
                 return HttpNotFound();
             ViewBag.TKB = model;
             return View(model.SoGhiBais.ToList());
+        }
+
+        protected override void Initialize(RequestContext requestContext)
+        {
+            base.Initialize(requestContext);
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("vi-VN");
+        }
+
+        private void Validate(SoGhiBai model)
+        {
+            if (model.TongSoSV <= 0)
+                ModelState.AddModelError("TongSoSV", "TongSoSV < 0");
+            if (model.ThoiGianKT <= model.ThoiGianBD)
+                ModelState.AddModelError("ThoiGianKT", "ThoiGianKT < ThoiGianBD");
         }
 
         [TKBAuthentication]
@@ -44,6 +61,7 @@ namespace SoDauBai.Controllers
         [TKBAuthentication]
         public ActionResult Create(SoGhiBai model)
         {
+            Validate(model);
             if (ModelState.IsValid)
                 try
                 {
@@ -76,6 +94,7 @@ namespace SoDauBai.Controllers
         [SDBAuthentication]
         public ActionResult Edit(SoGhiBai model)
         {
+            Validate(model);
             if (ModelState.IsValid)
             {
                 model.NgayTao = DateTime.Now;

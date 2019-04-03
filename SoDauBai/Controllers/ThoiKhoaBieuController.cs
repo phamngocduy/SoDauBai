@@ -73,8 +73,8 @@ namespace SoDauBai.Controllers
                             throw new Exception("Lớp không có đủ sinh viên!");
                         i++;
                         row.ThuKieuSo = byte.Parse(reader.GetValue(i).ToString());
-                        if (row.ThuKieuSo < 2 || row.ThuKieuSo > 7)
-                            throw new Exception("ThuKieuSo không trong khoảng [2-7]!");
+                        if (row.ThuKieuSo < 2 || row.ThuKieuSo > 8)
+                            throw new Exception("ThuKieuSo không trong khoảng [2-8]!");
                         i++;
                         row.TietBD = byte.Parse(reader.GetValue(i).ToString());
                         if (row.TietBD < 0 || row.TietBD > 12)
