@@ -34,6 +34,7 @@ namespace SoDauBai.Controllers
                 Email = User.Identity.GetUserName(),
                 idTKB = tkb.id
             };
+            ViewBag.NhanXets = db.NhanXets.ToList();
             return View(model);
         }
 
@@ -54,7 +55,7 @@ namespace SoDauBai.Controllers
                 {
                     ModelState.AddModelError("", e.GetBaseException().Message);
                 }
-
+            ViewBag.NhanXets = db.NhanXets.ToList();
             return View(model);
         }
 
@@ -63,6 +64,7 @@ namespace SoDauBai.Controllers
             var model = db.SoGhiBais.Find(id);
             if (model == null)
                 return HttpNotFound();
+            ViewBag.NhanXets = db.NhanXets.ToList();
             return View("Update", model);
         }
 
@@ -77,6 +79,7 @@ namespace SoDauBai.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index", new { id = model.idTKB });
             }
+            ViewBag.NhanXets = db.NhanXets.ToList();
             return View("Update", model);
         }
 

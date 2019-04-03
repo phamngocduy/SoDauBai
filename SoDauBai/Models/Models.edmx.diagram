@@ -17,6 +17,7 @@
         <AssociationConnector Association="SoDauBaiModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" />
         <AssociationConnector Association="SoDauBaiModel.FK_SoDauBai_ThoiKhoaBieu" />
         <AssociationConnector Association="SoDauBaiModel.AspNetUserRoles" />
+        <EntityTypeShape EntityType="SoDauBaiModel.NhanXet" Width="1.5" PointX="7.375" PointY="3.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

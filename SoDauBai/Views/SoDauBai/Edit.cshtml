@@ -97,7 +97,20 @@
         <div class="form-group">
             @Html.LabelFor(model => model.NhanXetSV, "Nhận xét", htmlAttributes: new { @class = "control-label col-md-10" })
             <div class="col-md-12">
-                @Html.TextAreaFor(model => model.NhanXetSV, new { @class = "form-control", required = true })
+                <div class="input-group">
+                    @Html.EditorFor(model => model.NhanXetSV, new { htmlAttributes = new { @class = "form-control", required = true } })
+                    <div class="dropdown input-group-append">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" onclick="$('#NhanXetSV').val('')" href="#">Khác...</a>
+                            @foreach (var item in ViewBag.NhanXets as List<NhanXet>)
+                            {
+                                <a class="dropdown-item" onclick="$('#NhanXetSV').val($(this).text())" href="#">@item.NoiDung</a>
+                            }
+                        </div>
+                    </div>
+                </div>
                 @Html.ValidationMessageFor(model => model.NhanXetSV, "", new { @class = "text-danger" })
             </div>
         </div>
