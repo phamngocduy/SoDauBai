@@ -44,25 +44,32 @@ namespace SoDauBai.Controllers
                     try
                     {
                         int i = 0;
-                        row.MaMH = reader.GetString(i) ?? "";
+                        try
+                        {
+                            row.MaMH = reader.GetValue(i).ToString() ?? "";
+                        }
+                        catch (Exception)
+                        {
+                            break;
+                        }
                         if (string.IsNullOrEmpty(row.MaMH))
                             break;
                         if (row.MaMH.Length > 10)
                             throw new Exception("MaMH dài hơn 10 ký tự!");
                         i++;
-                        row.TenMH = reader.GetString(i) ?? "";
+                        row.TenMH = reader.GetValue(i).ToString() ?? "";
                         i++;
                         row.SoTinChi = byte.Parse(reader.GetValue(i).ToString());
                         if (row.SoTinChi < 1 || row.SoTinChi > 6)
                             throw new Exception("SoTinChi không trong khoảng [1-6]!");
                         i++;
-                        row.NhomTo = reader.GetString(i) ?? "";
+                        row.NhomTo = reader.GetValue(i).ToString() ?? "";
                         i++;
-                        row.ToTH = reader.GetString(i) ?? "";
+                        row.ToTH = reader.GetValue(i).ToString() ?? "";
                         i++;
-                        row.TenToHop = reader.GetString(i) ?? "";
+                        row.TenToHop = reader.GetValue(i).ToString() ?? "";
                         i++;
-                        row.MaNganh = reader.GetString(i) ?? "";
+                        row.MaNganh = reader.GetValue(i).ToString() ?? "";
                         if (row.MaNganh.Length > 10)
                             throw new Exception("MaNganh dài hơn 10 ký tự!");
                         i++;
@@ -71,14 +78,14 @@ namespace SoDauBai.Controllers
                             db.NganhHocs.Add(new NganhHoc
                             {
                                 MaNganh = row.MaNganh,
-                                TenNganh = reader.GetString(i)
+                                TenNganh = reader.GetValue(i).ToString()
                             });
                             db.SaveChanges();
                         }
                         i++;
-                        row.MaLop = reader.GetString(i) ?? "";
+                        row.MaLop = reader.GetValue(i).ToString() ?? "";
                         i++;
-                        row.TenLop = reader.GetString(i) ?? "";
+                        row.TenLop = reader.GetValue(i).ToString() ?? "";
                         i++;
                         row.TongSoSV = short.Parse(reader.GetValue(i).ToString());
                         if (row.TongSoSV < 1)
@@ -96,7 +103,7 @@ namespace SoDauBai.Controllers
                         if (row.SoTiet < 0 || row.SoTiet > 6)
                             throw new Exception("SoTiet không trong khoảng [1-6]!");
                         i++;
-                        row.MaGV = reader.GetString(i) ?? "";
+                        row.MaGV = reader.GetValue(i).ToString() ?? "";
                         if (row.MaGV.Length > 10)
                             throw new Exception("MaGV dài hơn 10 ký tự!");
                         i++;
@@ -105,13 +112,13 @@ namespace SoDauBai.Controllers
                             db.GiangViens.Add(new GiangVien
                             {
                                 MaGV = row.MaGV,
-                                HoTen = reader.GetString(i),
+                                HoTen = reader.GetValue(i).ToString(),
                                 Email = String.Format("ACDM{0}@gmail.com", rand.Next())
                             });
                             db.SaveChanges();
                         }
                         i++;
-                        row.MaPH = reader.GetString(i) ?? "";
+                        row.MaPH = reader.GetValue(i).ToString() ?? "";
                     }
                     catch (Exception e)
                     {

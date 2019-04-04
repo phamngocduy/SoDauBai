@@ -20,7 +20,7 @@ namespace SoDauBai.Models
 
         public static TimeSpan[] TIET =
         {
-            new TimeSpan(), // Tiet 0
+            new TimeSpan(0, 45, 0), // Tiet 0
             new TimeSpan(7, 0, 0), // Tiet 1
             new TimeSpan(7, 50, 0), // Tiet 2
             new TimeSpan(8, 40, 0), // Tiet 3

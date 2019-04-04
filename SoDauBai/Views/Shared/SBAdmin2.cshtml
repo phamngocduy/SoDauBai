@@ -219,6 +219,10 @@
         window.onbeforeunload = function () {
             $.blockUI({ message: '<i class="fas fa-spinner"></i>' });
         }
+        var button = document.getElementById('sidebarToggleTop');
+        if (window.getComputedStyle(button).display === 'block') {
+            $('#accordionSidebar').addClass('toggled');
+        }
     </script>
 </body>
 

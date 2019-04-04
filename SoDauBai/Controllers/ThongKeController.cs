@@ -21,7 +21,7 @@ namespace SoDauBai.Controllers
             var thu = CONST.THU[(int)now.DayOfWeek];
             model = model.Where(tkb => tkb.ThuKieuSo == thu);
             return View(model.ToList().Where(tkb => CONST.TIET[tkb.TietBD] <= now.TimeOfDay &&
-                        now.TimeOfDay <= CONST.TIET[tkb.TietBD + tkb.SoTiet - 1]));
+                        now.TimeOfDay <= CONST.TIET[tkb.TietBD + tkb.SoTiet - 1].Add(CONST.TIET[0])));
         }
 
         public ActionResult ThongKeChung()

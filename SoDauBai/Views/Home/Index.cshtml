@@ -15,7 +15,7 @@
                             <div class="h5 mb-0 font-weight-bold text-gray-800">
                                 @Html.ActionLink(item.TenMH, "Index", "SoDauBai", new { id = item.id }, null)
                             </div>
-                            <div class="small">Phòng @(item.MaPH): Thứ @(item.ThuKieuSo) tiết @item.TietBD - @(item.TietBD + item.SoTiet)</div>
+                            <div class="small">Phòng @(item.MaPH): Thứ @(item.ThuKieuSo) tiết @item.TietBD - @(item.TietBD + item.SoTiet - 1)</div>
                             <abbr class="small" title="@item.TenLop">#@item.MaLop</abbr>
                         </div>
                         <div class="col-auto">
