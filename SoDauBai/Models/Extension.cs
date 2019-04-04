@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 
 namespace SoDauBai.Models
 {
@@ -60,6 +61,11 @@ namespace SoDauBai.Models
         {
             int.TryParse(strValue, out defValue);
             return defValue;
+        }
+
+        public static TResult MaxOrDefault<TSource, TResult>(this IQueryable<TSource> source, Expression<Func<TSource, TResult>> selector)
+        {
+            return source.Count() > 0 ? source.Max(selector) : (TResult)Activator.CreateInstance(typeof(TResult));
         }
     }
 }

@@ -12,12 +12,14 @@ namespace SoDauBai.Controllers
     {
         SoDauBaiEntities db = new SoDauBaiEntities();
 
+        [Authorize]
         public ActionResult Index()
         {
+            var hk = db.ThoiKhoaBieux.Max(tkb => tkb.HocKy);
             var email = User.Identity.GetUserName();
             var model = from tkb in db.ThoiKhoaBieux
                         join gv in db.GiangViens on tkb.MaGV equals gv.MaGV
-                        where gv.Email == email select tkb;
+                        where gv.Email == email && tkb.HocKy == hk select tkb;
             return View(model.ToList());
         }
 

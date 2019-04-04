@@ -14,9 +14,12 @@ namespace SoDauBai.Controllers
     {
         private SoDauBaiEntities db = new SoDauBaiEntities();
 
-        public ActionResult Index()
+        public ActionResult Index(int? id)
         {
-            return View(db.ThoiKhoaBieux.ToList());
+            id = id.HasValue ? id : db.ThoiKhoaBieux.MaxOrDefault(tkb => tkb.HocKy);
+            var model = db.ThoiKhoaBieux.Where(tkb => tkb.HocKy == id);
+            ViewBag.HocKy = new SelectList(db.ThoiKhoaBieux.Select(tkb => tkb.HocKy).Distinct().OrderByDescending(hk => hk), (byte)id.Value);
+            return View(model.ToList());
         }
 
         [ActionName("Template_TKB")]
@@ -162,7 +165,7 @@ namespace SoDauBai.Controllers
                 {
                     db.Entry(model).State = EntityState.Modified;
                     db.SaveChanges();
-                    return RedirectToAction("Index");
+                    return RedirectToAction("Index", new { id = model.HocKy });
                 }
                 catch (Exception e)
                 {
@@ -186,7 +189,7 @@ namespace SoDauBai.Controllers
             var model = db.ThoiKhoaBieux.Find(id);
             db.ThoiKhoaBieux.Remove(model);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", new { id = model.HocKy });
         }
 
         protected override void Dispose(bool disposing)

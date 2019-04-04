@@ -14,7 +14,7 @@ namespace SoDauBai.Controllers
 
         public ActionResult LopDangDay()
         {
-            var hk = db.ThoiKhoaBieux.Select(tkb => tkb.HocKy).Max();
+            var hk = db.ThoiKhoaBieux.Max(tkb => tkb.HocKy);
             var model = db.ThoiKhoaBieux.Include("SoGhiBais").Where(tkb => tkb.HocKy == hk);
             ViewBag.GiangViens = db.GiangViens.ToList();
             var now = DateTime.Now;
@@ -26,7 +26,7 @@ namespace SoDauBai.Controllers
 
         public ActionResult ThongKeChung()
         {
-            var hk = db.ThoiKhoaBieux.Select(tkb => tkb.HocKy).Max();
+            var hk = db.ThoiKhoaBieux.Max(tkb => tkb.HocKy);
             var model = db.ThoiKhoaBieux.Include("SoGhiBais").Where(tkb => tkb.HocKy == hk);
             ViewBag.GiangViens = db.GiangViens.ToList();
             return View(model.ToList());
