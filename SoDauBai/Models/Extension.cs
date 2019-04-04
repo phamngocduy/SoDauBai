@@ -32,9 +32,9 @@ namespace SoDauBai.Models
             new TimeSpan(15, 35, 0), // Tiet 10
             new TimeSpan(16, 25, 0), // Tiet 11
             new TimeSpan(17, 15, 0), // Tiet 12
-            new TimeSpan(18, 0, 0), // Tiet 13
-            new TimeSpan(18, 50, 0), // Tiet 14
-            new TimeSpan(19, 40, 0), // Tiet 15
+            new TimeSpan(18, 5, 0), // Tiet 13
+            new TimeSpan(18, 55, 0), // Tiet 14
+            new TimeSpan(19, 45, 0), // Tiet 15
         };
     }
 

@@ -1,4 +1,5 @@
-﻿@model IEnumerable<LienHe>
+﻿@using Microsoft.AspNet.Identity
+@model IEnumerable<LienHe>
 
 <div class="card shadow mb-4">
     <div class="card-header py-3">
@@ -23,24 +24,33 @@
                         <tr>
                             <td>
                                 @item.from<br />
-                                <pre>@item.Question</pre>
+                                <b><pre>@item.Question</pre></b>
                                 <abbr title="@item.on">@item.on.ToString("dd/MM/yyyy")</abbr>
-                                <a href="@Url.Action("Update", new { id = item.id })" class="btn btn-warning btn-circle btn-sm">
-                                    <i class="fas fa-pencil-alt"></i>
-                                </a>
+                                @if (item.from == User.Identity.GetUserName())
+                                {
+                                    <a href="@Url.Action("Update", new { id = item.id })" class="text-warning">
+                                        <i class="fas fa-pencil-alt"></i>
+                                    </a>
+                                }
                             </td>
                             <td>
                                 @item.to<br />
-                                <pre>@item.Answer</pre>
+                                <b><i><pre>@item.Answer</pre></i></b>
                                 <abbr title="@item.at">@(item.at.HasValue ? item.at.Value.ToString("dd/MM/yyyy") : null)</abbr>
-                                <a href="@Url.Action("Answer", new { id = item.id })" class="btn btn-warning btn-circle btn-sm">
-                                    <i class="fas fa-pencil-alt"></i>
-                                </a>
+                                @if (User.IsInRole("HoTro"))
+                                {
+                                    <a href="@Url.Action("Answer", new { id = item.id })" class="text-primary">
+                                        <i class="fas fa-pencil-alt"></i>
+                                    </a>
+                                }
                             </td>
                             <td>
-                                <a href="@Url.Action("Delete", new { id = item.id })" class="btn btn-danger btn-circle btn-sm">
-                                    <i class="fas fa-trash"></i>
-                                </a>
+                                @if (User.IsInRole("HoTro"))
+                                {
+                                    <a href="@Url.Action("Delete", new { id = item.id })" class="text-danger">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+                                }
                             </td>
                         </tr>
                     }

@@ -11,9 +11,12 @@
 <div class="card shadow mb-4">
     <div class="card-header py-3">
         <h6 class="m-0 font-weight-bold text-primary d-inline">@TKB.TenMH - Thứ @TKB.ThuKieuSo, tiết @String.Join("", Tiet) #P:@TKB.MaPH</h6>
-        <a href="@Url.Action("Create", new { id = (ViewBag.TKB as ThoiKhoaBieu).id })" class="btn btn-success btn-circle btn-sm float-right">
-            <i class="fas fa-plus"></i>
-        </a>
+        @if (User.IsInTKB(TKB.id))
+        {
+            <a href="@Url.Action("Create", new { id = (ViewBag.TKB as ThoiKhoaBieu).id })" class="btn btn-success btn-circle btn-sm float-right">
+                <i class="fas fa-plus"></i>
+            </a>
+        }
     </div>
     <div class="card-body">
         <div class="table-responsive">
@@ -38,7 +41,7 @@
                             <td rowspan="2">
                                 Buổi @(count++)
                                 <br />
-                                Tuần @((item.NgayDay - start).TotalDays / 7 + 1)
+                                Tuần @((int)(item.NgayDay - start).TotalDays / 7 + 1)
                             </td>
                             <td rowspan="2">
                                 @item.NgayDay.ToString("dd/MM/yyyy")
@@ -57,13 +60,16 @@
                                 @item.NhanXetSV
                             </td>
                             <td rowspan="2">
-                                <a href="@Url.Action("Edit", new { id = item.id })" class="btn btn-warning btn-circle btn-sm">
-                                    <i class="fas fa-pencil-alt"></i>
-                                </a>
-                                <a href="@Url.Action("Delete", new { id = item.id })" class="btn btn-danger btn-circle btn-sm">
-                                    <i class="fas fa-trash"></i>
-                                </a>
-                                <a href="#" title="@item.Email" data-content="@item.NgayTao" data-toggle="popover" data-placement="left" class="btn btn-info btn-circle btn-sm">
+                                @if (User.IsInTKB(TKB.id) && User.IsInSDB(item.id))
+                                {
+                                    <a href="@Url.Action("Edit", new { id = item.id })" class="btn btn-warning btn-circle btn-sm">
+                                        <i class="fas fa-pencil-alt"></i>
+                                    </a>
+                                    <a href="@Url.Action("Delete", new { id = item.id })" class="btn btn-danger btn-circle btn-sm">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+                                }
+                                <a title="@item.Email" data-content="@item.NgayTao" data-toggle="popover" data-placement="left" class="btn btn-info btn-circle btn-sm">
                                     <i class="fas fa-info"></i>
                                 </a>
                             </td>
