@@ -31,6 +31,7 @@ namespace SoDauBai.Controllers
             var list = new List<ThoiKhoaBieu>();
             var NganhHoc = db.NganhHocs.ToList();
             var GiangVien = db.GiangViens.ToList();
+            var rand = new Random(Environment.TickCount);
             using (var reader = ExcelReaderFactory.CreateReader(Request.Files[0].InputStream))
             {
                 reader.Read();
@@ -49,8 +50,8 @@ namespace SoDauBai.Controllers
                         row.TenMH = reader.GetString(i) ?? "";
                         i++;
                         row.SoTinChi = byte.Parse(reader.GetValue(i).ToString());
-                        if (row.SoTinChi < 1 || row.SoTinChi > 5)
-                            throw new Exception("SoTinChi không trong khoảng [1-5]!");
+                        if (row.SoTinChi < 1 || row.SoTinChi > 6)
+                            throw new Exception("SoTinChi không trong khoảng [1-6]!");
                         i++;
                         row.NhomTo = reader.GetString(i) ?? "";
                         i++;
@@ -61,8 +62,16 @@ namespace SoDauBai.Controllers
                         row.MaNganh = reader.GetString(i) ?? "";
                         if (row.MaNganh.Length > 10)
                             throw new Exception("MaNganh dài hơn 10 ký tự!");
+                        i++;
                         if (NganhHoc.SingleOrDefault(nh => nh.MaNganh == row.MaNganh) == null)
-                            throw new Exception("Không có MaNganh trong hệ thống!");
+                        {
+                            db.NganhHocs.Add(new NganhHoc
+                            {
+                                MaNganh = row.MaNganh,
+                                TenNganh = reader.GetString(i)
+                            });
+                            db.SaveChanges();
+                        }
                         i++;
                         row.MaLop = reader.GetString(i) ?? "";
                         i++;
@@ -77,18 +86,27 @@ namespace SoDauBai.Controllers
                             throw new Exception("ThuKieuSo không trong khoảng [2-8]!");
                         i++;
                         row.TietBD = byte.Parse(reader.GetValue(i).ToString());
-                        if (row.TietBD < 0 || row.TietBD > 12)
-                            throw new Exception("TietBD không trong khoảng [1-12]!");
+                        if (row.TietBD < 0 || row.TietBD > 15)
+                            throw new Exception("TietBD không trong khoảng [1-15]!");
                         i++;
                         row.SoTiet = byte.Parse(reader.GetValue(i).ToString());
-                        if (row.SoTiet < 0 || row.SoTiet > 5)
-                            throw new Exception("SoTiet không trong khoảng [1-5]!");
+                        if (row.SoTiet < 0 || row.SoTiet > 6)
+                            throw new Exception("SoTiet không trong khoảng [1-6]!");
                         i++;
                         row.MaGV = reader.GetString(i) ?? "";
                         if (row.MaGV.Length > 10)
                             throw new Exception("MaGV dài hơn 10 ký tự!");
+                        i++;
                         if (GiangVien.SingleOrDefault(gv => gv.MaGV == row.MaGV) == null)
-                            throw new Exception("Không có MaGV trong hệ thống!");
+                        {
+                            db.GiangViens.Add(new GiangVien
+                            {
+                                MaGV = row.MaGV,
+                                HoTen = reader.GetString(i),
+                                Email = String.Format("ACDM{0}@gmail.com", rand.Next())
+                            });
+                            db.SaveChanges();
+                        }
                         i++;
                         row.MaPH = reader.GetString(i) ?? "";
                     }
@@ -107,12 +125,21 @@ namespace SoDauBai.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(byte HocKy)
+        public ActionResult Create(byte hocKy)
         {
+            var TKB = db.ThoiKhoaBieux.AsNoTracking().Where(tkb => tkb.HocKy == hocKy);
             foreach (var model in TempData["ThoiKhoaBieu"] as List<ThoiKhoaBieu>)
             {
-                model.HocKy = HocKy;
-                db.ThoiKhoaBieux.Add(model);
+                model.HocKy = hocKy;
+                var old = TKB.SingleOrDefault(tkb => tkb.MaMH == model.MaMH &&
+                    tkb.NhomTo == model.NhomTo && tkb.ToTH == model.ToTH && tkb.TenToHop == model.TenToHop);
+                if (old != null)
+                {
+                    model.id = old.id;
+                    db.Entry(model).State = EntityState.Modified;
+                }
+                else
+                    db.ThoiKhoaBieux.Add(model);
             }
             db.SaveChanges();
             return RedirectToAction("Index");

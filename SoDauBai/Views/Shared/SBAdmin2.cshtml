@@ -216,9 +216,6 @@
             if (Cookies.get('SIDEBAR') == "true")
                 $('#sidebarToggle').trigger('click');
         });
-        $('a[href!="#"]').click(function () {
-            $.blockUI({ message: '<i class="fas fa-spinner"></i>' });
-        });
         window.onbeforeunload = function () {
             $.blockUI({ message: '<i class="fas fa-spinner"></i>' });
         }
