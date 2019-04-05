@@ -13,6 +13,9 @@ namespace SoDauBai
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
+            routes.MapRoute(name: "API", url: "API/{action}/{id}",
+                defaults: new { controller = "Export", id = UrlParameter.Optional });
+
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
