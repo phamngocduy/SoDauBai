@@ -17,6 +17,7 @@ namespace SoDauBai.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public ThoiKhoaBieu()
         {
+            this.PhongDayBus = new HashSet<PhongDayBu>();
             this.SoGhiBais = new HashSet<SoGhiBai>();
         }
     
@@ -38,6 +39,8 @@ namespace SoDauBai.Models
         public string MaPH { get; set; }
         public byte HocKy { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PhongDayBu> PhongDayBus { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SoGhiBai> SoGhiBais { get; set; }
     }

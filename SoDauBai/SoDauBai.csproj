@@ -188,6 +188,7 @@
     <Compile Include="Controllers\NganhHocController.cs" />
     <Compile Include="Controllers\NhanXetController.cs" />
     <Compile Include="Controllers\PhanQuyenController.cs" />
+    <Compile Include="Controllers\PhongDayBuController.cs" />
     <Compile Include="Controllers\SoDauBaiController.cs" />
     <Compile Include="Controllers\ThoiKhoaBieuController.cs" />
     <Compile Include="Controllers\ThongKeController.cs" />
@@ -235,6 +236,9 @@
       <DependentUpon>Models.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\NhanXet.cs">
+      <DependentUpon>Models.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\PhongDayBu.cs">
       <DependentUpon>Models.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SDBAuthenticationAttribute.cs" />
@@ -360,6 +364,11 @@
     <Content Include="Views\LienHe\Update.cshtml" />
     <Content Include="Views\LienHe\Index.cshtml" />
     <Content Include="Views\LienHe\Answer.cshtml" />
+    <Content Include="Views\PhongDayBu\Create.cshtml" />
+    <Content Include="Views\PhongDayBu\Delete.cshtml" />
+    <Content Include="Views\PhongDayBu\Edit1.cshtml" />
+    <Content Include="Views\PhongDayBu\Index.cshtml" />
+    <Content Include="Views\PhongDayBu\Edit2.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\css\" />

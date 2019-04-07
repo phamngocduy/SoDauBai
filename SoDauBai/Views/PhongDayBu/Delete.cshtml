@@ -1,0 +1,30 @@
+﻿@model PhongDayBu
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-danger">Are you sure you want to delete this?</h6>
+    </div>
+    <div class="card-body">
+        <dl class="dl-horizontal">
+            <dt>Ngày dự kiến</dt>
+            <dd>
+                @Model.NgayBD.ToString("dd/MM/yyyy")
+            </dd>
+
+            <dt>Đề xuất phòng</dt>
+            <dd>
+                @Html.DisplayFor(model => model.GhiChu1)
+            </dd>
+        </dl>
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-actions no-color">
+                <input type="submit" value="Xóa luôn" class="btn btn-danger" /> |
+                <a href="@Url.Action("Index1", new { id = Model.idTKB })" class="btn btn-default">Quay lại</a>
+            </div>
+        }
+    </div>
+</div>

@@ -93,6 +93,23 @@
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="NoiDung" Type="nvarchar(max)" Nullable="false" />
         </EntityType>
+        <EntityType Name="PhongDayBu">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Date" Type="datetime" Nullable="false" />
+          <Property Name="NgayBD" Type="date" Nullable="false" />
+          <Property Name="GhiChu1" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="idTKB" Type="int" Nullable="false" />
+          <Property Name="NgayDay" Type="date" Nullable="false" />
+          <Property Name="TietBD" Type="tinyint" Nullable="false" />
+          <Property Name="MaPH" Type="nvarchar" MaxLength="50" />
+          <Property Name="GhiChu2" Type="nvarchar(max)" />
+          <Property Name="status" Type="date" />
+          <Property Name="email1" Type="nvarchar" MaxLength="50" />
+          <Property Name="email2" Type="nvarchar" MaxLength="50" />
+        </EntityType>
         <EntityType Name="SoGhiBai">
           <Key>
             <PropertyRef Name="id" />
@@ -190,6 +207,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_PhongDayBu_ThoiKhoaBieu">
+          <End Role="ThoiKhoaBieu" Type="Self.ThoiKhoaBieu" Multiplicity="1" />
+          <End Role="PhongDayBu" Type="Self.PhongDayBu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ThoiKhoaBieu">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="PhongDayBu">
+              <PropertyRef Name="idTKB" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_SoDauBai_ThoiKhoaBieu">
           <End Role="ThoiKhoaBieu" Type="Self.ThoiKhoaBieu" Multiplicity="1" />
           <End Role="SoGhiBai" Type="Self.SoGhiBai" Multiplicity="*" />
@@ -212,6 +241,7 @@
           <EntitySet Name="LienHe" EntityType="Self.LienHe" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="NganhHoc" EntityType="Self.NganhHoc" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="NhanXet" EntityType="Self.NhanXet" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PhongDayBu" EntityType="Self.PhongDayBu" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SoGhiBai" EntityType="Self.SoGhiBai" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ThoiKhoaBieu" EntityType="Self.ThoiKhoaBieu" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
@@ -229,6 +259,10 @@
           <AssociationSet Name="FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PhongDayBu_ThoiKhoaBieu" Association="Self.FK_PhongDayBu_ThoiKhoaBieu">
+            <End Role="ThoiKhoaBieu" EntitySet="ThoiKhoaBieu" />
+            <End Role="PhongDayBu" EntitySet="PhongDayBu" />
           </AssociationSet>
           <AssociationSet Name="FK_SoDauBai_ThoiKhoaBieu" Association="Self.FK_SoDauBai_ThoiKhoaBieu">
             <End Role="ThoiKhoaBieu" EntitySet="ThoiKhoaBieu" />
@@ -248,6 +282,7 @@
           <EntitySet Name="LienHes" EntityType="SoDauBaiModel.LienHe" />
           <EntitySet Name="NganhHocs" EntityType="SoDauBaiModel.NganhHoc" />
           <EntitySet Name="NhanXets" EntityType="SoDauBaiModel.NhanXet" />
+          <EntitySet Name="PhongDayBus" EntityType="SoDauBaiModel.PhongDayBu" />
           <EntitySet Name="SoGhiBais" EntityType="SoDauBaiModel.SoGhiBai" />
           <EntitySet Name="ThoiKhoaBieux" EntityType="SoDauBaiModel.ThoiKhoaBieu" />
           <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="SoDauBaiModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
@@ -257,6 +292,10 @@
           <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" Association="SoDauBaiModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
             <End Role="AspNetUser" EntitySet="AspNetUsers" />
             <End Role="AspNetUserLogin" EntitySet="AspNetUserLogins" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PhongDayBu_ThoiKhoaBieu" Association="SoDauBaiModel.FK_PhongDayBu_ThoiKhoaBieu">
+            <End Role="ThoiKhoaBieu" EntitySet="ThoiKhoaBieux" />
+            <End Role="PhongDayBu" EntitySet="PhongDayBus" />
           </AssociationSet>
           <AssociationSet Name="FK_SoDauBai_ThoiKhoaBieu" Association="SoDauBaiModel.FK_SoDauBai_ThoiKhoaBieu">
             <End Role="ThoiKhoaBieu" EntitySet="ThoiKhoaBieux" />
@@ -353,6 +392,24 @@
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="NoiDung" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
+        <EntityType Name="PhongDayBu">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="NgayBD" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="GhiChu1" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="idTKB" Type="Int32" Nullable="false" />
+          <Property Name="NgayDay" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="TietBD" Type="Byte" Nullable="false" />
+          <Property Name="MaPH" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="GhiChu2" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="status" Type="DateTime" Precision="0" />
+          <Property Name="email1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="email2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="ThoiKhoaBieu" Relationship="SoDauBaiModel.FK_PhongDayBu_ThoiKhoaBieu" FromRole="PhongDayBu" ToRole="ThoiKhoaBieu" />
+        </EntityType>
         <EntityType Name="SoGhiBai">
           <Key>
             <PropertyRef Name="id" />
@@ -394,6 +451,7 @@
           <Property Name="MaGV" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
           <Property Name="MaPH" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="HocKy" Type="Byte" Nullable="false" />
+          <NavigationProperty Name="PhongDayBus" Relationship="SoDauBaiModel.FK_PhongDayBu_ThoiKhoaBieu" FromRole="ThoiKhoaBieu" ToRole="PhongDayBu" />
           <NavigationProperty Name="SoGhiBais" Relationship="SoDauBaiModel.FK_SoDauBai_ThoiKhoaBieu" FromRole="ThoiKhoaBieu" ToRole="SoGhiBai" />
         </EntityType>
         <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
@@ -421,6 +479,18 @@
             </Principal>
             <Dependent Role="AspNetUserLogin">
               <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PhongDayBu_ThoiKhoaBieu">
+          <End Type="SoDauBaiModel.ThoiKhoaBieu" Role="ThoiKhoaBieu" Multiplicity="1" />
+          <End Type="SoDauBaiModel.PhongDayBu" Role="PhongDayBu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ThoiKhoaBieu">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="PhongDayBu">
+              <PropertyRef Name="idTKB" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -528,6 +598,24 @@
             <EntityTypeMapping TypeName="SoDauBaiModel.NhanXet">
               <MappingFragment StoreEntitySet="NhanXet">
                 <ScalarProperty Name="NoiDung" ColumnName="NoiDung" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PhongDayBus">
+            <EntityTypeMapping TypeName="SoDauBaiModel.PhongDayBu">
+              <MappingFragment StoreEntitySet="PhongDayBu">
+                <ScalarProperty Name="email2" ColumnName="email2" />
+                <ScalarProperty Name="email1" ColumnName="email1" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="GhiChu2" ColumnName="GhiChu2" />
+                <ScalarProperty Name="MaPH" ColumnName="MaPH" />
+                <ScalarProperty Name="TietBD" ColumnName="TietBD" />
+                <ScalarProperty Name="NgayDay" ColumnName="NgayDay" />
+                <ScalarProperty Name="idTKB" ColumnName="idTKB" />
+                <ScalarProperty Name="GhiChu1" ColumnName="GhiChu1" />
+                <ScalarProperty Name="NgayBD" ColumnName="NgayBD" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>

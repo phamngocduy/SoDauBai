@@ -33,6 +33,7 @@ namespace SoDauBai.Models
         public virtual DbSet<LienHe> LienHes { get; set; }
         public virtual DbSet<NganhHoc> NganhHocs { get; set; }
         public virtual DbSet<NhanXet> NhanXets { get; set; }
+        public virtual DbSet<PhongDayBu> PhongDayBus { get; set; }
         public virtual DbSet<SoGhiBai> SoGhiBais { get; set; }
         public virtual DbSet<ThoiKhoaBieu> ThoiKhoaBieux { get; set; }
     }

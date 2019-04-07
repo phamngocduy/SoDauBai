@@ -47,6 +47,16 @@
             <div class="col-md-10">
                 <div class="input-group date" id="datetimepicker2" data-target-input="nearest">
                     @Html.EditorFor(model => model.ThoiGianBD, new { htmlAttributes = new { @class = "form-control datetimepicker-input", data_target = "#datetimepicker2" } })
+                    <div class="input-group-append" data-toggle="dropdown">
+                        <div class="input-group-text"><i class="fa fa-question"></i></div>
+                    </div>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        @for (int i = 1; i <= 15; i++)
+                        {
+                            var gioBD = CONST.TIET[i].ToString(@"hh\:mm");
+                            <a class="dropdown-item" href="#" onclick="setTiet2Gio(this,'@gioBD')">Tiet @i<span style="float:right">@gioBD</span></a>
+                        }
+                    </div>
                     <div class="input-group-append" data-target="#datetimepicker2" data-toggle="datetimepicker">
                         <div class="input-group-text"><i class="fa fa-clock"></i></div>
                     </div>
@@ -62,6 +72,16 @@
             <div class="col-md-10">
                 <div class="input-group date" id="datetimepicker3" data-target-input="nearest">
                     @Html.EditorFor(model => model.ThoiGianKT, new { htmlAttributes = new { @class = "form-control datetimepicker-input", data_target = "#datetimepicker3" } })
+                    <div class="input-group-append" data-toggle="dropdown">
+                        <div class="input-group-text"><i class="fa fa-question"></i></div>
+                    </div>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        @for (int i = 1; i <= 15; i++)
+                        {
+                            var gioKT = CONST.TIET[i].Add(new TimeSpan(0, 45, 0)).ToString(@"hh\:mm");
+                            <a class="dropdown-item" href="#" onclick="setTiet2Gio(this,'@gioKT')">Tiet @i<span style="float:right">@gioKT</span></a>
+                        }
+                    </div>
                     <div class="input-group-append" data-target="#datetimepicker3" data-toggle="datetimepicker">
                         <div class="input-group-text"><i class="fa fa-clock"></i></div>
                     </div>
@@ -124,3 +144,9 @@
         @Html.ValidationMessageFor(model => model.DeXuat, "", new { @class = "text-danger" })
     </div>
 </div>
+
+<script>
+    function setTiet2Gio(tag, gio) {
+        $(tag).parent().parent().find('input.datetimepicker-input').val(gio);
+    }
+</script>

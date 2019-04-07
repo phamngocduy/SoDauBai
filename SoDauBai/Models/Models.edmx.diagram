@@ -13,10 +13,12 @@
         <EntityTypeShape EntityType="SoDauBaiModel.LienHe" Width="1.5" PointX="7.75" PointY="0.75" />
         <EntityTypeShape EntityType="SoDauBaiModel.NganhHoc" Width="1.5" PointX="7.75" PointY="4.75" />
         <EntityTypeShape EntityType="SoDauBaiModel.NhanXet" Width="1.5" PointX="7.75" PointY="7.75" />
-        <EntityTypeShape EntityType="SoDauBaiModel.SoGhiBai" Width="1.5" PointX="3" PointY="7.375" />
-        <EntityTypeShape EntityType="SoDauBaiModel.ThoiKhoaBieu" Width="1.5" PointX="0.75" PointY="7" />
+        <EntityTypeShape EntityType="SoDauBaiModel.PhongDayBu" Width="1.5" PointX="3" PointY="11.875" />
+        <EntityTypeShape EntityType="SoDauBaiModel.SoGhiBai" Width="1.5" PointX="3" PointY="7.25" />
+        <EntityTypeShape EntityType="SoDauBaiModel.ThoiKhoaBieu" Width="1.5" PointX="0.75" PointY="9" />
         <AssociationConnector Association="SoDauBaiModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" />
         <AssociationConnector Association="SoDauBaiModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" />
+        <AssociationConnector Association="SoDauBaiModel.FK_PhongDayBu_ThoiKhoaBieu" />
         <AssociationConnector Association="SoDauBaiModel.FK_SoDauBai_ThoiKhoaBieu" />
         <AssociationConnector Association="SoDauBaiModel.AspNetUserRoles" />
       </Diagram>

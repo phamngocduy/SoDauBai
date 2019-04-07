@@ -49,6 +49,17 @@
                 </a>
             </li>
 
+            @if (ViewContext.RouteData.Values["controller"].Equals("SoDauBai")
+                && ViewContext.RouteData.Values["action"].Equals("Index"))
+            {
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.Action("Index1", "PhongDayBu", new { id = ViewContext.RouteData.Values["id"] })">
+                        <i class="fas fa-fw fa-folder"></i>
+                        <span>Phòng dạy bù</span>
+                    </a>
+                </li>
+            }
+
             <!-- Divider -->
             <hr class="sidebar-divider">
 
@@ -102,6 +113,13 @@
                             <a class="collapse-item" href="@Url.Action("ThongKeChung", "ThongKe")">Thống kê chung</a>
                         </div>
                     </div>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.Action("Index2", "PhongDayBu", new { id = ViewContext.RouteData.Values["id"] })">
+                        <i class="fas fa-fw fa-folder"></i>
+                        <span>Phòng dạy bù</span>
+                    </a>
                 </li>
 
                 <!-- Divider -->

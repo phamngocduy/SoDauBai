@@ -1,0 +1,93 @@
+﻿@model PhongDayBu
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Cấp phòng dạy bù</h6>
+    </div>
+    <div class="card-body">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(model => model.idTKB)
+            @Html.HiddenFor(model => model.NgayBD)
+            @Html.HiddenFor(model => model.GhiChu1)
+
+            <mark>
+                Môn @Model.ThoiKhoaBieu.TenMH,
+                thứ @Model.ThoiKhoaBieu.ThuKieuSo,
+                tiết BĐ @Model.ThoiKhoaBieu.TietBD,
+                số tiết @Model.ThoiKhoaBieu.SoTiet.
+            </mark>
+            <br />
+            <pre>@Model.GhiChu1</pre>
+            <hr />
+
+            <div class="form-horizontal">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.NgayDay, "Ngày dạy", htmlAttributes: new { @class = "control-label col-md-10" })
+                            <div class="col-md-10">
+                                <div class="input-group date" id="datetimepicker4" data-target-input="nearest">
+                                    @Html.TextBoxFor(model => model.NgayDay, Model.NgayDay.ToString("dd/MM/yyyy"), new { @class = "form-control datetimepicker-input", data_target = "#datetimepicker4" })
+                                    <div class="input-group-append" data-target="#datetimepicker4" data-toggle="datetimepicker">
+                                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                    </div>
+                                </div>
+                                @Html.ValidationMessageFor(model => model.NgayDay, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.MaPH, "Mã phòng", htmlAttributes: new { @class = "control-label col-md-10" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.MaPH, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.MaPH, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.TietBD, "Tiết bắt đầu", htmlAttributes: new { @class = "control-label col-md-10" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.TietBD, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.TietBD, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-10">
+                        @Html.TextAreaFor(model => model.GhiChu2, new { @class = "form-control", placeholder = "Ghi chú nếu có..." })
+                        @Html.ValidationMessageFor(model => model.GhiChu2, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Cập nhật" class="btn btn-success" /> |
+                        <a href="@Url.Action("Index2", new { id = Model.idTKB })" class="btn btn-default">Quay lại</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    <link href="~/Content/tempusdominus.min.css" rel="stylesheet" />
+    <script src="~/Scripts/moment-locales.js"></script>
+    <script src="~/Scripts/tempusdominus.js"></script>
+    <script>
+        $(function () {
+            $('#datetimepicker4').datetimepicker({
+                format: 'D/M/YYYY'
+            });
+        });
+    </script>
+}

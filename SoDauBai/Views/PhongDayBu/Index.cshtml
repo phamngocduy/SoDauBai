@@ -1,0 +1,82 @@
+﻿@model IEnumerable<PhongDayBu>
+@{ 
+    var TKB = ViewBag.TKB as ThoiKhoaBieu;
+}
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary d-inline">
+            Lịch Phòng dạy bù
+            @if (TKB != null)
+            {
+                <span>môn @Html.ActionLink(TKB.TenMH, "Index", "SoDauBai", new { id = TKB.id }, new { style = "text-decoration:underline" })</span>
+            }
+        </h6>
+        @if (TKB != null)
+        {
+            <a href="@Url.Action("Create", new { id = TKB.id })" class="btn btn-success btn-circle btn-sm float-right">
+                <i class="fas fa-plus"></i>
+            </a>
+        }
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Đăng ký</th>
+                        <th>Duyệt phòng</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @if (User.IsInRole("DaoTao"))
+                                {
+                                    <pre>@item.email1</pre>
+                                }
+                                <div>@item.GhiChu1</div>
+                                <span>Từ ngày @item.NgayBD.ToString("dd/MM/yyyy")</span>
+                                @if (User.IsInTKB(item.idTKB))
+                                {
+                                    <a href="@Url.Action("Edit1", new { id = item.id })" class="btn btn-warning btn-circle btn-sm">
+                                        <i class="fas fa-pencil-alt"></i>
+                                    </a>
+                                }
+                            </td>
+                            <td>
+                                @if (item.status.HasValue)
+                                {
+                                    <pre>@item.email1</pre>
+                                    <div>@item.GhiChu2</div>
+                                    <div>
+                                        Ngày <mark>@item.NgayDay.ToString("dd/MM/yyyy")</mark>
+                                        Phòng <mark>@item.MaPH</mark>,
+                                        từ Tiết <mark>@item.TietBD</mark>
+                                    </div>
+                                }
+                            </td>
+                            <td>
+                                @if (User.IsInRole("DaoTao"))
+                                {
+                                    <a href="@Url.Action("Edit2", new { id = item.id })" class="btn btn-primary btn-circle btn-sm">
+                                        <i class="fas fa-pencil-alt"></i>
+                                    </a>
+                                }
+                                @if (!item.status.HasValue)
+                                {
+                                    <a href="@Url.Action("Delete", new { id = item.id })" class="btn btn-danger btn-circle btn-sm">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
