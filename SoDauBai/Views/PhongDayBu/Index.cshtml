@@ -1,6 +1,16 @@
 ﻿@model IEnumerable<PhongDayBu>
 @{ 
     var TKB = ViewBag.TKB as ThoiKhoaBieu;
+    var PhongDayBu = Model;
+    switch (ViewContext.RouteData.Values["action"].ToString())
+    {
+        case "Index1":
+            PhongDayBu = PhongDayBu.OrderBy(p => !p.status.HasValue).ThenBy(p => p.NgayDay);
+            break;
+        case "Index2":
+            PhongDayBu = PhongDayBu.OrderBy(p => p.status.HasValue).ThenBy(p => p.NgayBD);
+            break;
+    }
 }
 
 <div class="card shadow mb-4">
@@ -30,7 +40,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var item in Model)
+                    @foreach (var item in PhongDayBu)
                     {
                         <tr>
                             <td>

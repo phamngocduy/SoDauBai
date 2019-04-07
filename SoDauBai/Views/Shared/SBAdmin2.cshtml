@@ -52,9 +52,18 @@
             @if (ViewContext.RouteData.Values["controller"].Equals("SoDauBai")
                 && ViewContext.RouteData.Values["action"].Equals("Index"))
             {
+                var id = int.Parse(ViewContext.RouteData.Values["id"].ToString());
+                var soPhong = SoDauBai.Controllers.PhongDayBuController.countPhongDayBu(id);
                 <li class="nav-item">
-                    <a class="nav-link" href="@Url.Action("Index1", "PhongDayBu", new { id = ViewContext.RouteData.Values["id"] })">
-                        <i class="fas fa-fw fa-folder"></i>
+                    <a class="nav-link" href="@Url.Action("Index1", "PhongDayBu", new { id = id })">
+                        @if (soPhong > 0)
+                        {
+                            <i class="fas"><span class="badge badge-success">@soPhong</span></i>
+                        }
+                        else
+                        {
+                            <i class="fas fa-fw fa-folder"></i>
+                        }
                         <span>Phòng dạy bù</span>
                     </a>
                 </li>
@@ -65,6 +74,7 @@
 
             @if (User.IsInRole("DaoTao"))
             {
+                var soPhong = SoDauBai.Controllers.PhongDayBuController.countPhongDayBu();
                 <li class="nav-item">
                     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#DanhMuc">
                         <i class="fas fa-fw fa-cog"></i>
@@ -116,8 +126,15 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="@Url.Action("Index2", "PhongDayBu", new { id = ViewContext.RouteData.Values["id"] })">
-                        <i class="fas fa-fw fa-folder"></i>
+                    <a class="nav-link" href="@Url.Action("Index2", "PhongDayBu")">
+                        @if (soPhong > 0)
+                        {
+                            <i class="fas"><span class="badge badge-warning">@soPhong</span></i>
+                        }
+                        else
+                        {
+                            <i class="fas fa-fw fa-folder"></i>
+                        }
                         <span>Phòng dạy bù</span>
                     </a>
                 </li>

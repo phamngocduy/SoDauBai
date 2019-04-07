@@ -15,6 +15,12 @@ namespace SoDauBai.Controllers
     {
         private SoDauBaiEntities db = new SoDauBaiEntities();
 
+        public static int countPhongDayBu(int id)
+        {
+            using (var db = new SoDauBaiEntities())
+            return db.PhongDayBus.Count(p => p.idTKB == id && p.status.HasValue && DateTime.Today < p.NgayDay);
+        }
+
         public ActionResult Index1(int id)
         {
             var model = db.PhongDayBus.Where(p => p.idTKB == id);
@@ -22,8 +28,14 @@ namespace SoDauBai.Controllers
             return View("Index", model.ToList());
         }
 
+        public static int countPhongDayBu()
+        {
+            using (var db = new SoDauBaiEntities())
+            return db.PhongDayBus.Count(p => !p.status.HasValue);
+        }
+
         [Authorize(Roles = "DaoTao")]
-        public ActionResult Index2(int id)
+        public ActionResult Index2()
         {
             var model = db.PhongDayBus;
             return View("Index", model.ToList());

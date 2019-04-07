@@ -282,6 +282,7 @@
       <DependentUpon>Models.edmx</DependentUpon>
     </Content>
     <Content Include="App_Data\Template_TKB.xls" />
+    <None Include="Properties\PublishProfiles\CNTT.pubxml" />
     <None Include="Properties\PublishProfiles\CNTTTEST.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
