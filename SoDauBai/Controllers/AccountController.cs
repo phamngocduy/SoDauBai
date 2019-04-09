@@ -9,6 +9,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using SoDauBai.Models;
+using System.Web.Security;
 
 namespace SoDauBai.Controllers
 {
@@ -340,6 +341,17 @@ namespace SoDauBai.Controllers
                     return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = false });
                 case SignInStatus.Failure:
                 default:
+                    var user = new ApplicationUser { UserName = loginInfo.Email, Email = loginInfo.Email };
+                    var effect = await UserManager.CreateAsync(user);
+                    if (effect.Succeeded)
+                    {
+                        effect = await UserManager.AddLoginAsync(user.Id, loginInfo.Login);
+                        if (effect.Succeeded)
+                        {
+                            await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                            return RedirectToLocal(returnUrl);
+                        }
+                    }
                     // If the user does not have an account, then prompt the user to create an account
                     ViewBag.ReturnUrl = returnUrl;
                     ViewBag.LoginProvider = loginInfo.Login.LoginProvider;
@@ -391,6 +403,7 @@ namespace SoDauBai.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
+            FormsAuthentication.SignOut();
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
             return RedirectToAction("Index", "Home");
         }

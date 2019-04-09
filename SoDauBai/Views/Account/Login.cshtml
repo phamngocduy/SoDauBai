@@ -24,6 +24,11 @@
     <!-- Custom styles for this template-->
     <link href="~/Content/css/sb-admin-2.min.css" rel="stylesheet">
 
+    <style>
+        input[disabled] {
+            cursor: not-allowed;
+        }
+    </style>
 </head>
 
 <body class="bg-gradient-primary">
@@ -43,7 +48,7 @@
                             <div class="col-lg-6">
                                 <div class="p-5">
                                     <div class="text-center">
-                                        <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
+                                        <h1 class="h4 text-gray-900 mb-4">Xin chào!</h1>
                                     </div>
                                     <form class="user">
                                         <div class="form-group">
@@ -59,7 +64,7 @@
                                             </div>
                                         </div>
                                         <a href="@Url.Action("Index", "Home")" class="btn btn-primary btn-user btn-block">
-                                            HOMEPAGE
+                                            <b>XEM TRANG CHỦ</b>
                                         </a>
                                     </form>
                                     <hr>
