@@ -32,8 +32,6 @@ namespace SoDauBai.Controllers
         public ActionResult Upload()
         {
             var list = new List<ThoiKhoaBieu>();
-            var NganhHoc = db.NganhHocs.ToList();
-            var GiangVien = db.GiangViens.ToList();
             var rand = new Random(Environment.TickCount);
             using (var reader = ExcelReaderFactory.CreateReader(Request.Files[0].InputStream))
             {
@@ -46,7 +44,7 @@ namespace SoDauBai.Controllers
                         int i = 0;
                         try
                         {
-                            row.MaMH = reader.GetValue(i).ToString() ?? "";
+                            row.MaMH = reader.GetText(i);
                         }
                         catch (Exception)
                         {
@@ -57,68 +55,68 @@ namespace SoDauBai.Controllers
                         if (row.MaMH.Length > 10)
                             throw new Exception("MaMH dài hơn 10 ký tự!");
                         i++;
-                        row.TenMH = reader.GetValue(i).ToString() ?? "";
+                        row.TenMH = reader.GetText(i);
                         i++;
-                        row.SoTinChi = byte.Parse(reader.GetValue(i).ToString());
+                        row.SoTinChi = byte.Parse(reader.GetText(i));
                         if (row.SoTinChi < 1 || row.SoTinChi > 6)
                             throw new Exception("SoTinChi không trong khoảng [1-6]!");
                         i++;
-                        row.NhomTo = reader.GetValue(i).ToString() ?? "";
+                        row.NhomTo = reader.GetText(i);
                         i++;
-                        row.ToTH = reader.GetValue(i).ToString() ?? "";
+                        row.ToTH = reader.GetText(i);
                         i++;
-                        row.TenToHop = reader.GetValue(i).ToString() ?? "";
+                        row.TenToHop = reader.GetText(i);
                         i++;
-                        row.MaNganh = reader.GetValue(i).ToString() ?? "";
+                        row.MaNganh = reader.GetText(i);
                         if (row.MaNganh.Length > 10)
                             throw new Exception("MaNganh dài hơn 10 ký tự!");
                         i++;
-                        if (NganhHoc.SingleOrDefault(nh => nh.MaNganh == row.MaNganh) == null)
+                        if (db.NganhHocs.SingleOrDefault(nh => nh.MaNganh == row.MaNganh) == null)
                         {
                             db.NganhHocs.Add(new NganhHoc
                             {
                                 MaNganh = row.MaNganh,
-                                TenNganh = reader.GetValue(i).ToString()
+                                TenNganh = reader.GetText(i)
                             });
                             db.SaveChanges();
                         }
                         i++;
-                        row.MaLop = reader.GetValue(i).ToString() ?? "";
+                        row.MaLop = reader.GetText(i);
                         i++;
-                        row.TenLop = reader.GetValue(i).ToString() ?? "";
+                        row.TenLop = reader.GetText(i);
                         i++;
-                        row.TongSoSV = short.Parse(reader.GetValue(i).ToString());
+                        row.TongSoSV = short.Parse(reader.GetText(i));
                         if (row.TongSoSV < 1)
                             throw new Exception("Lớp không có đủ sinh viên!");
                         i++;
-                        row.ThuKieuSo = byte.Parse(reader.GetValue(i).ToString());
+                        row.ThuKieuSo = byte.Parse(reader.GetText(i));
                         if (row.ThuKieuSo < 2 || row.ThuKieuSo > 8)
                             throw new Exception("ThuKieuSo không trong khoảng [2-8]!");
                         i++;
-                        row.TietBD = byte.Parse(reader.GetValue(i).ToString());
+                        row.TietBD = byte.Parse(reader.GetText(i));
                         if (row.TietBD < 0 || row.TietBD > 15)
                             throw new Exception("TietBD không trong khoảng [1-15]!");
                         i++;
-                        row.SoTiet = byte.Parse(reader.GetValue(i).ToString());
+                        row.SoTiet = byte.Parse(reader.GetText(i));
                         if (row.SoTiet < 0 || row.SoTiet > 6)
                             throw new Exception("SoTiet không trong khoảng [1-6]!");
                         i++;
-                        row.MaGV = reader.GetValue(i).ToString() ?? "";
+                        row.MaGV = reader.GetText(i);
                         if (row.MaGV.Length > 10)
                             throw new Exception("MaGV dài hơn 10 ký tự!");
                         i++;
-                        if (GiangVien.SingleOrDefault(gv => gv.MaGV == row.MaGV) == null)
+                        if (db.GiangViens.SingleOrDefault(gv => gv.MaGV == row.MaGV) == null)
                         {
                             db.GiangViens.Add(new GiangVien
                             {
                                 MaGV = row.MaGV,
-                                HoTen = reader.GetValue(i).ToString(),
+                                HoTen = reader.GetText(i),
                                 Email = String.Format("ACDM{0}@gmail.com", rand.Next())
                             });
                             db.SaveChanges();
                         }
                         i++;
-                        row.MaPH = reader.GetValue(i).ToString() ?? "";
+                        row.MaPH = reader.GetText(i);
                     }
                     catch (Exception e)
                     {

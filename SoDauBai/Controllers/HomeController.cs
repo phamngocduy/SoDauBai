@@ -15,7 +15,7 @@ namespace SoDauBai.Controllers
         [Authorize]
         public ActionResult Index()
         {
-            var hk = db.ThoiKhoaBieux.Max(tkb => tkb.HocKy);
+            var hk = db.ThoiKhoaBieux.MaxOrDefault(tkb => tkb.HocKy);
             var email = User.Identity.GetUserName();
             var model = from tkb in db.ThoiKhoaBieux
                         join gv in db.GiangViens on tkb.MaGV equals gv.MaGV

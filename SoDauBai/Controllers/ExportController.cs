@@ -47,6 +47,7 @@ namespace SoDauBai.Controllers
             using (var db = new SoDauBaiEntities())
             {
                 var hk = db.ThoiKhoaBieux.MaxOrDefault(c => c.HocKy);
+                var gv = db.GiangViens.ToList();
                 return Json(new
                 {
                     Semester = hk,
@@ -55,10 +56,12 @@ namespace SoDauBai.Controllers
                     {
                         Code = c.MaMH,
                         Name = c.TenMH,
-                        Type = c.NhomTo,
+                        Type1 = c.NhomTo,
+                        Type2 = String.Format("{0}_{1}", c.ToTH, c.TenToHop),
 
                         Major = c.MaNganh,
-                        Lecturer = c.MaGV,
+                        Lecturer = (gv.SingleOrDefault(l => l.MaGV == c.MaGV)
+                                    ?? new GiangVien()).Email,
 
                         Credit = c.SoTinChi,
                         Students = c.TongSoSV,

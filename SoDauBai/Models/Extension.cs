@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using System.Data;
 
 namespace SoDauBai.Models
 {
@@ -66,6 +67,12 @@ namespace SoDauBai.Models
         public static TResult MaxOrDefault<TSource, TResult>(this IQueryable<TSource> source, Expression<Func<TSource, TResult>> selector)
         {
             return source.Count() > 0 ? source.Max(selector) : (TResult)Activator.CreateInstance(typeof(TResult));
+        }
+
+        public static string GetText(this IDataRecord excel, int index)
+        {
+            var text = excel.GetValue(index) ?? "";
+            return text.ToString().Trim();
         }
     }
 }
