@@ -137,7 +137,8 @@ namespace SoDauBai.Controllers
         public ActionResult Delete(int id)
         {
             var model = db.PhongDayBus.Find(id);
-            if (model == null || !User.IsInTKB(model.idTKB))
+            if (model == null ||
+                !(User.IsInTKB(model.idTKB) || User.IsInRole("DaoTao")))
                 return HttpNotFound();
             return View(model);
         }
@@ -147,12 +148,14 @@ namespace SoDauBai.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             var model = db.PhongDayBus.Find(id);
-            if (User.IsInTKB(model.idTKB))
+            if (User.IsInTKB(model.idTKB) || User.IsInRole("DaoTao"))
             {
                 db.PhongDayBus.Remove(model);
                 db.SaveChanges();
             }
-            return RedirectToAction("Index", new { id = model.idTKB });
+            if (User.IsInTKB(model.idTKB))
+                return RedirectToAction("Index1", new { id = model.idTKB });
+            else return RedirectToAction("Index2"); // User.IsInRole("DaoTao")
         }
 
         protected override void Dispose(bool disposing)
