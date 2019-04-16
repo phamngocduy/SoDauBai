@@ -20,7 +20,10 @@ namespace SoDauBai.Controllers
             if (model == null)
                 return HttpNotFound();
             ViewBag.TKB = model;
-            return View(model.SoGhiBais.ToList());
+            var list = db.ThoiKhoaBieux.Where(tkb => tkb.HocKy == model.HocKy)
+                .Where(tkb => tkb.MaMH == model.MaMH && tkb.NhomTo == model.NhomTo)
+                .Select(tkb => tkb.SoGhiBais.ToList()).ToList();
+            return View(list.Concat());
         }
 
         protected override void Initialize(RequestContext requestContext)

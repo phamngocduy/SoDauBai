@@ -37,6 +37,9 @@ namespace SoDauBai.Models
             new TimeSpan(18, 5, 0), // Tiet 13
             new TimeSpan(18, 55, 0), // Tiet 14
             new TimeSpan(19, 45, 0), // Tiet 15
+            new TimeSpan(20, 30, 0), // Tiet 16
+            new TimeSpan(21, 15, 0), // Tiet 17
+            new TimeSpan(22, 0, 0) // Tiet 18
         };
     }
 
@@ -73,6 +76,14 @@ namespace SoDauBai.Models
         {
             var text = excel.GetValue(index) ?? "";
             return text.ToString().Trim();
+        }
+
+        public static List<TSource> Concat<TSource>(this List<List<TSource>> group)
+        {
+            var list = new List<TSource>();
+            foreach (var item in group)
+                list = list.Concat(item).ToList();
+            return list;
         }
     }
 }

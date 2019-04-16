@@ -2,26 +2,30 @@
 
 <!-- Content Row -->
 <div class="row">
-    @foreach (var item in Model)
+    @foreach (var group in Model.GroupBy(tkb => new { tkb.MaMH, tkb.NhomTo }))
     {
+        var item = group.First();
         <div class="col-xl-3 col-md-6 mb-4">
             <div class="card border-left-primary shadow h-100 py-2">
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
-                        <div class="col mr-2">
+                        <div class="col">
                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                @item.MaMH - @item.SoTinChi<span>TC</span> (@item.TongSoSV<span>SV</span>)
+                                <i>@item.MaMH - @item.SoTinChi<span>TC</span> (@item.TongSoSV<span>SV</span>)</i>
                             </div>
                             <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                @Html.ActionLink(item.TenMH, "Index", "SoDauBai", new { id = item.id }, null)
+                                <h4>@item.TenMH</h4>
                             </div>
-                            <div class="small">Phòng @(item.MaPH): Thứ @(item.ThuKieuSo) tiết @item.TietBD - @(item.TietBD + item.SoTiet - 1)</div>
+                            @foreach (var tkb in group.OrderBy(g => g.ThuKieuSo))
+                            {
+                                <div style="font-weight:bold">
+                                    @Html.ActionLink(String.Format("Phòng {0}: Thứ {1} tiết {2} - {3}", tkb.MaPH, tkb.ThuKieuSo, tkb.TietBD, tkb.TietBD + tkb.SoTiet - 1), "Index", "SoDauBai", new { id = tkb.id }, null)
+                                </div>
+                            }
                             <abbr class="small" title="@item.TenLop">#@item.MaLop</abbr>
                         </div>
                         <div class="col-auto">
-                            <a href="@Url.Action("Index", "SoDauBai", new { id = item.id })">
-                                <i class="fas fa-folder-open fa-2x text-gray-300"></i>
-                            </a>
+                            <i class="fas fa-folder-open fa-2x text-gray-300"></i>
                         </div>
                     </div>
                 </div>

@@ -13,7 +13,13 @@
             <div class="card bg-primary text-white shadow">
                 <div class="card-body">
                     <a class="text-white" href="@Url.Action("Index", "SoDauBai", new { id = item.id })">@item.TenMH</a>
-                    <div class="text-white-50 small">#@item.MaPH tiết @String.Join("", tietDay)</div>
+                    <div class="text-white-50 small">
+                        #@item.MaPH tiết
+                        @foreach (var tiet in tietDay)
+                        {
+                            <span class="badge badge-secondary">@tiet</span>
+                        }
+                    </div>
                     <div class="small">@giangVien.HocVi @giangVien.HoTen</div>
                 </div>
             </div>
