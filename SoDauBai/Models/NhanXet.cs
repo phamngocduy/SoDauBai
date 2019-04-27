@@ -15,6 +15,7 @@ namespace SoDauBai.Models
     public partial class NhanXet
     {
         public int id { get; set; }
+        public string ThuTu { get; set; }
         public string NoiDung { get; set; }
     }
 }

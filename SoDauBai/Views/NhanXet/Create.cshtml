@@ -13,7 +13,14 @@
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                 <div class="form-group">
                     <div class="col-md-10">
-                        @Html.EditorFor(model => model.NoiDung, new { htmlAttributes = new { @class = "form-control", placeholder = "Nội dung", required = true } })
+                        @Html.EditorFor(model => model.ThuTu, new { htmlAttributes = new { @class = "form-control", placeholder = "Thứ tự", required = true } })
+                        @Html.ValidationMessageFor(model => model.ThuTu, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-10">
+                        @Html.TextAreaFor(model => model.NoiDung, new { @class = "form-control", placeholder = "Nội dung", required = true })
                         @Html.ValidationMessageFor(model => model.NoiDung, "", new { @class = "text-danger" })
                     </div>
                 </div>

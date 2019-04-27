@@ -123,8 +123,8 @@
                         <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         </button>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <a class="dropdown-item" onclick="$('#NhanXetSV').val('')" href="#">Khác...</a>
-                            @foreach (var item in ViewBag.NhanXets as List<NhanXet>)
+                            <a class="dropdown-item" onclick="$('#NhanXetSV').val('').focus()" href="#">Khác...</a>
+                            @foreach (var item in (ViewBag.NhanXets as List<NhanXet>).OrderBy(nx => nx.ThuTu))
                             {
                                 <a class="dropdown-item" onclick="$('#NhanXetSV').val($(this).text())" href="#">@item.NoiDung</a>
                             }

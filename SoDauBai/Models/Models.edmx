@@ -91,6 +91,7 @@
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ThuTu" Type="nvarchar" MaxLength="10" />
           <Property Name="NoiDung" Type="nvarchar(max)" Nullable="false" />
         </EntityType>
         <EntityType Name="PhongDayBu">
@@ -390,6 +391,7 @@
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ThuTu" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
           <Property Name="NoiDung" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="PhongDayBu">
@@ -598,6 +600,7 @@
             <EntityTypeMapping TypeName="SoDauBaiModel.NhanXet">
               <MappingFragment StoreEntitySet="NhanXet">
                 <ScalarProperty Name="NoiDung" ColumnName="NoiDung" />
+                <ScalarProperty Name="ThuTu" ColumnName="ThuTu" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
