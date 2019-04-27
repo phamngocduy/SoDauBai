@@ -24,6 +24,17 @@ namespace SoDauBai.Controllers
                         now.TimeOfDay <= CONST.TIET[tkb.TietBD + tkb.SoTiet - 1].Add(CONST.TIET[0])));
         }
 
+        public ActionResult CacDeXuat()
+        {
+            var hk = db.ThoiKhoaBieux.MaxOrDefault(tkb => tkb.HocKy);
+            var model = from tkb in db.ThoiKhoaBieux
+                        join sdb in db.SoGhiBais on tkb.id equals sdb.idTKB
+                        where tkb.HocKy == hk && sdb.DeXuat != null && sdb.DeXuat != ""
+                        select sdb;
+            ViewBag.GiangViens = db.GiangViens.ToList();
+            return View(model.ToList());
+        }
+
         public ActionResult ThongKeChung()
         {
             var hk = db.ThoiKhoaBieux.MaxOrDefault(tkb => tkb.HocKy);

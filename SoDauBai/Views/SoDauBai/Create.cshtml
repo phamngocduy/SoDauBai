@@ -38,8 +38,10 @@
     <link href="~/Content/tempusdominus.min.css" rel="stylesheet" />
     <script src="~/Scripts/moment-locales.js"></script>
     <script src="~/Scripts/tempusdominus.js"></script>
+    <script src="~/Scripts/autosize.min.js"></script>
     <script>
         $(function () {
+            autosize($('#NDGiangDay'));
             $('#datetimepicker4').datetimepicker({
                 format: 'D/M/YYYY'
             });
@@ -53,13 +55,13 @@
                     $('[readonly=readonly]').attr('readonly', false);
                 switch ($('[name=Loai]:checked').val()) {
                     case '0':
-                        $('[for=NDGiangDay]').text('Nội dung');
+                        $('[for=NDGiangDay]').text('Nội dung giảng dạy');
                         break;
                     case '1':
-                        $('[for=NDGiangDay]').text('Lý do nghỉ');
+                        $('[for=NDGiangDay]').text('Lý do cho nghỉ');
                         break;
                     case '2':
-                        $('[for=NDGiangDay]').text('Nội dung bù');
+                        $('[for=NDGiangDay]').text('Nội dung dạy bù');
                         break;
                 }
             });

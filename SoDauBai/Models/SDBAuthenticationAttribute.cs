@@ -5,7 +5,7 @@ using System.Security.Principal;
 
 namespace SoDauBai.Models
 {
-    public class SDBAuthenticationAttribute : FilterAttribute, IAuthorizationFilter
+    public class SDBAuthorizationAttribute : FilterAttribute, IAuthorizationFilter
     {
         public void OnAuthorization(AuthorizationContext filterContext)
         {
@@ -15,7 +15,7 @@ namespace SoDauBai.Models
         }
     }
 
-    public static class SDBAuthenticationExtension
+    public static class SDBAuthorizationExtension
     {
         public static bool IsInSDB(this IPrincipal user, int id)
         {

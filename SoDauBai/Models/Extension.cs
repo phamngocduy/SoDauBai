@@ -3,6 +3,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Data;
+using System.Web.Mvc;
 
 namespace SoDauBai.Models
 {
@@ -56,7 +57,7 @@ namespace SoDauBai.Models
             return obj != null ? obj : Activator.CreateInstance<T>();
         }
 
-        public static double AverageOrDefault<TSource>(this IEnumerable<TSource> source, Func<TSource, int> selector)
+        public static double AverageOrDefault<TSource>(this IEnumerable<TSource> source, Func<TSource, double> selector)
         {
             return source.Count() > 0 ? source.Average(selector) : 0;
         }
@@ -84,6 +85,30 @@ namespace SoDauBai.Models
             foreach (var item in group)
                 list = list.Concat(item).ToList();
             return list;
+        }
+
+        public static void ForEach<T>(this IEnumerable<T> list, Action<T> action)
+        {
+            foreach (var item in list)
+                action(item);
+        }
+
+        public static int Count<TSource>(this IEnumerable<TSource> group, Func<TSource, int> count)
+        {
+            int sum = 0;
+            group.ForEach(g => sum += count(g));
+            return sum;
+        }
+
+        public static bool IsNullOrEmpty(this string text)
+        {
+            return String.IsNullOrEmpty(text) || String.IsNullOrWhiteSpace(text);
+        }
+
+        public static void AddModelErrorFor<TValue>(this ModelStateDictionary modelState, Expression<Func<object, TValue>> property, string errorMessage)
+        {
+            var expression = (MemberExpression)property.Body;
+            modelState.AddModelError(expression.Member.Name, errorMessage);
         }
     }
 }

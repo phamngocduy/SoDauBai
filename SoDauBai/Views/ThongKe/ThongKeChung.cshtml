@@ -3,6 +3,37 @@
     var GiangViens = ViewBag.GiangViens as List<GiangVien>;
 }
 
+@helper Display(IEnumerable<ThoiKhoaBieu> TKB, List<GiangVien> GV)
+{
+    var item = TKB.First();
+    var maGV = TKB.Select(tkb => tkb.MaGV).Distinct().ToArray();
+    var giangVien = GV.Where(gv => maGV.Contains(gv.MaGV)).Select(gv => gv.HoTen).ToArray();
+    var sinhVien = (int)TKB.AverageOrDefault(tkb => tkb.SoGhiBais.AverageOrDefault(sdb => sdb.TongSoSV));
+    var buoiDay = TKB.Count(tkb => tkb.SoGhiBais.Count(sdb => sdb.Loai == 0));
+    var buoiNghi = TKB.Count(tkb => tkb.SoGhiBais.Count(sdb => sdb.Loai == 1));
+    var buoiBu = TKB.Count(tkb => tkb.SoGhiBais.Count(sdb => sdb.Loai == 2));
+    var tietDay = TKB.Sum(tkb => tkb.SoGhiBais.Where(sdb => sdb.Loai != 1).Sum(sdb => sdb.SoTietDay));
+
+    <tr>
+        <td>
+            <a href="@Url.Action("Index", "SoDauBai", new { id = item.id })" target="_blank">
+                <abbr title="@item.MaMH">@item.TenMH</abbr>
+            </a>
+            <br />
+            <i>@String.Join(", ", giangVien)</i>
+        </td>
+        <td>@sinhVien/@item.TongSoSV</td>
+        <td>@(buoiDay+buoiBu)</td>
+        <td>@tietDay</td>
+        <td>@buoiBu/@buoiNghi</td>
+        <td>
+            <a id="@item.id" data-content="@String.Format("ThuKieuSo: {0}\nTietBD: {1}\nSoTiet: {2}\nMaPH: {3}\nMaLop: {4}\nTenLop: {5}", item.ThuKieuSo, item.TietBD, item.SoTiet, item.MaPH, item.MaLop, item.TenLop)" data-toggle="popover" data-placement="left" class="btn btn-info btn-circle btn-sm">
+                <i class="fas fa-info"></i>
+            </a>
+        </td>
+    </tr>
+}
+
 <div class="card shadow mb-4">
     <div class="card-header py-3">
         <h6 class="m-0 font-weight-bold text-primary d-inline">Thống kê môn học</h6>
@@ -12,11 +43,8 @@
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                     <tr>
-                        <th>Môn học</th>
-                        <th>Giảng viên</th>
-                        <th><abbr title="Tổng số SV">SV 1</abbr></th>
-                        <th><abbr title="SV trong lớp">SV 2</abbr></th>
-                        <th>TL 2/1</th>
+                        <th>Lớp học</th>
+                        <th>Số SV</th>
                         <th>Buổi dạy</th>
                         <th>Tiết dạy</th>
                         <th>Dạy bù</th>
@@ -24,29 +52,33 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var item in Model)
+                    @foreach (var group in Model.GroupBy(tkb => new { tkb.MaMH, tkb.NhomTo }))
                     {
-                        var giangVien = GiangViens.SingleOrDefault(gv => gv.MaGV == item.MaGV).Init();
-                        var sinhVien = item.SoGhiBais.AverageOrDefault(sdb => sdb.TongSoSV);
-                        var buoiDay = item.SoGhiBais.Count(sdb => sdb.Loai == 0);
-                        var buoiNghi = item.SoGhiBais.Count(sdb => sdb.Loai == 1);
-                        var buoiBu = item.SoGhiBais.Count(sdb => sdb.Loai == 2);
-
-                        <tr>
-                            <td><abbr title="@item.MaMH">@item.TenMH</abbr></td>
-                            <td><abbr title="@giangVien.MaGV">@giangVien.HoTen</abbr></td>
-                            <td>@item.TongSoSV</td>
-                            <td>@Math.Round(sinhVien, 0)</td>
-                            <td>@Math.Round(sinhVien / item.TongSoSV, 1)</td>
-                            <td>@buoiDay</td>
-                            <td>@item.SoGhiBais.Where(sdb => sdb.Loai != 1).Sum(sdb => sdb.SoTietDay)</td>
-                            <td>@buoiBu/@buoiNghi</td>
-                            <td>
-                                <a id="@item.id" href="#" data-content="@String.Format("ThuKieuSo: {0}\nTietBD: {1}\nSoTiet: {2}\nMaPH: {3}\nMaLop: {4}\nTenLop: {5}", item.ThuKieuSo, item.TietBD, item.SoTiet, item.MaPH, item.MaLop, item.TenLop)" data-toggle="popover" data-placement="left" class="btn btn-info btn-circle btn-sm">
-                                    <i class="fas fa-info"></i>
-                                </a>
-                            </td>
-                        </tr>
+                        if (group.Count() == 2 && group.First().TongSoSV == group.Last().TongSoSV)
+                        {
+                            var model = group.FirstOrDefault(tkb => (tkb.ToTH == null || tkb.ToTH == "") && (tkb.TenToHop == null || tkb.TenToHop == ""));
+                            if (model != null)
+                            {
+                                foreach (var item in group.Where(tkb => tkb.id != model.id))
+                                {
+                                    @Display(new ThoiKhoaBieu[] { item, model }, GiangViens)
+                                }
+                            }
+                            else
+                            {
+                                foreach (var item in group)
+                                {
+                                    @Display(new ThoiKhoaBieu[] { item }, GiangViens)
+                                }
+                            }
+                        }
+                        else
+                        {
+                            foreach (var item in group)
+                            {
+                                @Display(new ThoiKhoaBieu[] { item }, GiangViens)
+                            }
+                        }
                     }
                 </tbody>
             </table>

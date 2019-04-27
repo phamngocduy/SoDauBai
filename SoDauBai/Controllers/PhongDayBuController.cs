@@ -47,7 +47,7 @@ namespace SoDauBai.Controllers
             Thread.CurrentThread.CurrentCulture = new CultureInfo("vi-VN");
         }
 
-        [TKBAuthentication]
+        [TKBAuthorization]
         public ActionResult Create(int id)
         {
             var model = new PhongDayBu
@@ -59,7 +59,7 @@ namespace SoDauBai.Controllers
         }
 
         [HttpPost]
-        [TKBAuthentication]
+        [TKBAuthorization]
         [ValidateAntiForgeryToken]
         public ActionResult Create(int id, PhongDayBu model)
         {

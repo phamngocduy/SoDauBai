@@ -1,0 +1,52 @@
+﻿@model IEnumerable<SoGhiBai>
+@{ 
+    var GiangViens = ViewBag.GiangViens as List<GiangVien>;
+}
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary d-inline">Các đề xuất</h6>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Ngày</th>
+                        <th>Giảng viên</th>
+                        <th>Đề xuất</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.OrderByDescending(sdb => sdb.NgayTao))
+                    {
+                        var giangVien = GiangViens.FirstOrDefault(gv => gv.Email == item.Email).Init();
+                        <tr>
+                            <td>
+                                <abbr title="@item.NgayTao">@item.NgayTao.ToString("dd/MM/yyyy")</abbr>
+                            </td>
+                            <td>
+                                <abbr title="@giangVien.Email">@giangVien.HocVi @giangVien.HoTen</abbr>
+                            </td>
+                            <td>
+                                <pre>@item.DeXuat</pre>
+                            </td>
+                            <td>
+                                <a href="@Url.Action("Index", "SoDauBai", new { id = item.idTKB })" class="text-info" target="_blank">
+                                    <i class="fas fa-folder-open"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<style>
+    pre {
+        white-space: pre-wrap;
+    }
+</style>

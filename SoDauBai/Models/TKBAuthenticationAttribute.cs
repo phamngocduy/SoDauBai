@@ -5,7 +5,7 @@ using System.Security.Principal;
 
 namespace SoDauBai.Models
 {
-    public class TKBAuthenticationAttribute : FilterAttribute, IAuthorizationFilter
+    public class TKBAuthorizationAttribute : FilterAttribute, IAuthorizationFilter
     {
         public void OnAuthorization(AuthorizationContext filterContext)
         {
@@ -15,7 +15,7 @@ namespace SoDauBai.Models
         }
     }
 
-    public static class TKBAuthenticationExtension
+    public static class TKBAuthorizationExtension
     {
         public static bool IsInTKB(this IPrincipal user, int id)
         {

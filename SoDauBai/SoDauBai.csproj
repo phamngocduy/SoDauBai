@@ -257,6 +257,7 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\img_4574.jpg" />
+    <Content Include="Scripts\autosize.min.js" />
     <Content Include="Scripts\jquery-ui.min.js" />
     <Content Include="Scripts\moment-locales.js" />
     <Content Include="Scripts\tempusdominus.js" />
@@ -371,6 +372,8 @@
     <Content Include="Views\PhongDayBu\Edit1.cshtml" />
     <Content Include="Views\PhongDayBu\Index.cshtml" />
     <Content Include="Views\PhongDayBu\Edit2.cshtml" />
+    <Content Include="Views\ThoiKhoaBieu\Update.cshtml" />
+    <Content Include="Views\ThongKe\CacDeXuat.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\css\" />

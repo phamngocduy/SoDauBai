@@ -179,6 +179,57 @@ namespace SoDauBai.Controllers
             return View(model);
         }
 
+        private void ValidateTKB(ThoiKhoaBieu model)
+        {
+            if (model.TongSoSV < 1)
+                ModelState.AddModelErrorFor(m => model.TongSoSV, "Lớp không có đủ sinh viên!");
+            if (model.ThuKieuSo < 2 || model.ThuKieuSo > 8)
+                ModelState.AddModelErrorFor(m => model.ThuKieuSo, "ThuKieuSo không trong khoảng [2-8]!");
+            if (model.TietBD < 0 || model.TietBD > 15)
+                ModelState.AddModelErrorFor(m => model.TietBD, "TietBD không trong khoảng [1-15]!");
+            if (model.SoTiet < 0 || model.SoTiet > 6)
+                ModelState.AddModelErrorFor(m => model.SoTiet, "SoTiet không trong khoảng [1-6]!");
+        }
+
+        [OverrideAuthorization]
+        public ActionResult Update(int id)
+        {
+            var model = db.ThoiKhoaBieux.Find(id);
+            if (model == null)
+                return HttpNotFound();
+            return View(model);
+        }
+
+        [HttpPost]
+        [OverrideAuthorization]
+        [ValidateAntiForgeryToken]
+        [TKBAuthorization]
+        public ActionResult Update(ThoiKhoaBieu model)
+        {
+            ValidateTKB(model);
+            if (ModelState.IsValid)
+                try
+                {
+                    var tkb = db.ThoiKhoaBieux.Find(model.id);
+                    tkb.MaLop = model.MaLop;
+                    tkb.TenLop = model.TenLop;
+                    tkb.TongSoSV = model.TongSoSV;
+                    tkb.ThuKieuSo = model.ThuKieuSo;
+                    tkb.TietBD = model.TietBD;
+                    tkb.SoTiet = model.SoTiet;
+                    tkb.MaPH = model.MaPH;
+
+                    db.Entry(tkb).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("Index", "SoDauBai", new { id = model.id });
+                }
+                catch (Exception e)
+                {
+                    ModelState.AddModelError("", e.GetBaseException().Message);
+                }
+            return View(model);
+        }
+
         public ActionResult Delete(int id)
         {
             var model = db.ThoiKhoaBieux.Find(id);

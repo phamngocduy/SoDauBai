@@ -5,7 +5,7 @@
     @foreach (var group in Model.GroupBy(tkb => new { tkb.MaMH, tkb.NhomTo }))
     {
         var item = group.First();
-        <div class="col-xl-3 col-md-6 mb-4">
+        <div class="col-xl-4 col-md-6 mb-4">
             <div class="card border-left-primary shadow h-100 py-2">
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
@@ -19,14 +19,18 @@
                             @foreach (var tkb in group.OrderBy(g => g.ThuKieuSo))
                             {
                                 <div style="font-weight:bold">
-                                    @Html.ActionLink(String.Format("Phòng {0}: Thứ {1} tiết {2} - {3}", tkb.MaPH, tkb.ThuKieuSo, tkb.TietBD, tkb.TietBD + tkb.SoTiet - 1), "Index", "SoDauBai", new { id = tkb.id }, null)
+                                    <a href="@Url.Action("Index", "SoDauBai", new { id = tkb.id })" class = "btn btn-primary">
+                                        @String.Format("Phòng {0}: Thứ {1} tiết {2} - {3}", tkb.MaPH, tkb.ThuKieuSo, tkb.TietBD, tkb.TietBD + tkb.SoTiet - 1)
+                                        <span class="badge badge-success">@tkb.SoGhiBais.Count()</span>
+                                    </a>
                                 </div>
+                                <hr />
                             }
                             <abbr class="small" title="@item.TenLop">#@item.MaLop</abbr>
                         </div>
-                        <div class="col-auto">
+                        <!--div class="col-auto">
                             <i class="fas fa-folder-open fa-2x text-gray-300"></i>
-                        </div>
+                        </div-->
                     </div>
                 </div>
             </div>

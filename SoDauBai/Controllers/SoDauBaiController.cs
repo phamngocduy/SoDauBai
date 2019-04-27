@@ -19,11 +19,20 @@ namespace SoDauBai.Controllers
             var model = db.ThoiKhoaBieux.Find(id);
             if (model == null)
                 return HttpNotFound();
+            var list = model.SoGhiBais.ToList();
+            if (!model.ToTH.IsNullOrEmpty() || !model.TenToHop.IsNullOrEmpty())
+            {
+                var daddy = db.ThoiKhoaBieux.FirstOrDefault(tkb => tkb.MaMH == model.MaMH && tkb.NhomTo == model.NhomTo &&
+                    tkb.HocKy == model.HocKy && (tkb.ToTH == null || tkb.ToTH == "") && (tkb.TenToHop == null || tkb.TenToHop == ""));
+                if (daddy != null)
+                {
+                    ViewBag.DAD = daddy;
+                    list.AddRange(daddy.SoGhiBais.ToList());
+                }
+            }
             ViewBag.TKB = model;
-            var list = db.ThoiKhoaBieux.Where(tkb => tkb.HocKy == model.HocKy)
-                .Where(tkb => tkb.MaMH == model.MaMH && tkb.NhomTo == model.NhomTo)
-                .Select(tkb => tkb.SoGhiBais.ToList()).ToList();
-            return View(list.Concat());
+            ViewBag.GV = db.GiangViens.ToList();
+            return View(list);
         }
 
         protected override void Initialize(RequestContext requestContext)
@@ -40,7 +49,7 @@ namespace SoDauBai.Controllers
                 ModelState.AddModelError("ThoiGianKT", "ThoiGianKT < ThoiGianBD");
         }
 
-        [TKBAuthentication]
+        [TKBAuthorization]
         public ActionResult Create(int id)
         {
             var tkb = db.ThoiKhoaBieux.Find(id);
@@ -61,7 +70,7 @@ namespace SoDauBai.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [TKBAuthentication]
+        [TKBAuthorization]
         public ActionResult Create(SoGhiBai model)
         {
             Validate(model);
@@ -82,7 +91,7 @@ namespace SoDauBai.Controllers
             return View(model);
         }
 
-        [SDBAuthentication]
+        [SDBAuthorization]
         public ActionResult Edit(int id)
         {
             var model = db.SoGhiBais.Find(id);
@@ -94,7 +103,7 @@ namespace SoDauBai.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [SDBAuthentication]
+        [SDBAuthorization]
         public ActionResult Edit(SoGhiBai model)
         {
             Validate(model);
@@ -109,7 +118,7 @@ namespace SoDauBai.Controllers
             return View("Update", model);
         }
 
-        [SDBAuthentication]
+        [SDBAuthorization]
         public ActionResult Delete(int id)
         {
             var model = db.SoGhiBais.Find(id);
@@ -120,7 +129,7 @@ namespace SoDauBai.Controllers
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [SDBAuthentication]
+        [SDBAuthorization]
         public ActionResult DeleteConfirmed(int id)
         {
             var model = db.SoGhiBais.Find(id);

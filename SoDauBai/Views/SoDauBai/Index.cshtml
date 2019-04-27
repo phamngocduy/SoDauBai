@@ -1,21 +1,41 @@
 ﻿@model IEnumerable<SoGhiBai>
 @{ 
     var count = 1;
+    var GV = ViewBag.GV as List<GiangVien>;
     var TKB = ViewBag.TKB as ThoiKhoaBieu;
-    var Tiet = new int[TKB.SoTiet];
-    Tiet.For(0, TKB.SoTiet - 1, i => Tiet[i] = TKB.TietBD + i);
+    var DAD = ViewBag.DAD as ThoiKhoaBieu;
+    var ALL = new List<ThoiKhoaBieu>(new ThoiKhoaBieu[] { TKB });
+    if (DAD != null) { ALL.Add(DAD); }
     var start = Model.Count() > 0 ? Model.Min(s => s.NgayDay) : DateTime.MinValue;
     int demNghi = 0, tongBu = Model.Count(sdb => sdb.Loai == 2);
+    var info = "visible";
 }
 
 <div class="card shadow mb-4">
     <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary d-inline">@TKB.TenMH - Thứ @TKB.ThuKieuSo, tiết @String.Join("", Tiet) #P:@TKB.MaPH</h6>
         @if (User.IsInTKB(TKB.id))
         {
             <a href="@Url.Action("Create", new { id = (ViewBag.TKB as ThoiKhoaBieu).id })" class="btn btn-success btn-circle btn-sm float-right">
                 <i class="fas fa-plus"></i>
             </a>
+        }
+        @foreach (var tkb in ALL.OrderBy(a => a.ThuKieuSo).ThenBy(a => a.TietBD))
+        {
+            var Tiet = new int[tkb.SoTiet];
+            Tiet.For(0, TKB.SoTiet - 1, i => Tiet[i] = tkb.TietBD + i);
+            var gv = GV.FirstOrDefault(g => g.MaGV == tkb.MaGV).Init();
+            <a href="#" title="@tkb.MaLop" data-content="@tkb.TenLop" data-toggle="popover" data-placement="left" class="btn btn-info btn-circle btn-sm" style="visibility:@info">
+                <i class="fas fa-info"></i>
+            </a>
+            <h6 class="m-0 font-weight-bold text-@(tkb.id == TKB.id ? "primary" : "default") d-inline">@tkb.TenMH - @gv.HocVi @gv.HoTen - Thứ @tkb.ThuKieuSo, tiết @String.Join("", Tiet) #P:@tkb.MaPH</h6>
+            if (User.IsInTKB(tkb.id))
+            {
+                <a href="@Url.Action("Update", "ThoiKhoaBieu", new { id = tkb.id })" class="btn btn-warning btn-circle btn-sm">
+                    <i class="fas fa-pencil-alt"></i>
+                </a>
+            }
+            <br />
+            info = "collapse";
         }
     </div>
     <div class="card-body">

@@ -19,7 +19,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var item in Model)
+                    @foreach (var item in Model.OrderByDescending(lh => lh.on))
                     {
                         <tr>
                             <td>
@@ -65,17 +65,3 @@
         white-space: pre-wrap;
     }
 </style>
-
-@section Scripts {
-    <script>
-        // Call the dataTables jQuery plugin
-        $(document).ready(function() {
-            $('#dataTable').DataTable({
-                stateSave: true,
-                language: {
-                    url: 'https://cdn.datatables.net/plug-ins/1.10.19/i18n/Vietnamese.json'
-                }
-            });
-        });
-    </script>
-}
