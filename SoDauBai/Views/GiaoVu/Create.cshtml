@@ -1,0 +1,126 @@
+﻿@model GiaoVu
+@{
+    var Nganh = (Model != null ? Model.MaNganh ?? "" : "").Split(',');
+}
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Thêm Giáo vụ</h6>
+    </div>
+    <div class="card-body">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", placeholder = "Email", required = true } })
+                        @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.MaNganh, "Ngành đào tạo", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        <div class="row">
+                            @foreach (var nganh in ViewBag.Nganh as List<string>)
+                            {
+                                <div class="col-md-3">
+                                    @Html.CheckBox("#" + nganh, Nganh.Contains(nganh), new { id = nganh })
+                                    <label for="@nganh" class="form-check-label"><mark>@nganh</mark></label>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Thêm mới" class="btn btn-success" /> |
+                        <a href="@Url.Action("Index")" class="btn btn-default">Quay lại</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts {
+@Scripts.Render("~/bundles/jqueryval")
+<script src="~/Scripts/jquery-ui.min.js"></script>
+<script>
+        // Call the dataTables jQuery plugin
+        $(document).ready(function() {
+            $('#dataTable').DataTable({
+                stateSave: true,
+                language: {
+                    url: 'https://cdn.datatables.net/plug-ins/1.10.19/i18n/Vietnamese.json'
+                }
+            });
+
+            var emails = [
+                @foreach(var item in ViewBag.Users as List<AspNetUser>)
+                {
+                    @MvcHtmlString.Create(String.Format("'{0}',", item.UserName))
+                }
+            ];
+            $('#Email').autocomplete({
+                source: emails
+            });
+        });
+</script>
+}
+
+<style>
+    .ui-autocomplete {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        z-index: 1000;
+        float: left;
+        display: none;
+        min-width: 160px;
+        padding: 4px 0;
+        margin: 0 0 10px 25px;
+        list-style: none;
+        background-color: #ffffff;
+        border-color: #ccc;
+        border-color: rgba(0, 0, 0, 0.2);
+        border-style: solid;
+        border-width: 1px;
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+        border-radius: 5px;
+        -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        -moz-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        -webkit-background-clip: padding-box;
+        -moz-background-clip: padding;
+        background-clip: padding-box;
+        *border-right-width: 2px;
+        *border-bottom-width: 2px;
+    }
+
+    .ui-menu-item > a.ui-corner-all {
+        display: block;
+        padding: 3px 15px;
+        clear: both;
+        font-weight: normal;
+        line-height: 18px;
+        color: #555555;
+        white-space: nowrap;
+        text-decoration: none;
+    }
+
+    .ui-state-hover, .ui-state-active {
+        color: #ffffff;
+        text-decoration: none;
+        background-color: #0088cc;
+        border-radius: 0px;
+        -webkit-border-radius: 0px;
+        -moz-border-radius: 0px;
+        background-image: none;
+    }
+</style>

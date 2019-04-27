@@ -66,6 +66,14 @@
           <Property Name="HocVi" Type="nvarchar" MaxLength="10" />
           <Property Name="HoTen" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
+        <EntityType Name="GiaoVu">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="MaNganh" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
         <EntityType Name="LienHe">
           <Key>
             <PropertyRef Name="id" />
@@ -239,6 +247,7 @@
           <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GiangVien" EntityType="Self.GiangVien" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GiaoVu" EntityType="Self.GiaoVu" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LienHe" EntityType="Self.LienHe" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="NganhHoc" EntityType="Self.NganhHoc" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="NhanXet" EntityType="Self.NhanXet" Schema="dbo" store:Type="Tables" />
@@ -280,6 +289,7 @@
           <EntitySet Name="AspNetUserLogins" EntityType="SoDauBaiModel.AspNetUserLogin" />
           <EntitySet Name="AspNetUsers" EntityType="SoDauBaiModel.AspNetUser" />
           <EntitySet Name="GiangViens" EntityType="SoDauBaiModel.GiangVien" />
+          <EntitySet Name="GiaoVus" EntityType="SoDauBaiModel.GiaoVu" />
           <EntitySet Name="LienHes" EntityType="SoDauBaiModel.LienHe" />
           <EntitySet Name="NganhHocs" EntityType="SoDauBaiModel.NganhHoc" />
           <EntitySet Name="NhanXets" EntityType="SoDauBaiModel.NhanXet" />
@@ -365,6 +375,14 @@
           <Property Name="MaGV" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
           <Property Name="HocVi" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
           <Property Name="HoTen" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="GiaoVu">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MaNganh" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="LienHe">
           <Key>
@@ -569,6 +587,15 @@
                 <ScalarProperty Name="HoTen" ColumnName="HoTen" />
                 <ScalarProperty Name="HocVi" ColumnName="HocVi" />
                 <ScalarProperty Name="MaGV" ColumnName="MaGV" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GiaoVus">
+            <EntityTypeMapping TypeName="SoDauBaiModel.GiaoVu">
+              <MappingFragment StoreEntitySet="GiaoVu">
+                <ScalarProperty Name="MaNganh" ColumnName="MaNganh" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>

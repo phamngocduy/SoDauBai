@@ -79,6 +79,7 @@
     <Reference Include="System.IO.Compression" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
+    <Reference Include="System.Transactions" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -182,6 +183,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ExportController.cs" />
     <Compile Include="Controllers\GiangVienController.cs" />
+    <Compile Include="Controllers\GiaoVuController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LienHeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -209,6 +211,9 @@
       <DependentUpon>Models.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\GiangVien.cs">
+      <DependentUpon>Models.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GiaoVu.cs">
       <DependentUpon>Models.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\IdentityModels.cs" />
@@ -374,6 +379,10 @@
     <Content Include="Views\PhongDayBu\Edit2.cshtml" />
     <Content Include="Views\ThoiKhoaBieu\Update.cshtml" />
     <Content Include="Views\ThongKe\CacDeXuat.cshtml" />
+    <Content Include="Views\GiaoVu\Create.cshtml" />
+    <Content Include="Views\GiaoVu\Delete.cshtml" />
+    <Content Include="Views\GiaoVu\Edit.cshtml" />
+    <Content Include="Views\GiaoVu\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\css\" />
