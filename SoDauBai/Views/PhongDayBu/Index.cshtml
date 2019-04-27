@@ -5,10 +5,11 @@
     switch (ViewContext.RouteData.Values["action"].ToString())
     {
         case "Index1":
-            PhongDayBu = PhongDayBu.OrderBy(p => !p.status.HasValue).ThenBy(p => p.NgayDay);
+            PhongDayBu = Model.OrderBy(p => !p.status.HasValue).ThenBy(p => p.NgayDay);
             break;
         case "Index2":
-            PhongDayBu = PhongDayBu.OrderBy(p => p.status.HasValue).ThenBy(p => p.NgayBD);
+            PhongDayBu = Model.Where(p => !p.status.HasValue).OrderBy(p => p.NgayBD)
+                .Union(Model.Where(p => p.status.HasValue).OrderByDescending(p => p.NgayDay));
             break;
     }
 }
@@ -44,7 +45,7 @@
                     {
                         <tr>
                             <td>
-                                @if (User.IsInRole("DaoTao"))
+                                @if (User.IsInRoles("DaoTao,GiaoVu"))
                                 {
                                     <pre>@item.email1</pre>
                                 }
@@ -70,7 +71,7 @@
                                 }
                             </td>
                             <td>
-                                @if (User.IsInRole("DaoTao"))
+                                @if (User.IsInRoles("DaoTao,GiaoVu") && item.NgayDay > DateTime.Today)
                                 {
                                     <a href="@Url.Action("Edit2", new { id = item.id })" class="btn btn-primary btn-circle btn-sm">
                                         <i class="fas fa-pencil-alt"></i>

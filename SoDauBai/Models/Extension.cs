@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Data;
 using System.Web.Mvc;
+using System.Security.Principal;
 
 namespace SoDauBai.Models
 {
@@ -109,6 +110,14 @@ namespace SoDauBai.Models
         {
             var expression = (MemberExpression)property.Body;
             modelState.AddModelError(expression.Member.Name, errorMessage);
+        }
+
+        public static bool IsInRoles(this IPrincipal user, string roles)
+        {
+            foreach (var role in roles.Split(','))
+                if (user.IsInRole(role))
+                    return true;
+            return false;
         }
     }
 }

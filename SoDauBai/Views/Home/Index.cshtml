@@ -1,4 +1,5 @@
-﻿@model IEnumerable<ThoiKhoaBieu>
+﻿@using SoDauBai.Controllers
+@model IEnumerable<ThoiKhoaBieu>
 
 <!-- Content Row -->
 <div class="row">
@@ -18,14 +19,25 @@
                             </div>
                             @foreach (var tkb in group.OrderBy(g => g.ThuKieuSo))
                             {
+                                var phong = PhongDayBuController.countPhongDayBu(tkb.id);
                                 <div style="font-weight:bold">
                                     <a href="@Url.Action("Index", "SoDauBai", new { id = tkb.id })" class = "btn btn-primary">
                                         @String.Format("Phòng {0}: Thứ {1} tiết {2} - {3}", tkb.MaPH, tkb.ThuKieuSo, tkb.TietBD, tkb.TietBD + tkb.SoTiet - 1)
-                                        <span class="badge badge-success">@tkb.SoGhiBais.Count()</span>
                                     </a>
                                 </div>
-                                <hr />
+                                <span class="badge badge-success">
+                                    <i class="fas fa-book-open"></i>
+                                    @tkb.SoGhiBais.Count()
+                                </span>
+                                if (phong > 0)
+                                {
+                                    <span class="badge badge-warning">
+                                        <i class="fas fa-folder"></i>
+                                        @phong
+                                    </span>
+                                }
                             }
+                            <br />
                             <abbr class="small" title="@item.TenLop">#@item.MaLop</abbr>
                         </div>
                         <!--div class="col-auto">

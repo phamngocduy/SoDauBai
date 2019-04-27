@@ -91,15 +91,12 @@
     <script>
         // Call the dataTables jQuery plugin
         $(document).ready(function() {
+            $('[data-toggle="popover"]').popover();
             $('#dataTable').DataTable({
                 stateSave: true,
                 language: {
                     url: 'https://cdn.datatables.net/plug-ins/1.10.19/i18n/Vietnamese.json'
                 }
-            });
-
-            $(function () {
-                $('[data-toggle="popover"]').popover();
             });
         });
     </script>

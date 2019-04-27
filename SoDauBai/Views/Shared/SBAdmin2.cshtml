@@ -74,7 +74,6 @@
 
             @if (User.IsInRole("DaoTao"))
             {
-                var soPhong = SoDauBai.Controllers.PhongDayBuController.countPhongDayBu();
                 <li class="nav-item">
                     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#DanhMuc">
                         <i class="fas fa-fw fa-cog"></i>
@@ -112,7 +111,11 @@
 
                 <!-- Divider -->
                 <hr class="sidebar-divider">
+            }
 
+            @if (User.IsInRole("DaoTao") || User.IsInRole("GiaoVu"))
+            {
+                var soPhong = SoDauBai.Controllers.PhongDayBuController.countPhongDayBu(User);
                 <li class="nav-item">
                     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#ThongKe">
                         <i class="fas fa-fw fa-chart-area"></i>

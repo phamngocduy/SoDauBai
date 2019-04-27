@@ -7,6 +7,7 @@ using System.Web.Routing;
 using System.Threading;
 using System.Globalization;
 using Microsoft.AspNet.Identity;
+using System.Security.Principal;
 
 namespace SoDauBai.Controllers
 {
@@ -14,6 +15,18 @@ namespace SoDauBai.Controllers
     public class PhongDayBuController : Controller
     {
         private SoDauBaiEntities db = new SoDauBaiEntities();
+
+        private static IQueryable<PhongDayBu> FilterGiaoVu(IQueryable<PhongDayBu> Phong, IPrincipal user, SoDauBaiEntities db)
+        {
+            if (!user.IsInRole("DaoTao") && user.IsInRole("GiaoVu"))
+            {
+                var email = user.Identity.GetUserName();
+                var GV = db.GiaoVus.SingleOrDefault(gv => gv.Email == email);
+                var maNganh = GV.Init().MaNganh.Split(',');
+                Phong = Phong.Where(p => maNganh.Contains(p.ThoiKhoaBieu.MaNganh));
+            }
+            return Phong;
+        }
 
         public static int countPhongDayBu(int id)
         {
@@ -28,16 +41,16 @@ namespace SoDauBai.Controllers
             return View("Index", model.ToList());
         }
 
-        public static int countPhongDayBu()
+        public static int countPhongDayBu(IPrincipal user)
         {
             using (var db = new SoDauBaiEntities())
-            return db.PhongDayBus.Count(p => !p.status.HasValue);
+            return FilterGiaoVu(db.PhongDayBus, user, db).Count(p => !p.status.HasValue);
         }
 
-        [Authorize(Roles = "DaoTao")]
+        [Authorize(Roles = "DaoTao,GiaoVu")]
         public ActionResult Index2()
         {
-            var model = db.PhongDayBus;
+            var model = FilterGiaoVu(db.PhongDayBus, User, db);
             return View("Index", model.ToList());
         }
 
@@ -66,8 +79,11 @@ namespace SoDauBai.Controllers
             model.idTKB = id;
             model.Date = DateTime.Now;
             model.email1 = User.Identity.GetUserName();
+            var tkb = db.ThoiKhoaBieux.Find(id);
             if (ModelState.IsValid)
             {
+                model.MaPH = tkb.MaPH;
+                model.TietBD = tkb.TietBD;
                 db.PhongDayBus.Add(model);
                 db.SaveChanges();
                 return RedirectToAction("Index1", new { id = id });
@@ -84,7 +100,7 @@ namespace SoDauBai.Controllers
             return View(model);
         }
 
-        [Authorize(Roles = "DaoTao")]
+        [Authorize(Roles = "DaoTao,GiaoVu")]
         public ActionResult Edit2(int id)
         {
             var model = db.PhongDayBus.Find(id);
@@ -114,7 +130,7 @@ namespace SoDauBai.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "DaoTao")]
+        [Authorize(Roles = "DaoTao,GiaoVu")]
         [ValidateAntiForgeryToken]
         public ActionResult Edit2(PhongDayBu phong)
         {
@@ -137,8 +153,7 @@ namespace SoDauBai.Controllers
         public ActionResult Delete(int id)
         {
             var model = db.PhongDayBus.Find(id);
-            if (model == null ||
-                !(User.IsInTKB(model.idTKB) || User.IsInRole("DaoTao")))
+            if (model == null || !(User.IsInTKB(model.idTKB) || User.IsInRoles("DaoTao,GiaoVu")))
                 return HttpNotFound();
             return View(model);
         }
@@ -148,14 +163,14 @@ namespace SoDauBai.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             var model = db.PhongDayBus.Find(id);
-            if (User.IsInTKB(model.idTKB) || User.IsInRole("DaoTao"))
+            if (User.IsInTKB(model.idTKB) || User.IsInRoles("DaoTao,GiaoVu"))
             {
                 db.PhongDayBus.Remove(model);
                 db.SaveChanges();
             }
             if (User.IsInTKB(model.idTKB))
                 return RedirectToAction("Index1", new { id = model.idTKB });
-            else return RedirectToAction("Index2"); // User.IsInRole("DaoTao")
+            else return RedirectToAction("Index2"); // User.IsInRole("DaoTao,GiaoVu")
         }
 
         protected override void Dispose(bool disposing)
