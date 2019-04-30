@@ -20,6 +20,7 @@ namespace SoDauBai.Controllers
             var model = from tkb in db.ThoiKhoaBieux
                         join gv in db.GiangViens on tkb.MaGV equals gv.MaGV
                         where gv.Email == email && tkb.HocKy == hk select tkb;
+            ViewBag.HocKy = hk;
             return View(model.ToList());
         }
 
