@@ -52,8 +52,11 @@
 
 @if (Model.Count() == 0)
 {
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        Không tìm thấy lớp học phần nào của thầy/cô ở học kỳ hiện tại (@ViewBag.HocKy)
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
     <img src="~/Content/anh-co-so-3.jpg" style="max-width:100%" />
-    <script>
-        alert('Không tìm thấy lớp học phần nào của thầy/cô ở học kỳ hiện tại (@ViewBag.HocKy)');
-    </script>
 }
