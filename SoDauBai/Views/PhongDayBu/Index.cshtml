@@ -71,7 +71,7 @@
                                 }
                             </td>
                             <td>
-                                @if (User.IsInRoles("DaoTao,GiaoVu") && item.NgayDay > DateTime.Today)
+                                @if (User.IsInRoles("DaoTao,GiaoVu") && (!item.status.HasValue || item.NgayDay > DateTime.Today))
                                 {
                                     <a href="@Url.Action("Edit2", new { id = item.id })" class="btn btn-primary btn-circle btn-sm">
                                         <i class="fas fa-pencil-alt"></i>
