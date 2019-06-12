@@ -1,62 +1,93 @@
 ﻿@using SoDauBai.Controllers
 @model IEnumerable<ThoiKhoaBieu>
 
+@helper Display(IEnumerable<ThoiKhoaBieu> group)
+{
+    var item = group.First();
+    <div class="col-xl-4 col-md-6 mb-4">
+        <div class="card border-left-primary shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col">
+                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                            <i>@item.MaMH - @item.SoTinChi<span>TC</span> (@item.TongSoSV<span>SV</span>)</i>
+                        </div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">
+                            <h4>@item.TenMH</h4>
+                        </div>
+                        @foreach (var tkb in group.OrderBy(g => g.ThuKieuSo))
+                        {
+                            var phong = PhongDayBuController.countPhongDayBu(tkb.id);
+                            var nhom = String.Join("-", group.Select(g => g.id).ToArray());
+                            <div style="font-weight:bold">
+                                <a href="@Url.Action("Index", "SoDauBai", new { id = tkb.id, group = nhom })" class="btn btn-primary @(!User.IsInTKB(tkb.id) ? "disabled" : null)">
+                                    @String.Format("Phòng {0}: Thứ {1} tiết {2} - {3}", tkb.MaPH, tkb.ThuKieuSo, tkb.TietBD, tkb.TietBD + tkb.SoTiet - 1)
+                                </a>
+                            </div>
+                            <span class="badge badge-success">
+                                <i class="fas fa-book-open"></i>
+                                @tkb.SoGhiBais.Count()
+                            </span>
+                            if (phong > 0)
+                            {
+                            <span class="badge badge-warning">
+                                <i class="fas fa-folder"></i>
+                                @phong
+                            </span>
+                            }
+                        }
+                        <br />
+                        <abbr class="small" title="@item.TenLop">#@item.MaLop</abbr>
+                    </div>
+                    <!--div class="col-auto">
+                        <i class="fas fa-folder-open fa-2x text-gray-300"></i>
+                    </div-->
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@Html.DropDownList("HocKy")
 <!-- Content Row -->
 <div class="row">
     @foreach (var group in Model.GroupBy(tkb => new { tkb.MaMH, tkb.NhomTo }))
     {
-        var item = group.First();
-        <div class="col-xl-4 col-md-6 mb-4">
-            <div class="card border-left-primary shadow h-100 py-2">
-                <div class="card-body">
-                    <div class="row no-gutters align-items-center">
-                        <div class="col">
-                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                <i>@item.MaMH - @item.SoTinChi<span>TC</span> (@item.TongSoSV<span>SV</span>)</i>
-                            </div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                <h4>@item.TenMH</h4>
-                            </div>
-                            @foreach (var tkb in group.OrderBy(g => g.ThuKieuSo))
-                            {
-                                var phong = PhongDayBuController.countPhongDayBu(tkb.id);
-                                <div style="font-weight:bold">
-                                    <a href="@Url.Action("Index", "SoDauBai", new { id = tkb.id })" class = "btn btn-primary">
-                                        @String.Format("Phòng {0}: Thứ {1} tiết {2} - {3}", tkb.MaPH, tkb.ThuKieuSo, tkb.TietBD, tkb.TietBD + tkb.SoTiet - 1)
-                                    </a>
-                                </div>
-                                <span class="badge badge-success">
-                                    <i class="fas fa-book-open"></i>
-                                    @tkb.SoGhiBais.Count()
-                                </span>
-                                if (phong > 0)
-                                {
-                                    <span class="badge badge-warning">
-                                        <i class="fas fa-folder"></i>
-                                        @phong
-                                    </span>
-                                }
-                            }
-                            <br />
-                            <abbr class="small" title="@item.TenLop">#@item.MaLop</abbr>
-                        </div>
-                        <!--div class="col-auto">
-                            <i class="fas fa-folder-open fa-2x text-gray-300"></i>
-                        </div-->
-                    </div>
-                </div>
-            </div>
-        </div>
+        if (group.Count(tkb => !String.IsNullOrEmpty(tkb.ToTH)) > 0)
+        {
+            var theory = group.First(tkb => String.IsNullOrEmpty(tkb.ToTH));
+            foreach (var practice in group.Where(tkb => !String.IsNullOrEmpty(tkb.ToTH)))
+            {
+                if (User.IsInTKB(theory.id) || User.IsInTKB(practice.id))
+                {
+                    @Display(new ThoiKhoaBieu[] { theory, practice })
+                }
+            }
+        }
+        else
+        {
+            @Display(group.OrderBy(g => g.ThuKieuSo))
+        }
     }
 </div>
 
 @if (Model.Count() == 0)
 {
     <div class="alert alert-warning alert-dismissible fade show" role="alert">
-        Không tìm thấy lớp học phần nào của thầy/cô ở học kỳ hiện tại (@ViewBag.HocKy)
+        Không tìm thấy lớp học phần nào của thầy/cô ở học kỳ hiện tại!
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
     <img src="~/Content/anh-co-so-3.jpg" style="max-width:100%" />
+}
+
+@section Scripts {
+    <script>
+        $(function () {
+            $('#HocKy').change(function () {
+                location.replace('@Url.Action("Index", new { id = 0 })' + $(this).val());
+            });
+        });
+    </script>
 }

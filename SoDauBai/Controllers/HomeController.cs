@@ -13,15 +13,19 @@ namespace SoDauBai.Controllers
         SoDauBaiEntities db = new SoDauBaiEntities();
 
         [Authorize]
-        public ActionResult Index()
+        public ActionResult Index(int? id)
         {
-            var hk = db.ThoiKhoaBieux.MaxOrDefault(tkb => tkb.HocKy);
+            id = id.HasValue ? id : db.ThoiKhoaBieux.MaxOrDefault(tkb => tkb.HocKy);
             var email = User.Identity.GetUserName();
-            var model = from tkb in db.ThoiKhoaBieux
+            var model = (from tkb in db.ThoiKhoaBieux
                         join gv in db.GiangViens on tkb.MaGV equals gv.MaGV
-                        where gv.Email == email && tkb.HocKy == hk select tkb;
-            ViewBag.HocKy = hk;
-            return View(model.ToList());
+                        where gv.Email == email && tkb.HocKy == id
+                        select tkb).ToList();
+            var code1 = model.Select(tkb => tkb.MaMH).Distinct().ToArray();
+            var code2 = model.Select(tkb => tkb.NhomTo).Distinct().ToArray();
+            model.AddRange(db.ThoiKhoaBieux.Where(tkb => code1.Contains(tkb.MaMH) && code2.Contains(tkb.NhomTo) && tkb.HocKy == id).ToList());
+            ViewBag.HocKy = new SelectList(db.ThoiKhoaBieux.Select(tkb => tkb.HocKy).Distinct().OrderByDescending(hk => hk), (byte)id.Value);
+            return View(model.Distinct());
         }
 
         protected override void Dispose(bool disposing)

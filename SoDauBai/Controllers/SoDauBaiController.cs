@@ -7,6 +7,7 @@ using Microsoft.AspNet.Identity;
 using System.Globalization;
 using System.Threading;
 using System.Web.Routing;
+using System.Collections.Generic;
 
 namespace SoDauBai.Controllers
 {
@@ -14,25 +15,27 @@ namespace SoDauBai.Controllers
     {
         private SoDauBaiEntities db = new SoDauBaiEntities();
 
-        public ActionResult Index(int id)
+        public ActionResult Index(int id, string group = "")
         {
-            var model = db.ThoiKhoaBieux.Find(id);
-            if (model == null)
+            ViewBag.ID = id;
+            var course = db.ThoiKhoaBieux.Find(id);
+            if (course == null)
                 return HttpNotFound();
-            var list = model.SoGhiBais.ToList();
-            if (!model.ToTH.IsNullOrEmpty() || !model.TenToHop.IsNullOrEmpty())
+            var TKB = new List<ThoiKhoaBieu>();
+            TKB.Add(course);
+            foreach (var tkb in group.Split('-'))
             {
-                var daddy = db.ThoiKhoaBieux.FirstOrDefault(tkb => tkb.MaMH == model.MaMH && tkb.NhomTo == model.NhomTo &&
-                    tkb.HocKy == model.HocKy && (tkb.ToTH == null || tkb.ToTH == "") && (tkb.TenToHop == null || tkb.TenToHop == ""));
-                if (daddy != null)
-                {
-                    ViewBag.DAD = daddy;
-                    list.AddRange(daddy.SoGhiBais.ToList());
-                }
+                id = int.Parse(tkb);
+                course = db.ThoiKhoaBieux.Find(id);
+                if (course != null) TKB.Add(course);
             }
-            ViewBag.TKB = model;
+            TKB = TKB.Distinct().ToList();
+            var model = new List<SoGhiBai>();
+            foreach (var tkb in TKB)
+                model.AddRange(tkb.SoGhiBais);
+            ViewBag.TKB = TKB;
             ViewBag.GV = db.GiangViens.ToList();
-            return View(list);
+            return View(model.Distinct());
         }
 
         protected override void Initialize(RequestContext requestContext)
