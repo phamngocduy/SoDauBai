@@ -23,18 +23,26 @@
         }
         else
         {
-            using (Html.BeginForm("Create", "ThoiKhoaBieu", FormMethod.Post, new { @class = "form-inline" }))
+            var group = Model.GroupBy(tkb => new { tkb.MaMH, tkb.NhomTo, tkb.ToTH, tkb.TenToHop });
+            if (group.Count() != Model.Count())
             {
-                @Html.AntiForgeryToken()
-                <div class="form-group mb-2">
-                    <h6 class="m-0 font-weight-bold text-success">Nhập TKB @Model.Count() Lớp cho Học kỳ:</h6>
-                </div>
-                <div class="form-group mx-sm-3 mb-2">
-                    <input name="HocKy" type="number" class="form-control" required />
-                </div>
-                <button type="submit" class="btn btn-primary mb-2">Xác nhận</button>
-                <span class="mb-2">|</span>
-                <a href = "@Url.Action("Index")" class="btn btn-default mb-2">Quay lại</a>
+                <h6 class="m-0 font-weight-bold text-danger">Có @(Model.Count() - group.Count()) buổi dạy bị trùng mã (MaMH-NhomTo-ToTH-TenToHop)!</h6>
+            }
+            else
+            {
+                using (Html.BeginForm("Create", "ThoiKhoaBieu", FormMethod.Post, new { @class = "form-inline" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <div class="form-group mb-2">
+                        <h6 class="m-0 font-weight-bold text-success">Nhập TKB @Model.Count() Lớp cho Học kỳ:</h6>
+                    </div>
+                    <div class="form-group mx-sm-3 mb-2">
+                        <input name="HocKy" type="number" class="form-control" required />
+                    </div>
+                    <button type="submit" class="btn btn-primary mb-2">Xác nhận</button>
+                    <span class="mb-2">|</span>
+                    <a href="@Url.Action("Index")" class="btn btn-default mb-2">Quay lại</a>
+                }
             }
         }
     </div>
@@ -73,7 +81,11 @@
                                 <td>@item.MaMH</td>
                                 <td>@item.TenMH</td>
                                 <td>@item.SoTinChi</td>
-                                <td>@item.NhomTo:@item.ToTH:@item.TenToHop</td>
+                                <td>
+                                    <span class="text-@(Model.Count(tkb => tkb.MaMH == item.MaMH && tkb.NhomTo == item.NhomTo && tkb.ToTH == item.ToTH && tkb.TenToHop == item.TenToHop) > 1 ? "danger" : "normal")">
+                                        @item.NhomTo:@item.ToTH:@item.TenToHop
+                                    </span>
+                                </td>
                                 <td>@item.MaNganh</td>
                                 <td>@Display(item.MaLop)</td>
                                 <td>@Display(item.TenLop)</td>

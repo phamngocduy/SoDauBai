@@ -20,7 +20,7 @@
         </h6>
         <div class="float-right">
             <a href="@Url.Action("Template_TKB")" target="_blank">Template</a> |
-            <a href="javascript:$('#UploadFile').click()" class="btn btn-primary btn-circle btn-sm">
+            <a href="javascript:void($('#UploadFile').click())" class="btn btn-primary btn-circle btn-sm">
                 <i class="fas fa-upload"></i>
             </a>
         </div>
@@ -52,7 +52,7 @@
                     @foreach (var item in Model)
                     {
                         <tr>
-                            <td><abbr title="@item.MaMH">@item.TenMH</abbr></td>
+                            <td>@item.MaMH-@item.TenMH</td>
                             <td>@item.SoTinChi</td>
                             <td>@item.NhomTo:@item.ToTH:@item.TenToHop</td>
                             <td>@item.MaNganh</td>

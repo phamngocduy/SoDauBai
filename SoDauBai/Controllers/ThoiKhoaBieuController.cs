@@ -5,6 +5,7 @@ using System.Net;
 using System.Web.Mvc;
 using SoDauBai.Models;
 using ExcelDataReader;
+using System.Data.Entity.Validation;
 using System.Collections.Generic;
 
 namespace SoDauBai.Controllers
@@ -139,8 +140,10 @@ namespace SoDauBai.Controllers
             foreach (var model in TempData["ThoiKhoaBieu"] as List<ThoiKhoaBieu>)
             {
                 model.HocKy = hocKy;
-                var old = TKB.SingleOrDefault(tkb => tkb.MaMH == model.MaMH &&
-                    tkb.NhomTo == model.NhomTo && tkb.ToTH == model.ToTH && tkb.TenToHop == model.TenToHop);
+                var old = TKB.SingleOrDefault(tkb => tkb.HocKy == hocKy && tkb.MaMH == model.MaMH &&
+                    (tkb.NhomTo == model.NhomTo || ((tkb.NhomTo == null || tkb.NhomTo == "") && (model.NhomTo == null || model.NhomTo == ""))) &&
+                    (tkb.ToTH == model.ToTH || ((tkb.ToTH == null || tkb.ToTH == "") && (model.ToTH == null || model.ToTH == ""))) &&
+                    (tkb.TenToHop == model.TenToHop || ((tkb.TenToHop == null || tkb.TenToHop == "") && (model.TenToHop == null || model.TenToHop == ""))));
                 if (old != null)
                 {
                     model.id = old.id;
@@ -171,6 +174,12 @@ namespace SoDauBai.Controllers
                     db.Entry(model).State = EntityState.Modified;
                     db.SaveChanges();
                     return RedirectToAction("Index", new { id = model.HocKy });
+                }
+                catch (DbEntityValidationException e)
+                {
+                    ModelState.AddModelError("",
+                        (e.EntityValidationErrors.Count() > 0 && e.EntityValidationErrors.First().ValidationErrors.Count > 0)
+                        ? e.EntityValidationErrors.First().ValidationErrors.First().ErrorMessage : e.Message);
                 }
                 catch (Exception e)
                 {
