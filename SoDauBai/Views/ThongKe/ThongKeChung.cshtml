@@ -36,7 +36,7 @@
 
 <div class="card shadow mb-4">
     <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary d-inline">Thống kê môn học</h6>
+        <h6 class="m-0 font-weight-bold text-primary d-inline">Thống kê các môn học HK @Html.DropDownList("HocKy")</h6>
     </div>
     <div class="card-body">
         <div class="table-responsive">
@@ -52,33 +52,9 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var group in Model.GroupBy(tkb => new { tkb.MaMH, tkb.NhomTo }))
+                    @foreach (var group in Model.GroupBy(tkb => new { tkb.MaMH, tkb.NhomTo, tkb.ToTH }))
                     {
-                        if (group.Count() == 2 && group.First().TongSoSV == group.Last().TongSoSV)
-                        {
-                            var model = group.FirstOrDefault(tkb => (tkb.ToTH == null || tkb.ToTH == "") && (tkb.TenToHop == null || tkb.TenToHop == ""));
-                            if (model != null)
-                            {
-                                foreach (var item in group.Where(tkb => tkb.id != model.id))
-                                {
-                                    @Display(new ThoiKhoaBieu[] { item, model }, GiangViens)
-                                }
-                            }
-                            else
-                            {
-                                foreach (var item in group)
-                                {
-                                    @Display(new ThoiKhoaBieu[] { item }, GiangViens)
-                                }
-                            }
-                        }
-                        else
-                        {
-                            foreach (var item in group)
-                            {
-                                @Display(new ThoiKhoaBieu[] { item }, GiangViens)
-                            }
-                        }
+                        @Display(group.ToArray(), GiangViens)
                     }
                 </tbody>
             </table>
@@ -97,6 +73,10 @@
                 language: {
                     url: 'https://cdn.datatables.net/plug-ins/1.10.19/i18n/Vietnamese.json'
                 }
+            });
+
+            $('#HocKy').change(function () {
+                location.replace('@Url.Action("ThongKeChung", new { id = 0 })' + $(this).val());
             });
         });
     </script>

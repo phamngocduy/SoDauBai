@@ -4,6 +4,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Google;
+using Microsoft.Owin.Security.VanLang;
 using Owin;
 using SoDauBai.Models;
 
@@ -46,7 +47,7 @@ namespace SoDauBai
             app.UseTwoFactorRememberBrowserCookie(DefaultAuthenticationTypes.TwoFactorRememberBrowserCookie);
 
             // Uncomment the following lines to enable logging in with third party login providers
-            app.UseMicrosoftAccountAuthentication(
+            app.UseVanLangAuthentication(
                 clientId: "adcfd7da-eda7-4140-9528-eac96c3e2e29",
                 clientSecret: "fjbfWGCP57:dkoITQ492_+#");
 

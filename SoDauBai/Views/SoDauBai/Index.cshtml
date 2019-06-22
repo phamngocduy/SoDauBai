@@ -1,9 +1,8 @@
 ﻿@model IEnumerable<SoGhiBai>
 @{ 
     var count = 1;
-    var id = (int)ViewBag.ID;
-    var GV = ViewBag.GV as List<GiangVien>;
-    var TKB = ViewBag.TKB as List<ThoiKhoaBieu>;
+    var TKB = ViewBag.TKB as ThoiKhoaBieu;
+    var GV = (ViewBag.GV as GiangVien).Init();
     var start = Model.Count() > 0 ? Model.Min(s => s.NgayDay) : DateTime.MinValue;
     int demNghi = 0, tongBu = Model.Count(sdb => sdb.Loai == 2);
     var info = "visible";
@@ -11,34 +10,32 @@
 
 <div class="card shadow mb-4">
     <div class="card-header py-3">
-        @if (User.IsInTKB(id))
+        @if (User.IsInTKB(TKB.id))
         {
-            <a href="@Url.Action("Create", new { id = id })" class="btn btn-success btn-circle btn-sm float-right">
+            <a href="@Url.Action("Create", new { id = TKB.id })" class="btn btn-success btn-circle btn-sm float-right">
                 <i class="fas fa-plus"></i>
             </a>
         }
-        @foreach (var tkb in TKB.OrderBy(a => a.ThuKieuSo).ThenBy(a => a.TietBD))
+        @if (true)
         {
-            var Tiet = new int[tkb.SoTiet];
-            Tiet.For(0, tkb.SoTiet - 1, i => Tiet[i] = tkb.TietBD + i);
-            var gv = GV.FirstOrDefault(g => g.MaGV == tkb.MaGV).Init();
-            <a href="#" title="@tkb.MaLop" data-content="@tkb.TenLop" data-toggle="popover" data-placement="left" class="btn btn-info btn-circle btn-sm" style="visibility:@info">
+            var Tiet = new int[TKB.SoTiet];
+            Tiet.For(0, TKB.SoTiet - 1, i => Tiet[i] = TKB.TietBD + i);
+            <a href="#" title="@TKB.MaLop" data-content="@TKB.TenLop" data-toggle="popover" data-placement="left" class="btn btn-info btn-circle btn-sm" style="visibility:@info">
                 <i class="fas fa-info"></i>
             </a>
-            <h6 class="m-0 font-weight-bold text-@(tkb.id == id ? "primary" : "default") d-inline">@tkb.TenMH - @gv.HocVi @gv.HoTen - Thứ @tkb.ThuKieuSo, tiết @String.Join("", Tiet) #P:@tkb.MaPH</h6>
-            if (User.IsInTKB(tkb.id))
+            <h6 class="m-0 font-weight-bold text-primary d-inline">@TKB.TenMH - @GV.HocVi @GV.HoTen - Thứ @TKB.ThuKieuSo, tiết @String.Join("", Tiet) #P:@TKB.MaPH</h6>
+            if (User.IsInTKB(TKB.id))
             {
-                <a href="@Url.Action("Update", "ThoiKhoaBieu", new { id = tkb.id })" class="btn btn-warning btn-circle btn-sm">
+                <a href="@Url.Action("Update", "ThoiKhoaBieu", new { id = TKB.id })" class="btn btn-warning btn-circle btn-sm">
                     <i class="fas fa-pencil-alt"></i>
                 </a>
             }
             <br />
-            info = "collapse";
         }
     </div>
     <div class="card-body">
         <div class="table-responsive">
-            <table class="table table-bordered table-striped table-hover" id="dataTable" width="100%" cellspacing="0">
+            <table class="table table-bordered table-hover" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                     <tr>
                         <th>STT</th>
@@ -57,14 +54,14 @@
                             item.Loai == 2 ? "table-success" : null;
                         <tr class="@style">
                             <td rowspan="2">
-                                Buổi @(count++)
+                                <span style="white-space:nowrap">Buổi @(count++)</span>
                                 <br />
-                                Tuần @((int)(item.NgayDay - start).TotalDays / 7 + 1)
+                                <span style="white-space:nowrap">Tuần @((int)(item.NgayDay - start).TotalDays / 7 + 1)</span>
                             </td>
                             <td rowspan="2">
                                 @item.NgayDay.ToString("dd/MM/yyyy")
                                 <br />
-                                @item.ThoiGianBD.ToString(@"hh\:mm") - @item.ThoiGianKT.ToString(@"hh\:mm")
+                                <span style="white-space:nowrap">@item.ThoiGianBD.ToString(@"hh\:mm") - @item.ThoiGianKT.ToString(@"hh\:mm")</span>
                             </td>
                             <td rowspan="2">
                                 P#@item.MaPhong
@@ -72,7 +69,13 @@
                                 @item.TongSoSV<span>SV</span>
                             </td>
                             <td>
-                                @item.NDGiangDay
+                                @foreach (var line in (item.NDGiangDay ?? "").Split('\n'))
+                                {
+                                    if (!String.IsNullOrEmpty((line ?? "").Trim()))
+                                    {
+                                        <span>@line</span><br />
+                                    }
+                                }
                             </td>
                             <td>
                                 @item.NhanXetSV

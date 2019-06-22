@@ -238,7 +238,7 @@
                 $('#sidebarToggle').trigger('click');
         });
         window.onbeforeunload = function () {
-            $.blockUI({ message: '<i class="fas fa-spinner"></i>' });
+            $.blockUI({ message: '<i class="fas fa-spinner fa-spin"></i>' });
         }
         var button = document.getElementById('sidebarToggleTop');
         if (window.getComputedStyle(button).display === 'block') {

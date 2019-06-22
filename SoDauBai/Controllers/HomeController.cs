@@ -17,15 +17,13 @@ namespace SoDauBai.Controllers
         {
             id = id.HasValue ? id : db.ThoiKhoaBieux.MaxOrDefault(tkb => tkb.HocKy);
             var email = User.Identity.GetUserName();
-            var model = (from tkb in db.ThoiKhoaBieux
-                        join gv in db.GiangViens on tkb.MaGV equals gv.MaGV
-                        where gv.Email == email && tkb.HocKy == id
-                        select tkb).ToList();
-            var code1 = model.Select(tkb => tkb.MaMH).Distinct().ToArray();
-            var code2 = model.Select(tkb => tkb.NhomTo).Distinct().ToArray();
-            model.AddRange(db.ThoiKhoaBieux.Where(tkb => code1.Contains(tkb.MaMH) && code2.Contains(tkb.NhomTo) && tkb.HocKy == id).ToList());
+            var MaMH_NhomTo = (from tkb in db.ThoiKhoaBieux
+                            join gv in db.GiangViens on tkb.MaGV equals gv.MaGV
+                            where gv.Email == email && tkb.HocKy == id
+                            select tkb.MaMH + "_" + tkb.NhomTo).ToList();
+            var model = db.ThoiKhoaBieux.Where(tkb => MaMH_NhomTo.Contains(tkb.MaMH + "_" + tkb.NhomTo) && tkb.HocKy == id);
             ViewBag.HocKy = new SelectList(db.ThoiKhoaBieux.Select(tkb => tkb.HocKy).Distinct().OrderByDescending(hk => hk), (byte)id.Value);
-            return View(model.Distinct());
+            return View(model.ToList());
         }
 
         protected override void Dispose(bool disposing)

@@ -5,7 +5,7 @@
 {
     var item = group.First();
     <div class="col-xl-4 col-md-6 mb-4">
-        <div class="card border-left-primary shadow h-100 py-2">
+        <div class="card border-left-primary shadow py-2">
             <div class="card-body">
                 <div class="row no-gutters align-items-center">
                     <div class="col">
@@ -15,12 +15,19 @@
                         <div class="h5 mb-0 font-weight-bold text-gray-800">
                             <h4>@item.TenMH</h4>
                         </div>
-                        @foreach (var tkb in group.OrderBy(g => g.ThuKieuSo))
+                        <abbr class="small" title="@item.TenLop">@(item.ToTH == null ? "LT" : "TH")#@item.MaLop</abbr><br />
+                        @foreach (var tkb in group)
                         {
+                            if (tkb != item && tkb.ToTH != item.ToTH)
+                            {
+                                item = tkb;
+                                <br />
+                                <abbr class="small" title="@item.TenLop">@(item.ToTH == null ? "LT" : "TH")#@item.MaLop</abbr>
+                                <br />
+                            }
                             var phong = PhongDayBuController.countPhongDayBu(tkb.id);
-                            var nhom = String.Join("-", group.Select(g => g.id).ToArray());
                             <div style="font-weight:bold">
-                                <a href="@Url.Action("Index", "SoDauBai", new { id = tkb.id, group = nhom })" class="btn btn-primary @(!User.IsInTKB(tkb.id) ? "disabled" : null)">
+                                <a href="@Url.Action("Index", "SoDauBai", new { id = tkb.id })" class="btn btn-primary @(!User.IsInTKB(tkb.id) ? "disabled" : null)">
                                     @String.Format("Phòng {0}: Thứ {1} tiết {2} - {3}", tkb.MaPH, tkb.ThuKieuSo, tkb.TietBD, tkb.TietBD + tkb.SoTiet - 1)
                                 </a>
                             </div>
@@ -30,14 +37,12 @@
                             </span>
                             if (phong > 0)
                             {
-                            <span class="badge badge-warning">
-                                <i class="fas fa-folder"></i>
-                                @phong
-                            </span>
+                                <span class="badge badge-warning">
+                                    <i class="fas fa-folder"></i>
+                                    @phong
+                                </span>
                             }
                         }
-                        <br />
-                        <abbr class="small" title="@item.TenLop">#@item.MaLop</abbr>
                     </div>
                     <!--div class="col-auto">
                         <i class="fas fa-folder-open fa-2x text-gray-300"></i>
@@ -55,14 +60,16 @@
     {
         if (group.Count(tkb => !String.IsNullOrEmpty(tkb.ToTH)) > 0)
         {
-            var theory = group.First(tkb => String.IsNullOrEmpty(tkb.ToTH));
-            foreach (var practice in group.Where(tkb => !String.IsNullOrEmpty(tkb.ToTH)))
+            var theory = group.Where(tkb => String.IsNullOrEmpty(tkb.ToTH)).OrderBy(tkb => tkb.ThuKieuSo).ToList();
+            foreach (var practice in group.Where(tkb => !String.IsNullOrEmpty(tkb.ToTH)).GroupBy(tkb => tkb.ToTH))
             {
-                if (User.IsInTKB(theory.id) || User.IsInTKB(practice.id))
+                //var model = new List<ThoiKhoaBieu>(theory);
+                theory.AddRange(practice.OrderBy(tkb => tkb.ThuKieuSo));
+                if (theory.Select(tkb => tkb.id).Distinct().Count(id => User.IsInTKB(id) || User.IsInTKB(id)) > 0)
                 {
-                    @Display(new ThoiKhoaBieu[] { theory, practice })
                 }
             }
+            @Display(theory)
         }
         else
         {

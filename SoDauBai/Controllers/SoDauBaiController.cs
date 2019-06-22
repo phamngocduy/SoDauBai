@@ -15,27 +15,16 @@ namespace SoDauBai.Controllers
     {
         private SoDauBaiEntities db = new SoDauBaiEntities();
 
-        public ActionResult Index(int id, string group = "")
+        public ActionResult Index(int id)
         {
-            ViewBag.ID = id;
-            var course = db.ThoiKhoaBieux.Find(id);
-            if (course == null)
+            var TKB = db.ThoiKhoaBieux.Find(id);
+            if (TKB == null)
                 return HttpNotFound();
-            var TKB = new List<ThoiKhoaBieu>();
-            TKB.Add(course);
-            foreach (var tkb in group.Split('-'))
-            {
-                id = int.Parse(tkb);
-                course = db.ThoiKhoaBieux.Find(id);
-                if (course != null) TKB.Add(course);
-            }
-            TKB = TKB.Distinct().ToList();
-            var model = new List<SoGhiBai>();
-            foreach (var tkb in TKB)
-                model.AddRange(tkb.SoGhiBais);
+            var model = db.ThoiKhoaBieux.Where(tkb => tkb.MaMH == TKB.MaMH && tkb.HocKy == TKB.HocKy
+                            && tkb.NhomTo == TKB.NhomTo && (tkb.ToTH == TKB.ToTH || tkb.ToTH == null));
             ViewBag.TKB = TKB;
-            ViewBag.GV = db.GiangViens.ToList();
-            return View(model.Distinct());
+            ViewBag.GV = db.GiangViens.FirstOrDefault(gv => gv.MaGV == TKB.MaGV);
+            return View(model.Select(tkb => tkb.SoGhiBais.ToList()).ToList().Merge());
         }
 
         protected override void Initialize(RequestContext requestContext)

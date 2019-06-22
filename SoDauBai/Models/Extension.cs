@@ -119,5 +119,13 @@ namespace SoDauBai.Models
                     return true;
             return false;
         }
+
+        public static List<TSource> Merge<TSource>(this List<List<TSource>> source)
+        {
+            var list = new List<TSource>();
+            foreach (var item in source)
+                list.AddRange(item);
+            return list;
+        }
     }
 }

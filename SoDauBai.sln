@@ -1,28 +1,44 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Express 14 for Web
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.645
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoDauBai", "SoDauBai\SoDauBai.csproj", "{780E53EF-039B-4212-854E-A61DF0ED8F31}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoDauBai.Tests", "SoDauBai.Tests\SoDauBai.Tests.csproj", "{4B7B6B51-B915-47AD-AE05-2C62FAEBDBA5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Owin.Security.VanLang", "Microsoft.Owin.Security.VanLang\Microsoft.Owin.Security.VanLang.csproj", "{F0A749AC-F0C4-44CA-B9B6-C6FCB714A50C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		CNTT|Any CPU = CNTT|Any CPU
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{780E53EF-039B-4212-854E-A61DF0ED8F31}.CNTT|Any CPU.ActiveCfg = CNTT|Any CPU
+		{780E53EF-039B-4212-854E-A61DF0ED8F31}.CNTT|Any CPU.Build.0 = CNTT|Any CPU
 		{780E53EF-039B-4212-854E-A61DF0ED8F31}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{780E53EF-039B-4212-854E-A61DF0ED8F31}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{780E53EF-039B-4212-854E-A61DF0ED8F31}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{780E53EF-039B-4212-854E-A61DF0ED8F31}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4B7B6B51-B915-47AD-AE05-2C62FAEBDBA5}.CNTT|Any CPU.ActiveCfg = CNTT|Any CPU
+		{4B7B6B51-B915-47AD-AE05-2C62FAEBDBA5}.CNTT|Any CPU.Build.0 = CNTT|Any CPU
 		{4B7B6B51-B915-47AD-AE05-2C62FAEBDBA5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4B7B6B51-B915-47AD-AE05-2C62FAEBDBA5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4B7B6B51-B915-47AD-AE05-2C62FAEBDBA5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4B7B6B51-B915-47AD-AE05-2C62FAEBDBA5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F0A749AC-F0C4-44CA-B9B6-C6FCB714A50C}.CNTT|Any CPU.ActiveCfg = CNTT|Any CPU
+		{F0A749AC-F0C4-44CA-B9B6-C6FCB714A50C}.CNTT|Any CPU.Build.0 = CNTT|Any CPU
+		{F0A749AC-F0C4-44CA-B9B6-C6FCB714A50C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F0A749AC-F0C4-44CA-B9B6-C6FCB714A50C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F0A749AC-F0C4-44CA-B9B6-C6FCB714A50C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F0A749AC-F0C4-44CA-B9B6-C6FCB714A50C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5CE04AD3-8F26-497E-96EB-D95EAAC97EAB}
 	EndGlobalSection
 EndGlobal
