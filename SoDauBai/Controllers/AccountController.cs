@@ -321,13 +321,26 @@ namespace SoDauBai.Controllers
         //
         // GET: /Account/ExternalLoginCallback
         [AllowAnonymous]
-        public async Task<ActionResult> ExternalLoginCallback(string returnUrl)
+        public async Task<ActionResult> ExternalLoginCallback(string returnUrl, string dummyEmail)
         {
             var loginInfo = await AuthenticationManager.GetExternalLoginInfoAsync();
             loginInfo = loginInfo ?? Session["ExternalLoginInfo"] as ExternalLoginInfo;
             if (loginInfo == null)
             {
-                return RedirectToAction("Login");
+                if (dummyEmail != null)
+                {
+                    using (var db = new SoDauBaiEntities())
+                    {
+                        var user = db.AspNetUsers.Single(u => u.Email == dummyEmail);
+                        var login = db.AspNetUserLogins.Single(l => l.UserId == user.Id);
+                        loginInfo = new ExternalLoginInfo
+                        {
+                            Email = dummyEmail, DefaultUserName = dummyEmail.Split('@')[0],
+                            Login = new UserLoginInfo(login.LoginProvider, login.ProviderKey)
+                        };
+                    }
+                }
+                else return RedirectToAction("Login");
             }
 
             // Sign in the user with this external login provider if the user already has a login
