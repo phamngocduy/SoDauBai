@@ -7,7 +7,7 @@
 {
     var item = TKB.First();
     var maGV = TKB.Select(tkb => tkb.MaGV).Distinct().ToArray();
-    var giangVien = GV.Where(gv => maGV.Contains(gv.MaGV)).Select(gv => gv.HoTen).ToArray();
+    var giangVien = GV.Where(gv => maGV.Contains(gv.MaGV)).Select(gv => gv.MaGV + " - " + gv.HoTen).ToArray();
     var sinhVien = (int)TKB.AverageOrDefault(tkb => tkb.SoGhiBais.AverageOrDefault(sdb => sdb.TongSoSV));
     var buoiDay = TKB.Count(tkb => tkb.SoGhiBais.Count(sdb => sdb.Loai == 0));
     var buoiNghi = TKB.Count(tkb => tkb.SoGhiBais.Count(sdb => sdb.Loai == 1));
@@ -36,7 +36,7 @@
 
 <div class="card shadow mb-4">
     <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary d-inline">Thống kê các môn học HK @Html.DropDownList("HocKy")</h6>
+        <h6 class="m-0 font-weight-bold text-primary d-inline">Thống kê các môn học</h6>
     </div>
     <div class="card-body">
         <div class="table-responsive">
@@ -73,10 +73,6 @@
                 language: {
                     url: 'https://cdn.datatables.net/plug-ins/1.10.19/i18n/Vietnamese.json'
                 }
-            });
-
-            $('#HocKy').change(function () {
-                location.replace('@Url.Action("ThongKeChung", new { id = 0 })' + $(this).val());
             });
         });
     </script>

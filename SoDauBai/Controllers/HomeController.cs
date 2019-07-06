@@ -12,17 +12,21 @@ namespace SoDauBai.Controllers
     {
         SoDauBaiEntities db = new SoDauBaiEntities();
 
-        [Authorize]
-        public ActionResult Index(int? id)
+        public void SetHocKy(byte hk)
         {
-            id = id.HasValue ? id : db.ThoiKhoaBieux.MaxOrDefault(tkb => tkb.HocKy);
+            Session[CONST.HocKy] = hk;
+        }
+
+        [Authorize]
+        public ActionResult Index()
+        {
+            var hk = this.GetHocKy(db);
             var email = User.Identity.GetUserName();
             var MaMH_NhomTo = (from tkb in db.ThoiKhoaBieux
                             join gv in db.GiangViens on tkb.MaGV equals gv.MaGV
-                            where gv.Email == email && tkb.HocKy == id
+                            where gv.Email == email && tkb.HocKy == hk
                             select tkb.MaMH + "_" + tkb.NhomTo).ToList();
-            var model = db.ThoiKhoaBieux.Where(tkb => MaMH_NhomTo.Contains(tkb.MaMH + "_" + tkb.NhomTo) && tkb.HocKy == id);
-            ViewBag.HocKy = new SelectList(db.ThoiKhoaBieux.Select(tkb => tkb.HocKy).Distinct().OrderByDescending(hk => hk), (byte)id.Value);
+            var model = db.ThoiKhoaBieux.Where(tkb => MaMH_NhomTo.Contains(tkb.MaMH + "_" + tkb.NhomTo) && tkb.HocKy == hk);
             return View(model.ToList());
         }
 

@@ -52,18 +52,19 @@
                         var style = item.Loai == 1 ?
                             ++demNghi > tongBu ? "table-danger" : "table-warning" :
                             item.Loai == 2 ? "table-success" : null;
+                        var span = item.DeXuat.IsNullOrEmptyOrWhiteSpace() ? 1 : 2;
                         <tr class="@style">
-                            <td rowspan="2">
+                            <td rowspan="@span">
                                 <span style="white-space:nowrap">Buổi @(count++)</span>
                                 <br />
                                 <span style="white-space:nowrap">Tuần @((int)(item.NgayDay - start).TotalDays / 7 + 1)</span>
                             </td>
-                            <td rowspan="2">
+                            <td rowspan="@span">
                                 @item.NgayDay.ToString("dd/MM/yyyy")
                                 <br />
                                 <span style="white-space:nowrap">@item.ThoiGianBD.ToString(@"hh\:mm") - @item.ThoiGianKT.ToString(@"hh\:mm")</span>
                             </td>
-                            <td rowspan="2">
+                            <td rowspan="@span">
                                 P#@item.MaPhong
                                 <br />
                                 @item.TongSoSV<span>SV</span>
@@ -80,7 +81,7 @@
                             <td>
                                 @item.NhanXetSV
                             </td>
-                            <td rowspan="2">
+                            <td rowspan="@span">
                                 @if (User.IsInTKB(item.ThoiKhoaBieu.id) && User.IsInSDB(item.id))
                                 {
                                     <a href="@Url.Action("Edit", new { id = item.id })" class="btn btn-warning btn-circle btn-sm">
@@ -95,9 +96,12 @@
                                 </a>
                             </td>
                         </tr>
-                        <tr>
-                            <td colspan="2">@item.DeXuat</td>
-                        </tr>
+                        if (span == 2)
+                        {
+                            <tr>
+                                <td colspan="@span">@item.DeXuat</td>
+                            </tr>
+                        }
                     }
                 </tbody>
             </table>

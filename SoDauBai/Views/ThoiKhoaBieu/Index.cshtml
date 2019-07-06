@@ -16,7 +16,6 @@
     <div class="card-header py-3">
         <h6 class="m-0 font-weight-bold text-primary d-inline">
             Thời khóa biểu HK
-            @Html.DropDownList("HocKy")
         </h6>
         <div class="float-right">
             <a href="@Url.Action("Template_TKB")" target="_blank">Template</a> |
@@ -94,10 +93,6 @@
                     $('#UploadForm').submit();
                     $.blockUI();
                 }
-            });
-
-            $('#HocKy').change(function () {
-                location.replace('@Url.Action("Index", new { id = 0 })' + $(this).val());
             });
         });
     </script>

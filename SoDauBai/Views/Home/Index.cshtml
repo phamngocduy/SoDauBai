@@ -53,7 +53,6 @@
     </div>
 }
 
-@Html.DropDownList("HocKy")
 <!-- Content Row -->
 <div class="row">
     @foreach (var group in Model.GroupBy(tkb => new { tkb.MaMH, tkb.NhomTo }))
@@ -87,14 +86,4 @@
         </button>
     </div>
     <img src="~/Content/anh-co-so-3.jpg" style="max-width:100%" />
-}
-
-@section Scripts {
-    <script>
-        $(function () {
-            $('#HocKy').change(function () {
-                location.replace('@Url.Action("Index", new { id = 0 })' + $(this).val());
-            });
-        });
-    </script>
 }

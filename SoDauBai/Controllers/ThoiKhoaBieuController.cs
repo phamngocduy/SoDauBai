@@ -15,11 +15,10 @@ namespace SoDauBai.Controllers
     {
         private SoDauBaiEntities db = new SoDauBaiEntities();
 
-        public ActionResult Index(int? id)
+        public ActionResult Index()
         {
-            id = id.HasValue ? id : db.ThoiKhoaBieux.MaxOrDefault(tkb => tkb.HocKy);
-            var model = db.ThoiKhoaBieux.Where(tkb => tkb.HocKy == id);
-            ViewBag.HocKy = new SelectList(db.ThoiKhoaBieux.Select(tkb => tkb.HocKy).Distinct().OrderByDescending(hk => hk), (byte)id.Value);
+            var hk = this.GetHocKy(db);
+            var model = db.ThoiKhoaBieux.Where(tkb => tkb.HocKy == hk);
             return View(model.ToList());
         }
 

@@ -56,12 +56,11 @@ namespace SoDauBai.Controllers
             return View(model.ToList());
         }
 
-        public ActionResult ThongKeChung(int? id)
+        public ActionResult ThongKeChung()
         {
-            id = id.HasValue ? id : db.ThoiKhoaBieux.MaxOrDefault(tkb => tkb.HocKy);
-            var model = FilterGiaoVu(FilterHocKy(db.ThoiKhoaBieux, id));
+            var hk = this.GetHocKy(db);
+            var model = FilterGiaoVu(FilterHocKy(db.ThoiKhoaBieux, hk));
             ViewBag.GiangViens = db.GiangViens.ToList();
-            ViewBag.HocKy = new SelectList(db.ThoiKhoaBieux.Select(tkb => tkb.HocKy).Distinct().OrderByDescending(hk => hk), (byte)id.Value);
             return View(model.ToList());
         }
 

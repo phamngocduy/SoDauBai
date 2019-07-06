@@ -43,6 +43,8 @@ namespace SoDauBai.Models
             new TimeSpan(21, 15, 0), // Tiet 17
             new TimeSpan(22, 0, 0) // Tiet 18
         };
+
+        public static string HocKy = "HocKy";
     }
 
     public static class Extension
@@ -101,7 +103,7 @@ namespace SoDauBai.Models
             return sum;
         }
 
-        public static bool IsNullOrEmpty(this string text)
+        public static bool IsNullOrEmptyOrWhiteSpace(this string text)
         {
             return String.IsNullOrEmpty(text) || String.IsNullOrWhiteSpace(text);
         }
@@ -126,6 +128,11 @@ namespace SoDauBai.Models
             foreach (var item in source)
                 list.AddRange(item);
             return list;
+        }
+
+        public static byte GetHocKy(this Controller controller, SoDauBaiEntities db)
+        {
+            return (byte)(controller.Session[CONST.HocKy] ?? db.ThoiKhoaBieux.MaxOrDefault(tkb => tkb.HocKy));
         }
     }
 }

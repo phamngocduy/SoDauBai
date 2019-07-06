@@ -1,4 +1,12 @@
-﻿<!DOCTYPE html>
+﻿@{
+    using (var db = new SoDauBaiEntities())
+    {
+        var HocKy = db.ThoiKhoaBieux.Select(tkb => tkb.HocKy).Distinct().ToArray();
+        var hk = Session[CONST.HocKy] ?? (HocKy.Length > 0 ? HocKy.Max() : (byte)0);
+        ViewBag.HocKy = new SelectList(HocKy.OrderByDescending(b => b), hk);
+    }
+}
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -171,6 +179,8 @@
 
                     <!-- Topbar Search -->
                     <h1>SỔ ĐẦU BÀI</h1>
+                    &nbsp;&nbsp;
+                    @Html.DropDownList("HocKy")
 
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
@@ -236,6 +246,11 @@
         $(function () {
             if (Cookies.get('SIDEBAR') == "true")
                 $('#sidebarToggle').trigger('click');
+            $('#HocKy').change(function () {
+                $.get('@Url.Action("SetHocKy", "Home")?hk=' + $(this).val()).always(function () {
+                    window.location.reload();
+                });
+            });
         });
         window.onbeforeunload = function () {
             $.blockUI({ message: '<i class="fas fa-spinner fa-spin"></i>' });
