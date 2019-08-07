@@ -1,5 +1,5 @@
 ﻿@model LoginViewModel
-@{ 
+@{
     Layout = null;
 }
 
@@ -28,41 +28,123 @@
         input[disabled] {
             cursor: not-allowed;
         }
-        .bg-login-image {
-            background: url('/Content/img_4574.jpg');
+
+        .bg-gradient-primary1 {
+            background: url('/Content/img/cs-3.jpg');
             background-position: center;
             background-size: cover;
-            opacity: 0.2;
         }
+
+        .bg-login-image {
+            background: none;
+            border-right: 2px dotted wheat;
+        }
+
+        .card {
+            background-color: #000000bf;
+        }
+
         .bg-login-quote {
             position: absolute;
-            height: 100%;
+            height: 94%;
             margin-left: 1em;
             overflow-y: scroll;
+            padding: 20px 30px;
+        }
+
+        .text {
+            text-indent: 1em;
+            margin-top: 10px;
+            font-style: italic;
+            line-height: 2;
+            color: wheat;
+        }
+
+        .title {
+            color: wheat;
+            font-weight: bold;
+            font-size: 33px;
+        }
+
+        ::-webkit-scrollbar {
+            width: 0px; /* Remove scrollbar space */
+            background: transparent; /* Optional: just make scrollbar invisible */
+        }
+        /* Optional: show position indicator in red */
+        ::-webkit-scrollbar-thumb {
+            background: #FF0000;
+        }
+
+        .logo {
+            padding-top: 20px;
+        }
+
+        [class^="ribbon-"] {
+            position: relative;
+            margin-bottom: -80px;
+        }
+
+            [class^="ribbon-"]:before, [class^="ribbon-"]:after {
+                content: "";
+                position: absolute;
+            }
+
+        .ribbon-1 {
+            width: 40px;
+            height: 70px;
+            background: #ea4335;
+            top: -6px;
+            right: -360px;
+        }
+
+            .ribbon-1:after {
+                height: 0;
+                width: 0;
+                border-left: 20px solid #ea4335;
+                border-right: 20px solid #ea4335;
+                border-bottom: 20px solid transparent;
+                bottom: -20px;
+            }
+
+        .btn-google {
+            border-color: transparent;
+        }
+
+        .bottom-sc-icons {
+            list-style: none;
+            margin: 30px;
+            text-align: center;
+            border-bottom: 2px dotted wheat;
+            position: relative;
         }
     </style>
 </head>
 
-<body class="bg-gradient-primary">
+<body class="bg-gradient-primary1">
 
     <div class="container">
 
         <!-- Outer Row -->
         <div class="row justify-content-center">
-
+            <div class="col-lg-12">
+                <p class="text-center logo">
+                    <img src="~/Content/img/logo.png" width="200" />
+                </p>
+            </div>
             <div class="col-xl-10 col-lg-12 col-md-9">
 
-                <div class="card o-hidden border-0 shadow-lg my-5">
+                <div class="card o-hidden border-0 shadow-lg">
                     <div class="card-body p-0">
                         <!-- Nested Row within Card Body -->
                         <div class="row">
+
                             <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
                             <div class="col-lg-6 d-none d-lg-block bg-login-quote">
-                                <blockquote class="blockquote text-left" style="color:darkblue;font:times">
-                                    <p class="mb-0 small" style="text-indent:1em;margin-top:10px"><em>Quý Thầy, Cô thân mến!</em></p>
-                                    <p class="mb-0 small" style="text-indent:1em;margin-top:10px">Từ khóa 23 trường ĐH Văn Lang tổ chức đào tạo theo hệ thống tín chỉ, việc ghi chép sổ đầu bài theo truyền thống không còn phù hợp với cơ cấu tổ chức theo Lớp học phần. Vì vậy, để quản lý tốt hoạt động giảng dạy của giảng viên theo hệ thống tín chỉ, từ năm học 2019 – 2020, Nhà trường sẽ ứng dụng chính thức phần mềm <strong>Sổ đầu bài điện tử</strong> để ghi lại những nội dung, tiến độ và khối lượng giảng dạy thực tế từng buổi giảng của mỗi học phần. Thông qua Sổ đầu bài điện tử, việc ghi nhận hoạt động giảng dạy của Quý Thầy Cô sẽ được thuận lợi và dễ dàng lưu trữ hơn, những vấn đề phát sinh, cũng như những ý kiến phản ánh của Quý Thầy Cô về công tác phục vụ giảng dạy sẽ được thông tin và điều chỉnh kịp thời giúp cho công tác phục vụ giảng dạy ngày một hiệu quả hơn.</p>
-                                    <p class="mb-0 small" style="text-indent:1em;margin-top:10px">Trước khi đưa vào sử dụng chính thức, phòng Đào tạo tiến hành thử nghiệm phần mềm Sổ đầu bài điện tử trong thời gian từ nay đến hết học kỳ hè năm học 2018 – 2019. Phòng Đào tạo mong muốn nhận được các ý kiến đóng góp của Quý Thầy Cô để Sổ đầu bài điện tử thật sự là công cụ giúp Thầy Cô ghi chép thuận tiện nhất các thông tin về hoạt động giảng dạy của mình. Rất mong Quý Thầy Cô gửi phản hồi những ý kiến đóng góp của mình về email của phòng Đào tạo (p.daotao@vanlanguni.edu.vn) trong quá trình thử nghiệm. Những ý kiến đóng góp quý báu của Quý Thầy Cô sẽ giúp phòng Đào tạo hiệu chỉnh và hoàn thiện hơn Sổ đầu bài điện tử trước khi đưa vào sử dụng thống nhất trong toàn Trường.</p>
-                                    <p class="mb-0 small" style="text-indent:1em;margin-top:10px"><em>Chân thành cảm ơn Quý Thầy Cô.</em></p>
+                                <blockquote class="blockquote" style="color:darkblue; text-align:justify">
+                                    <p class="mb-0 text" style="font-weight: bold; font-size: 24px;"><em>Quý Thầy, Cô thân mến!</em></p>
+                                    <p class="mb-0 small text">Từ khóa 23 trường ĐH Văn Lang tổ chức đào tạo theo hệ thống tín chỉ, việc ghi chép sổ đầu bài theo truyền thống không còn phù hợp với cơ cấu tổ chức theo Lớp học phần. Vì vậy, để quản lý tốt hoạt động giảng dạy của giảng viên theo hệ thống tín chỉ, từ năm học 2019 – 2020, Nhà trường sẽ ứng dụng chính thức phần mềm <strong>Sổ đầu bài điện tử</strong> để ghi lại những nội dung, tiến độ và khối lượng giảng dạy thực tế từng buổi giảng của mỗi học phần. Thông qua Sổ đầu bài điện tử, việc ghi nhận hoạt động giảng dạy của Quý Thầy Cô sẽ được thuận lợi và dễ dàng lưu trữ hơn, những vấn đề phát sinh, cũng như những ý kiến phản ánh của Quý Thầy Cô về công tác phục vụ giảng dạy sẽ được thông tin và điều chỉnh kịp thời giúp cho công tác phục vụ giảng dạy ngày một hiệu quả hơn.</p>
+                                    <p class="mb-0 small text">Trước khi đưa vào sử dụng chính thức, phòng Đào tạo tiến hành thử nghiệm phần mềm Sổ đầu bài điện tử trong thời gian từ nay đến hết học kỳ hè năm học 2018 – 2019. Phòng Đào tạo mong muốn nhận được các ý kiến đóng góp của Quý Thầy Cô để Sổ đầu bài điện tử thật sự là công cụ giúp Thầy Cô ghi chép thuận tiện nhất các thông tin về hoạt động giảng dạy của mình. Rất mong Quý Thầy Cô gửi phản hồi những ý kiến đóng góp của mình về email của phòng Đào tạo (p.daotao@vanlanguni.edu.vn) trong quá trình thử nghiệm. Những ý kiến đóng góp quý báu của Quý Thầy Cô sẽ giúp phòng Đào tạo hiệu chỉnh và hoàn thiện hơn Sổ đầu bài điện tử trước khi đưa vào sử dụng thống nhất trong toàn Trường.</p>
+                                    <p class="mb-0 small text"><em>Chân thành cảm ơn Quý Thầy Cô.</em></p>
                                     <br />
                                     <footer class="blockquote-footer small" style="float:right">
                                         Tp. Hồ Chí Minh, ngày 20 tháng 4 năm 2019<br />
@@ -71,24 +153,28 @@
                                 </blockquote>
                             </div>
                             <div class="col-lg-6">
+                                <div class="ribbon-1"></div>
                                 <div class="p-5">
                                     <div class="text-center">
-                                        <h1 class="h4 text-gray-900 mb-4">Xin chào!</h1>
+                                        <h1 class="h4 title mb-4">SỔ ĐẦU BÀI</h1>
                                     </div>
                                     <hr />
                                     @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
                                     <hr>
+                                    <p class="bottom-sc-icons">
+                                    </p>
                                     <form class="user">
                                         <div class="form-group">
-                                            <input type="email" class="form-control form-control-user" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Enter Email Address..." disabled>
+                                            <input type="email" class="form-control form-control-user" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Nhập Email ..." disabled>
                                         </div>
                                         <div class="form-group">
-                                            <input type="password" class="form-control form-control-user" id="exampleInputPassword" placeholder="Password" disabled>
+                                            <input type="password" class="form-control form-control-user" id="exampleInputPassword" placeholder="Mật khẩu" disabled>
                                         </div>
+
                                         <div class="form-group">
                                             <div class="custom-control custom-checkbox small">
                                                 <input type="checkbox" class="custom-control-input" id="customCheck" disabled>
-                                                <label class="custom-control-label" for="customCheck">Remember Me</label>
+                                                <label class="custom-control-label" for="customCheck">Ghi nhớ đăng nhập</label>
                                             </div>
                                         </div>
                                         <a href="@Url.Action("Index", "Home")" class="btn btn-primary btn-user btn-block">
