@@ -1,7 +1,8 @@
 ﻿@model IEnumerable<ThoiKhoaBieu>
 @{
-    var count = 1;
-    var errors = Model.Count(tkb => tkb.MaMH == null);
+    var count = 1; var error = 0;
+    var errors = Model.Count(tkb => tkb.MaMH == null) +
+    Model.GroupBy(tkb => new { tkb.MaMH, tkb.NhomTo, tkb.ToTH, tkb.TenToHop }).Count(g => g.Count() > 1);
 }
 
 @helper Display(string content) {
@@ -19,7 +20,7 @@
     <div class="card-header py-3">
         @if (errors > 0)
         {
-            <h6 class="m-0 font-weight-bold text-danger">Có @errors/@Model.Count() dòng bị lỗi. Vui lòng xem <a href="#error">bên dưới</a>!</h6>
+            <h6 class="m-0 font-weight-bold text-danger">Có @errors/@Model.Count() dòng bị lỗi. Vui lòng xem <a href="#error0">bên dưới</a>!</h6>
         }
         else
         {
@@ -72,19 +73,25 @@
                             <td>@(count++)</td>
                             @if (String.IsNullOrEmpty(item.MaMH))
                             {
-                                <td colspan="15" id="error">
+                                <td colspan="15" id="error@(error++)">
                                     <span class="text-danger">@item.TenMH</span>
+                                    <a href="#error@(error)">Lỗi tiếp theo...</a>
                                 </td>
                             }
                             else
                             {
+                                var dup = Model.Count(tkb => tkb.MaMH == item.MaMH && tkb.NhomTo == item.NhomTo && tkb.ToTH == item.ToTH && tkb.TenToHop == item.TenToHop) > 1;
                                 <td>@item.MaMH</td>
                                 <td>@item.TenMH</td>
                                 <td>@item.SoTinChi</td>
-                                <td>
-                                    <span class="text-@(Model.Count(tkb => tkb.MaMH == item.MaMH && tkb.NhomTo == item.NhomTo && tkb.ToTH == item.ToTH && tkb.TenToHop == item.TenToHop) > 1 ? "danger" : "normal")">
+                                <td id="@(dup ? String.Format("error{0}", error++) : null)">
+                                    <span class="text-@(dup ? "danger" : "normal")">
                                         @item.NhomTo:@item.ToTH:@item.TenToHop
                                     </span>
+                                    @if (dup)
+                                    {
+                                        <a href="#error@(error)">Lỗi tiếp theo...</a>
+                                    }
                                 </td>
                                 <td>@item.MaNganh</td>
                                 <td>@Display(item.MaLop)</td>

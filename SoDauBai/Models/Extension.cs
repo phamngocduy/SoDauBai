@@ -134,5 +134,31 @@ namespace SoDauBai.Models
         {
             return (byte)(controller.Session[CONST.HocKy] ?? db.ThoiKhoaBieux.MaxOrDefault(tkb => tkb.HocKy));
         }
+
+        public static T Parse<T>(this string text, string errorMessage) where T : IComparable, IFormattable, IConvertible, IComparable<T>, IEquatable<T>
+        {
+            try
+            {
+                return (T)typeof(T).GetMethod("Parse", new Type[] { typeof(string) })
+                                   .Invoke(null, new object[] { text });
+            }
+            catch (Exception)
+            {
+                throw new Exception(errorMessage);
+            }
+        }
+
+        public static T Parse<T>(this string text, T defaultValue) where T : IComparable, IFormattable, IConvertible, IComparable<T>, IEquatable<T>
+        {
+            try
+            {
+                return (T)typeof(T).GetMethod("Parse", new Type[] { typeof(string) })
+                                   .Invoke(null, new object[] { text });
+            }
+            catch (Exception)
+            {
+                return defaultValue;
+            }
+        }
     }
 }

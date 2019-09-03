@@ -262,6 +262,9 @@
     <Content Include="Content\anh-co-so-3.jpg" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\img\cs-3.jpg" />
+    <Content Include="Content\img\logo.png" />
+    <Content Include="Content\img\undraw_posting_photo.svg" />
     <Content Include="Content\img_4574.jpg" />
     <Content Include="Scripts\autosize.min.js" />
     <Content Include="Scripts\jquery-ui.min.js" />
@@ -316,6 +319,7 @@
     </Content>
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
@@ -388,11 +392,11 @@
     <Content Include="Views\GiaoVu\Index.cshtml" />
     <None Include="Web.CNTT.config">
       <DependentUpon>Web.config</DependentUpon>
+      <SubType>Designer</SubType>
     </None>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\css\" />
-    <Folder Include="Content\img\" />
     <Folder Include="Content\js\" />
     <Folder Include="Content\vendor\" />
     <Folder Include="Views\Export\" />

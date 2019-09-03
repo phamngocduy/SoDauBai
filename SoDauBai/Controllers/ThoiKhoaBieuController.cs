@@ -57,9 +57,9 @@ namespace SoDauBai.Controllers
                         i++;
                         row.TenMH = reader.GetText(i);
                         i++;
-                        row.SoTinChi = byte.Parse(reader.GetText(i));
-                        if (row.SoTinChi < 1 || row.SoTinChi > 6)
-                            throw new Exception("SoTinChi không trong khoảng [1-6]!");
+                        row.SoTinChi = reader.GetText(i).Parse<byte>("SoTinChi không phải là số!");
+                        if (row.SoTinChi < 1)
+                            throw new Exception("SoTinChi không trong khoảng [1-?]!");
                         i++;
                         row.NhomTo = reader.GetText(i);
                         i++;
@@ -85,21 +85,21 @@ namespace SoDauBai.Controllers
                         i++;
                         row.TenLop = reader.GetText(i);
                         i++;
-                        row.TongSoSV = short.Parse(reader.GetText(i));
+                        row.TongSoSV = reader.GetText(i).Parse<short>(1);
                         if (row.TongSoSV < 1)
                             throw new Exception("Lớp không có đủ sinh viên!");
                         i++;
-                        row.ThuKieuSo = byte.Parse(reader.GetText(i));
+                        row.ThuKieuSo = reader.GetText(i).Parse<byte>("ThuKieuSo không phải là số!");
                         if (row.ThuKieuSo < 2 || row.ThuKieuSo > 8)
                             throw new Exception("ThuKieuSo không trong khoảng [2-8]!");
                         i++;
-                        row.TietBD = byte.Parse(reader.GetText(i));
+                        row.TietBD = reader.GetText(i).Parse<byte>("TietBD không phải là số!");
                         if (row.TietBD < 0 || row.TietBD > 15)
                             throw new Exception("TietBD không trong khoảng [1-15]!");
                         i++;
-                        row.SoTiet = byte.Parse(reader.GetText(i));
-                        if (row.SoTiet < 0 || row.SoTiet > 6)
-                            throw new Exception("SoTiet không trong khoảng [1-6]!");
+                        row.SoTiet = reader.GetText(i).Parse<byte>("SoTiet không phải là số!");
+                        if (row.SoTiet < 0 || row.SoTiet > 12)
+                            throw new Exception("SoTiet không trong khoảng [1-12]!");
                         i++;
                         row.MaGV = reader.GetText(i);
                         if (row.MaGV.Length > 10)
