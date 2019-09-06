@@ -20,8 +20,8 @@ namespace SoDauBai
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
-            var scheduler = new StdSchedulerFactory().GetScheduler();
-            scheduler.Start();
+            var scheduler = StdSchedulerFactory.GetDefaultScheduler();
+            scheduler.Result.Start();
             IJobDetail job = JobBuilder.Create<BackupController>().Build();
             var trigger = TriggerBuilder.Create()
                 .WithDailyTimeIntervalSchedule
