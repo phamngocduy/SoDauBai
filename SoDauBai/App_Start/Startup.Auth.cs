@@ -3,7 +3,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
-using Microsoft.Owin.Security.Google;
+using Microsoft.Owin.Security.Google2;
 using Microsoft.Owin.Security.VanLang;
 using Owin;
 using SoDauBai.Models;
@@ -59,7 +59,7 @@ namespace SoDauBai
             //   appId: "",
             //   appSecret: "");
 
-            app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
+            app.UseGoogle2Authentication(new Google2OAuth2AuthenticationOptions()
             {
                 ClientId = "21109320241-aqor6arhsib0bh15n5i2h1vvssvr3qsg.apps.googleusercontent.com",
                 ClientSecret = "w_jfO6HRBjPhyeLWAzpSjmY2"

@@ -412,6 +412,10 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Microsoft.Owin.Security.Google2\Microsoft.Owin.Security.Google2.csproj">
+      <Project>{837d4fd2-595d-4c40-8a4f-74fe62b026c4}</Project>
+      <Name>Microsoft.Owin.Security.Google2</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Microsoft.Owin.Security.VanLang\Microsoft.Owin.Security.VanLang.csproj">
       <Project>{f0a749ac-f0c4-44ca-b9b6-c6fcb714a50c}</Project>
       <Name>Microsoft.Owin.Security.VanLang</Name>
