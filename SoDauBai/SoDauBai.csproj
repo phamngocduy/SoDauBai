@@ -18,7 +18,7 @@
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
-    <IISExpressSSLPort />
+    <IISExpressSSLPort>44301</IISExpressSSLPort>
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
@@ -419,6 +419,10 @@
     <ProjectReference Include="..\Microsoft.Owin.Security.VanLang\Microsoft.Owin.Security.VanLang.csproj">
       <Project>{f0a749ac-f0c4-44ca-b9b6-c6fcb714a50c}</Project>
       <Name>Microsoft.Owin.Security.VanLang</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Owin.Security.Providers.Yahoo\Owin.Security.Providers.Yahoo.csproj">
+      <Project>{3609e6a5-a3a1-41f9-a569-072ae3f99b01}</Project>
+      <Name>Owin.Security.Providers.Yahoo</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

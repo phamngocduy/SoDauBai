@@ -5,6 +5,7 @@ using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Google2;
 using Microsoft.Owin.Security.VanLang;
+using Owin.Security.Providers.Yahoo;
 using Owin;
 using SoDauBai.Models;
 
@@ -63,6 +64,12 @@ namespace SoDauBai
             {
                 ClientId = "21109320241-aqor6arhsib0bh15n5i2h1vvssvr3qsg.apps.googleusercontent.com",
                 ClientSecret = "w_jfO6HRBjPhyeLWAzpSjmY2"
+            });
+
+            app.UseYahooAuthentication(new YahooAuthenticationOptions()
+            {
+                ConsumerKey = "dj0yJmk9RHpadDdXTVBoTmZyJmQ9WVdrOWNqUmpNVVJGTXpRbWNHbzlNQS0tJnM9Y29uc3VtZXJzZWNyZXQmc3Y9MCZ4PTRj",//"dj0yJmk9TWNrOFNjYVFUcjViJmQ9WVdrOVVuRkRVRFpWTjJzbWNHbzlNQS0tJnM9Y29uc3VtZXJzZWNyZXQmc3Y9MCZ4PTk4",
+                ConsumerSecret = "c6bd65ece730fa038bc53ca7d17b40c8dd0adf7"//"4aca09e58434da5d9885a128246d4acdbe7ad04d"
             });
         }
     }

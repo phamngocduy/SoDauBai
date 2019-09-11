@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Owin.Security.Van
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Owin.Security.Google2", "Microsoft.Owin.Security.Google2\Microsoft.Owin.Security.Google2.csproj", "{837D4FD2-595D-4C40-8A4F-74FE62B026C4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Owin.Security.Providers.Yahoo", "Owin.Security.Providers.Yahoo\Owin.Security.Providers.Yahoo.csproj", "{3609E6A5-A3A1-41F9-A569-072AE3F99B01}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		CNTT|Any CPU = CNTT|Any CPU
@@ -42,6 +44,12 @@ Global
 		{837D4FD2-595D-4C40-8A4F-74FE62B026C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{837D4FD2-595D-4C40-8A4F-74FE62B026C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{837D4FD2-595D-4C40-8A4F-74FE62B026C4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3609E6A5-A3A1-41F9-A569-072AE3F99B01}.CNTT|Any CPU.ActiveCfg = Release|Any CPU
+		{3609E6A5-A3A1-41F9-A569-072AE3F99B01}.CNTT|Any CPU.Build.0 = Release|Any CPU
+		{3609E6A5-A3A1-41F9-A569-072AE3F99B01}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3609E6A5-A3A1-41F9-A569-072AE3F99B01}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3609E6A5-A3A1-41F9-A569-072AE3F99B01}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3609E6A5-A3A1-41F9-A569-072AE3F99B01}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
