@@ -26,7 +26,7 @@ namespace Owin.Security.Providers.Yahoo
         private static readonly DateTime Epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
         private const string StateCookie = "__YahooState";
         private const string RequestTokenEndpoint = "https://api.login.yahoo.com/oauth/v2/get_request_token";
-        private const string AuthenticationEndpoint = "https://api.login.yahoo.com/oauth/v2/request_auth?oauth_token=";
+        private const string AuthenticationEndpoint = "https://api.login.yahoo.com/oauth2/request_auth";
         private const string AccessTokenEndpoint = "https://api.login.yahoo.com/oauth/v2/get_token";
 
         private readonly HttpClient _httpClient;
@@ -159,11 +159,21 @@ namespace Owin.Security.Providers.Yahoo
                     extra.RedirectUri = requestPrefix + Request.PathBase + Request.Path + Request.QueryString;
                 }
 
-                var requestToken = await ObtainRequestTokenAsync(Options.ConsumerKey, Options.ConsumerSecret, callBackUrl, extra);
-
-                if (requestToken.CallbackConfirmed)
+                //var requestToken = await ObtainRequestTokenAsync(Options.ConsumerKey, Options.ConsumerSecret, callBackUrl, extra);
+                var requestToken = new RequestToken
                 {
-                    var yahooAuthenticationEndpoint = AuthenticationEndpoint + requestToken.Token;
+                    Token = Options.ConsumerKey,
+                    TokenSecret = Options.ConsumerSecret,
+                    CallbackConfirmed = true,
+                    Properties = extra
+                };
+
+                if (true/*requestToken.CallbackConfirmed*/)
+                {
+                    var yahooAuthenticationEndpoint = AuthenticationEndpoint +
+                        "?client_id=" + Options.ConsumerKey +
+                        "&response_type=code&redirect_uri=" + callBackUrl +
+                        "&scope=openid&nonce=" + Guid.NewGuid().ToString("N");
 
                     var cookieOptions = new CookieOptions
                     {

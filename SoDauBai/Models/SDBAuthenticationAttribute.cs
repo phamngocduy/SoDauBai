@@ -25,7 +25,7 @@ namespace SoDauBai.Models
             {
                 var model = db.SoGhiBais.Find(id);
                 if (model == null) return false;
-                return model.Email == user.Identity.GetUserName();
+                return model.Email.Trim() == user.Identity.GetUserName().Trim();
             }
         }
     }

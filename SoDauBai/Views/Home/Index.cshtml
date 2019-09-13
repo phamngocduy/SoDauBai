@@ -4,7 +4,7 @@
 @helper Display(IEnumerable<ThoiKhoaBieu> group)
 {
     var item = group.First();
-    <div class="col-xl-4 col-md-6 mb-4">
+    <div class="col-xl-4 col-md-6 mb-4 course">
         <div class="card border-left-primary shadow py-2">
             <div class="card-body">
                 <div class="row no-gutters align-items-center">
@@ -15,33 +15,54 @@
                         <div class="h5 mb-0 font-weight-bold text-gray-800">
                             <h4>@item.TenMH</h4>
                         </div>
-                        <abbr class="small" title="@item.TenLop">@(item.ToTH == null ? "LT" : "TH")#@item.MaLop</abbr><br />
+                        <abbr class="small" title="@item.TenLop">
+                            <span class="badge badge-primary" style="font-size:100%">
+                                @(item.ToTH == null ? "LT" : "TH")
+                            </span>
+                            #@item.MaLop
+                        </abbr>
+                        <br />
                         @foreach (var tkb in group)
                         {
-                            if (tkb != item && tkb.ToTH != item.ToTH)
-                            {
-                                item = tkb;
-                                <br />
-                                <abbr class="small" title="@item.TenLop">@(item.ToTH == null ? "LT" : "TH")#@item.MaLop</abbr>
-                                <br />
-                            }
                             var phong = PhongDayBuController.countPhongDayBu(tkb.id);
-                            <div style="font-weight:bold">
-                                <a href="@Url.Action("Index", "SoDauBai", new { id = tkb.id })" class="btn btn-primary @(!User.IsInTKB(tkb.id) ? "disabled" : null)">
-                                    @String.Format("Phòng {0}: Thứ {1} tiết {2} - {3}", tkb.MaPH, tkb.ThuKieuSo, tkb.TietBD, tkb.TietBD + tkb.SoTiet - 1)
-                                </a>
-                            </div>
-                            <span class="badge badge-success">
-                                <i class="fas fa-book-open"></i>
-                                @tkb.SoGhiBais.Count()
-                            </span>
-                            if (phong > 0)
-                            {
-                                <span class="badge badge-warning">
-                                    <i class="fas fa-folder"></i>
-                                    @phong
+                            <div class="filter" ThuKieuSo="@tkb.ThuKieuSo">
+                                @if (tkb != item && tkb.ToTH != item.ToTH)
+                                {
+                                    item = tkb;
+                                    <br />
+                                    <abbr class="small" title="@item.TenLop">
+                                        <span class="badge badge-primary" style="font-size:100%">
+                                            @(item.ToTH == null ? "LT" : "TH")
+                                        </span>
+                                        #@item.MaLop
+                                    </abbr>
+                                    <br />
+                                }
+                                <div style="font-weight:bold">
+                                    <a href="@Url.Action("Index", "SoDauBai", new { id = tkb.id })" class="btn btn-primary @(!User.IsInTKB(tkb.id) ? "disabled" : null) filter">
+                                        @String.Format("Phòng {0}: Thứ {1} tiết {2} - {3}", tkb.MaPH, tkb.ThuKieuSo, tkb.TietBD, tkb.TietBD + tkb.SoTiet - 1)
+                                    </a>
+                                </div>
+                                <span class="badge badge-success">
+                                    <i class="fas fa-book-open"></i>
+                                    @tkb.SoGhiBais.Count()
                                 </span>
-                            }
+                                @if (phong > 0)
+                                {
+                                    <span class="badge badge-warning">
+                                        <i class="fas fa-folder"></i>
+                                        @phong
+                                    </span>
+                                }
+                                @if (!User.IsInTKB(tkb.id))
+                                {
+                                    <a href="@Url.Action("Index", "SoDauBai", new { id = tkb.id })">
+                                        <span class="badge badge-default">
+                                            <i class="fas fa-eye"></i>
+                                        </span>
+                                    </a>
+                                }
+                            </div>
                         }
                     </div>
                     <!--div class="col-auto">
@@ -52,6 +73,52 @@
         </div>
     </div>
 }
+
+@helper DisplayColorfulBadge(string text, Random rand)
+{
+    var color = string.Empty;
+    switch (rand.Next() % 6)
+    {
+        case 0:
+            color = "default";
+            break;
+        case 1:
+            color = "primary";
+            break;
+        case 2:
+            color = "success";
+            break;
+        case 3:
+            color = "info";
+            break;
+        case 4:
+            color = "warning";
+            break;
+        case 5:
+            color = "danger";
+            break;
+    }
+    <span class="badge badge-@color" style="float:right">@text</span>
+}
+
+@{
+    var rand = new Random(Environment.TickCount);
+}
+
+<div class="btn-group" style="position:fixed;right:0;z-index:1000">
+    <button type="button" class="btn btn-warning" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <i class="fas fa-cog fa-spin"></i>
+    </button>
+    <div class="dropdown-menu">
+        <a class="dropdown-item" href="#" onclick="filter(0)">Tất cả @DisplayColorfulBadge("ALL", rand)</a>
+        <a class="dropdown-item" href="#" onclick="filter(2)">Thứ Hai @DisplayColorfulBadge("MON", rand)</a>
+        <a class="dropdown-item" href="#" onclick="filter(3)">Thứ Ba @DisplayColorfulBadge("TUE", rand)</a>
+        <a class="dropdown-item" href="#" onclick="filter(4)">Thứ Tư @DisplayColorfulBadge("WED", rand)</a>
+        <a class="dropdown-item" href="#" onclick="filter(5)">Thứ Năm @DisplayColorfulBadge("THU", rand)</a>
+        <a class="dropdown-item" href="#" onclick="filter(6)">Thứ Sáu @DisplayColorfulBadge("FRI", rand)</a>
+        <a class="dropdown-item" href="#" onclick="filter(7)">Thứ Bảy @DisplayColorfulBadge("SAT", rand)</a>
+    </div>
+</div>
 
 <!-- Content Row -->
 <div class="row">
@@ -87,3 +154,22 @@
     </div>
     <img src="~/Content/anh-co-so-3.jpg" style="max-width:100%" />
 }
+
+<script>
+    function filter(thuKieuSo) {
+        $('div.course').show();
+        if (thuKieuSo == 0)
+            $('div.filter').show();
+        else {
+            $('div.filter').hide();
+            $('div[ThuKieuSo=' + thuKieuSo + ']').each(function () {
+                if ($(this).find('a.filter.disabled').length == 0)
+                    $(this).show();
+            });
+            $('div.course').each(function () {
+                if ($(this).find('a.filter:visible').length == 0)
+                    $(this).hide();
+            });
+        }
+    }
+</script>
