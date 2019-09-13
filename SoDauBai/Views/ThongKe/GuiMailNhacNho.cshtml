@@ -1,0 +1,68 @@
+﻿@using Microsoft.AspNet.Identity
+@model String
+@{ 
+    var GuiMailNhacNho = "GuiMailNhacNho";
+}
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Gửi email nhắc giảng viên ghi sổ đầu bài</h6>
+    </div>
+    <div class="card-body">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+                @Html.Hidden("id", ViewData["TKB"])
+                <div class="form-group">
+                    <div class="col-md-10 row">
+                        <span class="col-md-3">Người gửi</span>
+                        @Html.TextBox("fromAddress", User.Identity.GetUserName(), new { @class = "form-control col-md-8", disabled = true })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-10 row">
+                        <span class="col-md-3">Người nhận</span>
+                        @Html.TextBox("toAddress", Model, new { @class = "form-control col-md-8", style = "display:inline", disabled = true })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-10">
+                        @Html.TextBox("Subject", "", new { @class = "form-control", placeholder = "Tiêu đề", required = true })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-10">
+                        @Html.TextArea("Content", "", new { @class = "form-control", placeholder = "Nội dung", required = true })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Thêm mới" class="btn btn-success" /> |
+                        <a href="@Url.Action("ThongKeChung")" class="btn btn-default">Quay lại</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $(function () {
+            $('form[action*="@GuiMailNhacNho"]').find('#Subject').val(localStorage.getItem('@(GuiMailNhacNho)_Subject'));
+            $('form[action*="@GuiMailNhacNho"]').find('#Content').val(localStorage.getItem('@(GuiMailNhacNho)_Content'));
+
+            $('form[action*="@GuiMailNhacNho"]').submit(function () {
+                localStorage.setItem("@(GuiMailNhacNho)_Subject", $(this).find('#Subject').val());
+                localStorage.setItem("@(GuiMailNhacNho)_Content", $(this).find('#Content').val());
+            });
+        });
+    </script>
+}

@@ -115,25 +115,28 @@ namespace SoDauBai.Controllers
 
         public static void SendEmail(string from, string to, string subject, string content)
         {
-            var fromAddress = new MailAddress("acdm511@gmail.com", from);
-            var toAddress = new MailAddress(to);
-            string fromPassword = Encoding.ASCII.GetString(Convert.FromBase64String("QW50aG9ueUNoYXVEdXlNaQ=="));
+            var credentials = new NetworkCredential("acdm511@gmail.com",
+                Encoding.ASCII.GetString(Convert.FromBase64String("QW50aG9ueUNoYXVEdXlNaQ==")));
 
-            var smtp = new SmtpClient
+            var mail = new MailMessage()
             {
-                Host = "smtp.gmail.com",
+                From = new MailAddress("acdm511@gmail.com", from),
+                Subject = subject, Body = content
+            };
+
+            mail.To.Add(new MailAddress(to));
+
+            var client = new SmtpClient()
+            {
                 Port = 587,
-                EnableSsl = true,
                 DeliveryMethod = SmtpDeliveryMethod.Network,
                 UseDefaultCredentials = false,
-                Credentials = new NetworkCredential(fromAddress.Address, fromPassword)
+                Host = "smtp.gmail.com",
+                EnableSsl = true,
+                Credentials = credentials
             };
-            using (var message = new MailMessage(fromAddress, toAddress)
-            {
-                Subject = subject,
-                Body = content
-            })
-                smtp.Send(message);
+
+            client.Send(mail);
         }
     }
 

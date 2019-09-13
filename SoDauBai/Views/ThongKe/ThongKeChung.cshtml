@@ -27,10 +27,10 @@
         <td>@tietDay</td>
         <td>@buoiBu/@buoiNghi</td>
         <td>
-            <a id="@item.id" data-content="@String.Format("ThuKieuSo: {0}\nTietBD: {1}\nSoTiet: {2}\nMaPH: {3}\nMaLop: {4}\nTenLop: {5}", item.ThuKieuSo, item.TietBD, item.SoTiet, item.MaPH, item.MaLop, item.TenLop)" data-toggle="popover" data-placement="left" class="btn btn-info btn-circle btn-sm">
+            <a href="#" id="@item.id" data-content="@String.Format("ThuKieuSo: {0}\nTietBD: {1}\nSoTiet: {2}\nMaPH: {3}\nMaLop: {4}\nTenLop: {5}", item.ThuKieuSo, item.TietBD, item.SoTiet, item.MaPH, item.MaLop, item.TenLop)" data-toggle="popover" data-placement="left">
                 <i class="fas fa-info"></i>
             </a>
-            <a href="#">
+            <a href="@Url.Action("GuiMailNhacNho", new { id = item.id })" class="text-warning">
                 <i class="fas fa-envelope"></i>
             </a>
         </td>

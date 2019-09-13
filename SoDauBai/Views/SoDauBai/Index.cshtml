@@ -79,7 +79,13 @@
                                 }
                             </td>
                             <td>
-                                @item.NhanXetSV
+                                @foreach (var line in (item.NhanXetSV ?? "").Split('\n'))
+                                {
+                                    if (!String.IsNullOrEmpty((line ?? "").Trim()))
+                                    {
+                                        <span>@line</span><br />
+                                    }
+                                }
                             </td>
                             <td rowspan="@span">
                                 @if (User.IsInTKB(item.ThoiKhoaBieu.id) && User.IsInSDB(item.id))

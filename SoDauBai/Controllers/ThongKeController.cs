@@ -64,9 +64,25 @@ namespace SoDauBai.Controllers
             return View(model.ToList());
         }
 
-        public ActionResult GuiMailNhacNho(string email)
+        public ActionResult GuiMailNhacNho(int id)
         {
-            return View();
+            ViewBag.TKB = id;
+            var tkb = db.ThoiKhoaBieux.Find(id);
+            var email = db.GiangViens.Single(gv => gv.MaGV == tkb.MaGV).Email;
+            return View(email as object);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult GuiMailNhacNho(int id, string subject, string content)
+        {
+            UrlHelper url = new UrlHelper(Request.RequestContext);
+            var tkb = db.ThoiKhoaBieux.Find(id);
+            var email = db.GiangViens.Single(gv => gv.MaGV == tkb.MaGV).Email;
+            ExportController.SendEmail(User.Identity.GetUserName(), email, "[SĐB] " + subject,
+                content + Environment.NewLine + url.Action("Index", "SoDauBai", new { id = tkb.id }, Request.Url.Scheme));
+
+            return RedirectToAction("ThongKeChung");
         }
 
         protected override void Dispose(bool disposing)

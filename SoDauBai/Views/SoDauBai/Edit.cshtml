@@ -118,9 +118,10 @@
             @Html.LabelFor(model => model.NhanXetSV, "Nhận xét sinh viên", htmlAttributes: new { @class = "control-label col-md-10" })
             <div class="col-md-12">
                 <div class="input-group">
-                    @Html.EditorFor(model => model.NhanXetSV, new { htmlAttributes = new { @class = "form-control", required = true } })
+                    @*Html.EditorFor(model => model.NhanXetSV, new { htmlAttributes = new { @class = "form-control", required = true } })*@
+                    @Html.TextAreaFor(model => model.NhanXetSV, new { @class = "form-control", required = true })
                     <div class="dropdown input-group-append">
-                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="height:min-content">
                         </button>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                             <a class="dropdown-item" onclick="$('#NhanXetSV').val('').focus()" href="#">Khác...</a>
