@@ -1,6 +1,8 @@
 ﻿@model IEnumerable<ThoiKhoaBieu>
-@{ 
+@{
+    var rand = new Random();
     var GiangViens = ViewBag.GiangViens as List<GiangVien>;
+    var color = new string[] { "info", "primary", "success", "warning", "danger" };
 }
 
 <div class="row">
@@ -10,7 +12,7 @@
         tietDay.For(0, item.SoTiet - 1, i => tietDay[i] = item.TietBD + i);
         var giangVien = GiangViens.SingleOrDefault(gv => gv.MaGV == item.MaGV).Init();
         <div class="col-md-3 mb-4">
-            <div class="card bg-primary text-white shadow">
+            <div class="card bg-@color[rand.Next(color.Length)] text-white shadow">
                 <div class="card-body">
                     <a class="text-white" href="@Url.Action("Index", "SoDauBai", new { id = item.id })">@item.TenMH</a>
                     <div class="text-white-50 small">

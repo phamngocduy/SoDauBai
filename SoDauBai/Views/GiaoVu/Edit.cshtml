@@ -26,7 +26,7 @@
                     @Html.LabelFor(model => model.MaNganh, "Ngành đào tạo", htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
                         <div class="row">
-                            @foreach (var nganh in ViewBag.Nganh as List<string>)
+                            @foreach (var nganh in (ViewBag.Nganh as List<string>).OrderBy(s => s))
                             {
                                 <div class="col-md-3">
                                     @Html.CheckBox("#" + nganh, Nganh.Contains(nganh), new { id = nganh })

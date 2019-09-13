@@ -64,6 +64,11 @@ namespace SoDauBai.Controllers
             return View(model.ToList());
         }
 
+        public ActionResult GuiMailNhacNho(string email)
+        {
+            return View();
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
