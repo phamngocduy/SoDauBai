@@ -47,6 +47,13 @@ namespace SoDauBai.Models
         public static string HocKy = "HocKy";
     }
 
+    public class EMAILS
+    {
+        public static int GhiSo = 0;
+        public static int DayBu = 1;
+        public static int HoTro = 2;
+    }
+
     public static class Extension
     {
         public static void For<T>(this IEnumerable<T> list, int from, int to, Action<int> action)

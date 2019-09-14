@@ -1,9 +1,10 @@
 ﻿@model IEnumerable<ThoiKhoaBieu>
 @{ 
     var GiangViens = ViewBag.GiangViens as List<GiangVien>;
+    var GuiEmails = ViewBag.GuiEmails as List<GuiEmail>;
 }
 
-@helper Display(IEnumerable<ThoiKhoaBieu> TKB, List<GiangVien> GV)
+@helper Display(IEnumerable<ThoiKhoaBieu> TKB, List<GiangVien> GV, List<GuiEmail> Emails)
 {
     var item = TKB.First();
     var maGV = TKB.Select(tkb => tkb.MaGV).Distinct().ToArray();
@@ -13,6 +14,8 @@
     var buoiNghi = TKB.Count(tkb => tkb.SoGhiBais.Count(sdb => sdb.Loai == 1));
     var buoiBu = TKB.Count(tkb => tkb.SoGhiBais.Count(sdb => sdb.Loai == 2));
     var tietDay = TKB.Sum(tkb => tkb.SoGhiBais.Where(sdb => sdb.Loai != 1).Sum(sdb => sdb.SoTietDay));
+    var nhacNho = Emails.Count(e => e.Tag == item.id);
+    var email = GV.FirstOrDefault(gv => gv.MaGV == item.MaGV).Init().Email;
 
     <tr>
         <td>
@@ -30,9 +33,21 @@
             <a href="#" id="@item.id" data-content="@String.Format("ThuKieuSo: {0}\nTietBD: {1}\nSoTiet: {2}\nMaPH: {3}\nMaLop: {4}\nTenLop: {5}", item.ThuKieuSo, item.TietBD, item.SoTiet, item.MaPH, item.MaLop, item.TenLop)" data-toggle="popover" data-placement="left">
                 <i class="fas fa-info"></i>
             </a>
-            <a href="@Url.Action("GuiMailNhacNho", new { id = item.id })" class="text-warning">
-                <i class="fas fa-envelope"></i>
-            </a>
+            @if (!(email != null && email.StartsWith("ACDM") && email.EndsWith("@gmail.com")))
+            {
+                if (nhacNho > 0)
+                {
+                    <a title="Đã nhắc @nhacNho lần" href="@Url.Action("GuiMailNhacNho", new { id = item.id })">
+                        <span class="badge badge-danger">@nhacNho</span>
+                    </a>
+                }
+                else
+                {
+                    <a title="Gửi mail nhắc nhở" href="@Url.Action("GuiMailNhacNho", new { id = item.id })" class="text-warning">
+                        <i class="fas fa-envelope"></i>
+                    </a>
+                }
+            }
         </td>
     </tr>
 }
@@ -58,7 +73,7 @@
                 <tbody>
                     @foreach (var group in Model.GroupBy(tkb => new { tkb.MaMH, tkb.NhomTo, tkb.ToTH }))
                     {
-                        @Display(group.ToArray(), GiangViens)
+                        @Display(group.ToArray(), GiangViens, GuiEmails)
                     }
                 </tbody>
             </table>

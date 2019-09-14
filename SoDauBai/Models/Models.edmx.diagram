@@ -22,6 +22,7 @@
         <AssociationConnector Association="SoDauBaiModel.FK_PhongDayBu_ThoiKhoaBieu" />
         <AssociationConnector Association="SoDauBaiModel.FK_SoDauBai_ThoiKhoaBieu" />
         <AssociationConnector Association="SoDauBaiModel.AspNetUserRoles" />
+        <EntityTypeShape EntityType="SoDauBaiModel.GuiEmail" Width="1.5" PointX="10.375" PointY="3.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

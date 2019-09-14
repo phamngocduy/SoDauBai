@@ -2,6 +2,7 @@
 @model String
 @{ 
     var GuiMailNhacNho = "GuiMailNhacNho";
+    var GuiEmails = ViewBag.GuiEmails as List<GuiEmail>;
 }
 
 <div class="card shadow mb-4">
@@ -43,7 +44,7 @@
 
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" value="Thêm mới" class="btn btn-success" /> |
+                        <input type="submit" value="Gửi email" class="btn btn-success" /> |
                         <a href="@Url.Action("ThongKeChung")" class="btn btn-default">Quay lại</a>
                     </div>
                 </div>
@@ -65,4 +66,42 @@
             });
         });
     </script>
+}
+
+@foreach (var item in GuiEmails.OrderByDescending(e => e.Ngay))
+{
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">@item.Ngay.ToString("\'Lúc' hh\'g' mmp \'ngày' dd/MM/yyyy")</h6>
+        </div>
+        <div class="card-body">
+            <div class="form-horizontal">
+                <div class="form-group">
+                    <div class="col-md-10 row">
+                        <span class="col-md-3">Người gửi</span>
+                        @Html.TextBox("fromAddress", item.FromTo, new { @class = "form-control col-md-8", disabled = true })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-10 row">
+                        <span class="col-md-3">Người nhận</span>
+                        @Html.TextBox("toAddress", item.Email, new { @class = "form-control col-md-8", style = "display:inline", disabled = true })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-10">
+                        @Html.TextBox("Subject", item.TieuDe, new { @class = "form-control", disabled = true })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-10">
+                        @Html.TextArea("Content", item.NoiDung, new { @class = "form-control", disabled = true })
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 }

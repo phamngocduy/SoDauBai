@@ -218,6 +218,9 @@
     <Compile Include="Models\GiaoVu.cs">
       <DependentUpon>Models.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\GuiEmail.cs">
+      <DependentUpon>Models.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Extension.cs" />
     <Compile Include="Models\LienHe.cs">

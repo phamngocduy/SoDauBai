@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using SoDauBai.Models;
+using System.Transactions;
 using Microsoft.AspNet.Identity;
 
 namespace SoDauBai.Controllers
@@ -61,6 +62,7 @@ namespace SoDauBai.Controllers
             var hk = this.GetHocKy(db);
             var model = FilterGiaoVu(FilterHocKy(db.ThoiKhoaBieux, hk));
             ViewBag.GiangViens = db.GiangViens.ToList();
+            ViewBag.GuiEmails = db.GuiEmails.Where(e => e.Loai == EMAILS.GhiSo).ToList();
             return View(model.ToList());
         }
 
@@ -69,6 +71,7 @@ namespace SoDauBai.Controllers
             ViewBag.TKB = id;
             var tkb = db.ThoiKhoaBieux.Find(id);
             var email = db.GiangViens.Single(gv => gv.MaGV == tkb.MaGV).Email;
+            ViewBag.GuiEmails = db.GuiEmails.Where(e => e.Loai == EMAILS.GhiSo && e.Email == email).ToList();
             return View(email as object);
         }
 
@@ -79,8 +82,28 @@ namespace SoDauBai.Controllers
             UrlHelper url = new UrlHelper(Request.RequestContext);
             var tkb = db.ThoiKhoaBieux.Find(id);
             var email = db.GiangViens.Single(gv => gv.MaGV == tkb.MaGV).Email;
-            ExportController.SendEmail(User.Identity.GetUserName(), email, "[SĐB] " + subject,
-                content + Environment.NewLine + url.Action("Index", "SoDauBai", new { id = tkb.id }, Request.Url.Scheme));
+
+            subject = "[SĐB] " + subject;
+            content = content + Environment.NewLine + url.Action("Index", "SoDauBai", new { id = tkb.id }, Request.Url.Scheme);
+            using (var scope = new TransactionScope())
+            {
+                db.GuiEmails.Add(new GuiEmail
+                {
+                    Tag = tkb.id,
+                    Loai = EMAILS.GhiSo,
+                    Ngay = DateTime.Now,
+                    MaGV = tkb.MaGV,
+                    Email = email,
+                    FromTo = User.Identity.GetUserName(),
+                    TieuDe = subject,
+                    NoiDung = content
+                });
+                db.SaveChanges();
+
+                ExportController.SendEmail(User.Identity.GetUserName(), email, subject, content);
+
+                scope.Complete();
+            }
 
             return RedirectToAction("ThongKeChung");
         }
