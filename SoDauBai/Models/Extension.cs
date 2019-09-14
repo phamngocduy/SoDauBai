@@ -49,9 +49,15 @@ namespace SoDauBai.Models
 
     public class EMAILS
     {
-        public static int GhiSo = 0;
-        public static int DayBu = 1;
-        public static int HoTro = 2;
+        public const int GhiSo = 0;
+        public const int DayBu = 1;
+        public const int HoTro = 2;
+    }
+
+    public class CONFIG
+    {
+        public const string KHOA_SO = "KHOA_SO";
+        public const string ACDM511 = "ACDM511";
     }
 
     public static class Extension

@@ -38,5 +38,6 @@ namespace SoDauBai.Models
         public virtual DbSet<SoGhiBai> SoGhiBais { get; set; }
         public virtual DbSet<ThoiKhoaBieu> ThoiKhoaBieux { get; set; }
         public virtual DbSet<GuiEmail> GuiEmails { get; set; }
+        public virtual DbSet<CauHinh> CauHinhs { get; set; }
     }
 }

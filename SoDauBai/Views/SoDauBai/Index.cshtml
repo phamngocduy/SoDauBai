@@ -3,6 +3,7 @@
     var count = 1;
     var TKB = ViewBag.TKB as ThoiKhoaBieu;
     var GV = (ViewBag.GV as GiangVien).Init();
+    var KhoaSo = (int)ViewBag.KhoaSo;
     var start = Model.Count() > 0 ? Model.Min(s => s.NgayDay) : DateTime.MinValue;
     int demNghi = 0, tongBu = Model.Count(sdb => sdb.Loai == 2);
     var info = "visible";
@@ -88,7 +89,8 @@
                                 }
                             </td>
                             <td rowspan="@span">
-                                @if (User.IsInTKB(item.ThoiKhoaBieu.id) && User.IsInSDB(item.id))
+                                @if (User.IsInTKB(item.ThoiKhoaBieu.id) && User.IsInSDB(item.id)
+                                        && (DateTime.Today - item.NgayDay).Days < KhoaSo)
                                 {
                                     <a href="@Url.Action("Edit", new { id = item.id })" class="btn btn-warning btn-circle btn-sm">
                                         <i class="fas fa-pencil-alt"></i>

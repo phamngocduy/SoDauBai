@@ -1,0 +1,37 @@
+﻿@model IEnumerable<CauHinh>
+@{
+    var khoaSo = Model.First(c => c.ThamSo == CONFIG.KHOA_SO).GiaTri.ToIntOrDefault(0);
+}
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Cấu hình hệ thống</h6>
+    </div>
+    <div class="card-body">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+                <div class="form-group">
+                    <div class="col-md-10">
+                        <strong>Khóa Ghi/Sửa/Xóa thông tin buổi dạy sau</strong>
+                        <input type="number" name="khoaSo" value="@khoaSo" required />
+                        <strong>ngày.</strong>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Cập nhật" class="btn btn-success" />
+                        <span class="text-warning">@TempData["Message"]</span>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

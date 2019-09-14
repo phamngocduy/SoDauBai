@@ -183,6 +183,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\CauHinhController.cs" />
     <Compile Include="Controllers\ExportController.cs" />
     <Compile Include="Controllers\GiangVienController.cs" />
     <Compile Include="Controllers\GiaoVuController.cs" />
@@ -210,6 +211,9 @@
       <DependentUpon>Models.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\AspNetUserLogin.cs">
+      <DependentUpon>Models.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CauHinh.cs">
       <DependentUpon>Models.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\GiangVien.cs">
@@ -396,6 +400,7 @@
     <Content Include="Views\GiaoVu\Index.cshtml" />
     <Content Include="Views\Export\Backup.cshtml" />
     <Content Include="Views\ThongKe\GuiMailNhacNho.cshtml" />
+    <Content Include="Views\CauHinh\Index.cshtml" />
     <None Include="Web.CNTT.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>

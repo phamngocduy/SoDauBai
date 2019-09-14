@@ -11,6 +11,7 @@ using System.Collections.Generic;
 
 namespace SoDauBai.Controllers
 {
+    [Authorize]
     public class SoDauBaiController : Controller
     {
         private SoDauBaiEntities db = new SoDauBaiEntities();
@@ -24,6 +25,7 @@ namespace SoDauBai.Controllers
                             && tkb.NhomTo == TKB.NhomTo && (tkb.ToTH == TKB.ToTH || tkb.ToTH == null));
             ViewBag.TKB = TKB;
             ViewBag.GV = db.GiangViens.FirstOrDefault(gv => gv.MaGV == TKB.MaGV);
+            ViewBag.KhoaSo = db.CauHinhs.Find(CONFIG.KHOA_SO).GiaTri.ToIntOrDefault(0);
             return View(model.Select(tkb => tkb.SoGhiBais.ToList()).ToList().Merge());
         }
 
@@ -39,6 +41,11 @@ namespace SoDauBai.Controllers
                 ModelState.AddModelError("TongSoSV", "TongSoSV < 0");
             if (model.ThoiGianKT <= model.ThoiGianBD)
                 ModelState.AddModelError("ThoiGianKT", "ThoiGianKT < ThoiGianBD");
+            if (model.NgayDay > DateTime.Today)
+                ModelState.AddModelError("NgayDay", "NgayDay > NgayHomNay");
+            var KhoaSo = db.CauHinhs.Find(CONFIG.KHOA_SO).GiaTri.ToIntOrDefault(0);
+            if ((DateTime.Today - model.NgayDay).Days > KhoaSo)
+                ModelState.AddModelError("NgayDay", "NgayHomNay - NgayDay > " + KhoaSo);
         }
 
         [TKBAuthorization]
@@ -124,9 +131,13 @@ namespace SoDauBai.Controllers
         [SDBAuthorization]
         public ActionResult DeleteConfirmed(int id)
         {
+            var KhoaSo = db.CauHinhs.Find(CONFIG.KHOA_SO).GiaTri.ToIntOrDefault(0);
             var model = db.SoGhiBais.Find(id);
-            db.SoGhiBais.Remove(model);
-            db.SaveChanges();
+            if ((DateTime.Today - model.NgayDay).Days < KhoaSo)
+            {
+                db.SoGhiBais.Remove(model);
+                db.SaveChanges();
+            }
             return RedirectToAction("Index", new { id = model.idTKB });
         }
 

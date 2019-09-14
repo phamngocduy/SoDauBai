@@ -1,10 +1,7 @@
 ﻿using System;
 using System.IO;
-using System.Net;
 using System.Linq;
-using System.Text;
 using System.Web.Mvc;
-using System.Net.Mail;
 using SoDauBai.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
@@ -99,7 +96,9 @@ namespace SoDauBai.Controllers
                     NhanXet = db.NhanXets.ToList(),
                     PhongDayBu = db.PhongDayBus.ToList(),
                     SoGhiBai = db.SoGhiBais.ToList(),
-                    ThoiKhoaBieu = db.ThoiKhoaBieux.ToList()
+                    ThoiKhoaBieu = db.ThoiKhoaBieux.ToList(),
+                    GuiEmail = db.GuiEmails.ToList(),
+                    CauHinh = db.CauHinhs.ToList()
                 };
 
                 var path = Server.MapPath("~/App_Data");
@@ -111,32 +110,6 @@ namespace SoDauBai.Controllers
                 }
                 return View();
             }
-        }
-
-        public static void SendEmail(string from, string to, string subject, string content)
-        {
-            var credentials = new NetworkCredential("acdm511@gmail.com",
-                Encoding.ASCII.GetString(Convert.FromBase64String("QW50aG9ueUNoYXVEdXlNaQ==")));
-
-            var mail = new MailMessage()
-            {
-                From = new MailAddress("acdm511@gmail.com", from),
-                Subject = subject, Body = content
-            };
-
-            mail.To.Add(new MailAddress(to));
-
-            var client = new SmtpClient()
-            {
-                Port = 587,
-                DeliveryMethod = SmtpDeliveryMethod.Network,
-                UseDefaultCredentials = false,
-                Host = "smtp.gmail.com",
-                EnableSsl = true,
-                Credentials = credentials
-            };
-
-            client.Send(mail);
         }
     }
 

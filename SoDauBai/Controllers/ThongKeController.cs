@@ -71,7 +71,7 @@ namespace SoDauBai.Controllers
             ViewBag.TKB = id;
             var tkb = db.ThoiKhoaBieux.Find(id);
             var email = db.GiangViens.Single(gv => gv.MaGV == tkb.MaGV).Email;
-            ViewBag.GuiEmails = db.GuiEmails.Where(e => e.Loai == EMAILS.GhiSo && e.Email == email).ToList();
+            ViewBag.GuiEmails = db.GuiEmails.Where(e => e.Loai == EMAILS.GhiSo && e.Email == email && e.Tag == id).ToList();
             return View(email as object);
         }
 
@@ -100,7 +100,7 @@ namespace SoDauBai.Controllers
                 });
                 db.SaveChanges();
 
-                ExportController.SendEmail(User.Identity.GetUserName(), email, subject, content);
+                CauHinhController.SendEmail(User.Identity.GetUserName(), email, subject, content);
 
                 scope.Complete();
             }

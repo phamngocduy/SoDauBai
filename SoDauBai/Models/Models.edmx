@@ -56,6 +56,13 @@
           <Property Name="AccessFailedCount" Type="int" Nullable="false" />
           <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
         </EntityType>
+        <EntityType Name="CauHinh">
+          <Key>
+            <PropertyRef Name="ThamSo" />
+          </Key>
+          <Property Name="ThamSo" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="GiaTri" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
         <EntityType Name="GiangVien">
           <Key>
             <PropertyRef Name="id" />
@@ -260,6 +267,7 @@
           <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CauHinh" EntityType="Self.CauHinh" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GiangVien" EntityType="Self.GiangVien" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GiaoVu" EntityType="Self.GiaoVu" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GuiEmail" EntityType="Self.GuiEmail" Schema="dbo" store:Type="Tables" />
@@ -332,6 +340,7 @@
             <End Role="AspNetUser" EntitySet="AspNetUsers" />
           </AssociationSet>
           <EntitySet Name="GuiEmails" EntityType="SoDauBaiModel.GuiEmail" />
+          <EntitySet Name="CauHinhs" EntityType="SoDauBaiModel.CauHinh" />
         </EntityContainer>
         <EntityType Name="AspNetRole">
           <Key>
@@ -560,6 +569,13 @@
           <Property Name="TieuDe" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="NoiDung" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
+        <EntityType Name="CauHinh">
+          <Key>
+            <PropertyRef Name="ThamSo" />
+          </Key>
+          <Property Name="ThamSo" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="GiaTri" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -743,6 +759,14 @@
                 <ScalarProperty Name="Loai" ColumnName="Loai" />
                 <ScalarProperty Name="Tag" ColumnName="Tag" />
                 <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CauHinhs">
+            <EntityTypeMapping TypeName="SoDauBaiModel.CauHinh">
+              <MappingFragment StoreEntitySet="CauHinh">
+                <ScalarProperty Name="GiaTri" ColumnName="GiaTri" />
+                <ScalarProperty Name="ThamSo" ColumnName="ThamSo" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
