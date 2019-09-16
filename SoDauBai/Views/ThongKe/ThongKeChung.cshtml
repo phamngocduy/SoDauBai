@@ -10,13 +10,29 @@
     var maGV = TKB.Select(tkb => tkb.MaGV).Distinct().ToArray();
     var giangVien = GV.Where(gv => maGV.Contains(gv.MaGV)).Select(gv => gv.HoTen + " - " + gv.MaGV).ToArray();
     var sinhVien = (int)TKB.AverageOrDefault(tkb => tkb.SoGhiBais.AverageOrDefault(sdb => sdb.TongSoSV));
-    var buoiDay = TKB.Count(tkb => tkb.SoGhiBais.Count(sdb => sdb.Loai == 0));
+    var buoiGhi = TKB.Count(tkb => tkb.SoGhiBais.Count(sdb => sdb.Loai == 0));
     var buoiNghi = TKB.Count(tkb => tkb.SoGhiBais.Count(sdb => sdb.Loai == 1));
     var buoiBu = TKB.Count(tkb => tkb.SoGhiBais.Count(sdb => sdb.Loai == 2));
     var tietDay = TKB.Sum(tkb => tkb.SoGhiBais.Where(sdb => sdb.Loai != 1).Sum(sdb => sdb.SoTietDay));
     var nhacNho = Emails.Count(e => e.Tag == item.id);
     var email = GV.FirstOrDefault(gv => gv.MaGV == item.MaGV).Init().Email;
-
+    var buoiDau = TKB.Merge(tkb => tkb.SoGhiBais).Min(sdb => sdb.NgayDay, DateTime.MinValue);
+    var buoiDay = 0;
+    if (buoiDau > DateTime.MinValue)
+    {
+        var tempDau = buoiDau;
+        var toDay = DateTime.Today;
+        foreach (var tkb in TKB)
+        {
+            tempDau = buoiDau.AddDays(-(int)buoiDau.DayOfWeek);
+            tempDau = tempDau.AddDays(CONST.DAY[tkb.ThuKieuSo]);
+            while (tempDau <= toDay)
+            {
+                buoiDay++;
+                tempDau = tempDau.AddDays(7);
+            }
+        }
+    }
     <tr>
         <td>
             <a href="@Url.Action("Index", "SoDauBai", new { id = item.id })" target="_blank">
@@ -25,10 +41,10 @@
             </a>
         </td>
         <td><i>@String.Join(", ", giangVien)</i></td>
-        <td>@sinhVien/@item.TongSoSV</td>
-        <td>@(buoiDay+buoiBu)</td>
+        <td data-order="@sinhVien.Div(item.TongSoSV)">@sinhVien/@item.TongSoSV</td>
+        <td data-order="@((buoiGhi+buoiNghi).Div(buoiDay))">@(buoiGhi+buoiNghi)/@buoiDay</td>
         <td>@tietDay</td>
-        <td>@buoiBu/@buoiNghi</td>
+        <td data-order="@buoiBu.Div(buoiNghi)">@buoiBu/@buoiNghi</td>
         <td>
             <a href="#" id="@item.id" data-content="@String.Format("ThuKieuSo: {0}\nTietBD: {1}\nSoTiet: {2}\nMaPH: {3}\nMaLop: {4}\nTenLop: {5}", item.ThuKieuSo, item.TietBD, item.SoTiet, item.MaPH, item.MaLop, item.TenLop)" data-toggle="popover" data-placement="left">
                 <i class="fas fa-info"></i>
@@ -64,8 +80,8 @@
                         <th>Lớp học</th>
                         <th>Giảng viên</th>
                         <th>Số SV</th>
-                        <th>Buổi dạy</th>
-                        <th>Tiết dạy</th>
+                        <th>Ghi sổ</th>
+                        <th>Số giờ</th>
                         <th>Dạy bù</th>
                         <th></th>
                     </tr>

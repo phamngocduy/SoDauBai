@@ -12,7 +12,7 @@ namespace SoDauBai.Models
     public class CONST
     {
         public static int[] THU =
-        {
+        { // DayOfWeek to ThuKieuSo
             8, // Sunday
             2, // Monday
             3, // Tuesday
@@ -20,6 +20,18 @@ namespace SoDauBai.Models
             5, // Thrusday
             6, // Friday
             7 // Saturday
+        };
+
+        public static int[] DAY =
+        { // ThuKieuSo to DayOfWeek
+            0, 0,
+            1, // Monday
+            2, // Tuesday
+            3, // Wednesday
+            4, // Thrusday
+            5, // Friday
+            6, // Saturday
+            0 // Sunday
         };
 
         public static TimeSpan[] TIET =
@@ -144,6 +156,14 @@ namespace SoDauBai.Models
             return list;
         }
 
+        public static List<TResult> Merge<TSource, TResult>(this IEnumerable<TSource> source, Func<TSource, ICollection<TResult>> selector)
+        {
+            var list = new List<List<TResult>>();
+            foreach (var item in source)
+                list.Add(selector(item).ToList());
+            return list.Merge();
+        }
+
         public static byte GetHocKy(this Controller controller, SoDauBaiEntities db)
         {
             return (byte)(controller.Session[CONST.HocKy] ?? db.ThoiKhoaBieux.MaxOrDefault(tkb => tkb.HocKy));
@@ -175,9 +195,19 @@ namespace SoDauBai.Models
             }
         }
 
+        public static TResult Min<TSource, TResult>(this IEnumerable<TSource> source, Func<TSource, TResult> selector, TResult minValue)
+        {
+            return source.Count() > 0 ? source.Min(selector) : minValue;
+        }
+
         public static string ToBase64(this string s)
         {
             return Convert.ToBase64String(Encoding.UTF8.GetBytes(s));
+        }
+
+        public static double Div(this int i, int j)
+        {
+            return j != 0 ? i / (double)j : 0;
         }
     }
 }
