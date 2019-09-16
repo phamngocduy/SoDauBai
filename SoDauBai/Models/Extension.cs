@@ -5,6 +5,7 @@ using System.Linq.Expressions;
 using System.Data;
 using System.Web.Mvc;
 using System.Security.Principal;
+using System.Text;
 
 namespace SoDauBai.Models
 {
@@ -172,6 +173,11 @@ namespace SoDauBai.Models
             {
                 return defaultValue;
             }
+        }
+
+        public static string ToBase64(this string s)
+        {
+            return Convert.ToBase64String(Encoding.UTF8.GetBytes(s));
         }
     }
 }

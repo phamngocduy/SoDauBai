@@ -84,7 +84,7 @@ namespace SoDauBai.Controllers
             var email = db.GiangViens.Single(gv => gv.MaGV == tkb.MaGV).Email;
 
             subject = "[SĐB] " + subject;
-            content = content + Environment.NewLine + url.Action("Index", "SoDauBai", new { id = tkb.id }, Request.Url.Scheme);
+            content = content + "\n" + url.Action("Index", "SoDauBai", new { id = tkb.id }, Request.Url.Scheme);
             using (var scope = new TransactionScope())
             {
                 db.GuiEmails.Add(new GuiEmail

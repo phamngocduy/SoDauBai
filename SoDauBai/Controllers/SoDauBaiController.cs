@@ -41,7 +41,7 @@ namespace SoDauBai.Controllers
                 ModelState.AddModelError("TongSoSV", "TongSoSV < 0");
             if (model.ThoiGianKT <= model.ThoiGianBD)
                 ModelState.AddModelError("ThoiGianKT", "ThoiGianKT < ThoiGianBD");
-            if (model.NgayDay > DateTime.Today)
+            if (model.Loai != 1 && model.NgayDay > DateTime.Today)
                 ModelState.AddModelError("NgayDay", "NgayDay > NgayHomNay");
             var KhoaSo = db.CauHinhs.Find(CONFIG.KHOA_SO).GiaTri.ToIntOrDefault(0);
             if ((DateTime.Today - model.NgayDay).Days > KhoaSo)

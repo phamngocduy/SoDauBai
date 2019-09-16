@@ -7,6 +7,14 @@ using System.Web;
 using System.Web.Mvc;
 using SoDauBai.Models;
 using System.Data.Entity;
+using Google.Apis.Auth.OAuth2;
+using System.IO;
+using System.Threading;
+using Google.Apis.Util.Store;
+using Google.Apis.Gmail.v1;
+using Google.Apis.Services;
+using Google.Apis.Gmail.v1.Data;
+using System.Web.Hosting;
 
 namespace SoDauBai.Controllers
 {
@@ -36,7 +44,7 @@ namespace SoDauBai.Controllers
             return RedirectToAction("Index");
         }
 
-        public static void SendEmail(string from, string to, string subject, string content)
+        public static void GuiEmail(string from, string to, string subject, string content)
         {
             var password = "AnthonyChauDuyMi";
             using (var db = new SoDauBaiEntities())
@@ -66,6 +74,41 @@ namespace SoDauBai.Controllers
             };
 
             client.Send(mail);
+        }
+
+        static string[] Scopes = { GmailService.Scope.GmailSend };
+        static string ApplicationName = "SoDauBai";
+
+        public static void SendEmail(string from, string to, string subject, string content)
+        {
+            UserCredential credential;
+
+            using (var stream =
+                new FileStream("credentials.json", FileMode.Open, FileAccess.Read))
+            {
+                // The file token.json stores the user's access and refresh tokens, and is created
+                // automatically when the authorization flow completes for the first time.
+                string credPath = Path.Combine(HostingEnvironment.MapPath("~"), "token.json");
+                credential = GoogleWebAuthorizationBroker.AuthorizeAsync(
+                    GoogleClientSecrets.Load(stream).Secrets,
+                    Scopes,
+                    "acdm511@gmail.com",
+                    CancellationToken.None,
+                    new FileDataStore(credPath, true)).Result;
+            }
+
+            // Create Gmail API service.
+            var service = new GmailService(new BaseClientService.Initializer()
+            {
+                HttpClientInitializer = credential,
+                ApplicationName = ApplicationName,
+            });
+
+            var email = String.Format("From: \"{0}\"<acdm511@gmail.com>\r\nReply-To: {0}\r\nTo: {1}\r\nSubject: =?utf-8?B?{2}?=\r\nContent-Type: text/html; charset=utf-8\r\n\r\n<h1>{3}",
+                from, to, subject.ToBase64(), String.Join("", content.Split('\n').Select(s => String.Format("<p>{0}</p>", s.Trim()))) + "Sent from Sổ Đầu Bài.Please do not reply.");
+            var message = new Message();
+            message.Raw = email.ToBase64().Replace("+", "-").Replace("/", "_").Replace("=", "");
+            service.Users.Messages.Send(message, "me").Execute();
         }
     }
 }
