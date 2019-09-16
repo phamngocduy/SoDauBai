@@ -429,6 +429,9 @@
     <Content Include="Views\Export\Backup.cshtml" />
     <Content Include="Views\ThongKe\GuiMailNhacNho.cshtml" />
     <Content Include="Views\CauHinh\Index.cshtml" />
+    <None Include="token.json\Google.Apis.Auth.OAuth2.Responses.TokenResponse-acdm511%40gmail.com">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Web.CNTT.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>

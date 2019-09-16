@@ -84,11 +84,11 @@ namespace SoDauBai.Controllers
             UserCredential credential;
 
             using (var stream =
-                new FileStream("credentials.json", FileMode.Open, FileAccess.Read))
+                new FileStream(Path.Combine(HostingEnvironment.MapPath("~"), "bin", "credentials.json"), FileMode.Open, FileAccess.Read))
             {
                 // The file token.json stores the user's access and refresh tokens, and is created
                 // automatically when the authorization flow completes for the first time.
-                string credPath = Path.Combine(HostingEnvironment.MapPath("~"), "token.json");
+                string credPath = Path.Combine(HostingEnvironment.MapPath("~"), "bin", "token.json");
                 credential = GoogleWebAuthorizationBroker.AuthorizeAsync(
                     GoogleClientSecrets.Load(stream).Secrets,
                     Scopes,
@@ -105,7 +105,7 @@ namespace SoDauBai.Controllers
             });
 
             var email = String.Format("From: \"{0}\"<acdm511@gmail.com>\r\nReply-To: {0}\r\nTo: {1}\r\nSubject: =?utf-8?B?{2}?=\r\nContent-Type: text/html; charset=utf-8\r\n\r\n<h1>{3}",
-                from, to, subject.ToBase64(), String.Join("", content.Split('\n').Select(s => String.Format("<p>{0}</p>", s.Trim()))) + "Sent from Sổ Đầu Bài.Please do not reply.");
+                from, to, subject.ToBase64(), String.Join("", content.Split('\n').Select(s => String.Format("<p>{0}</p>", s.Trim()))) + "Sent from Sổ Đầu Bài. Please do not reply.");
             var message = new Message();
             message.Raw = email.ToBase64().Replace("+", "-").Replace("/", "_").Replace("=", "");
             service.Users.Messages.Send(message, "me").Execute();
