@@ -64,6 +64,7 @@
                 localStorage.setItem("@(GuiMailNhacNho)_Subject", $(this).find('#Subject').val());
                 localStorage.setItem("@(GuiMailNhacNho)_Content", $(this).find('#Content').val());
             });
+            autosize.update($('textarea'));
         });
     </script>
 }

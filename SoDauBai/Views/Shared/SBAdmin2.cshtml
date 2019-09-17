@@ -237,6 +237,7 @@
     <script src="~/Content/vendor/datatables/dataTables.bootstrap4.min.js"></script>
     <script src="~/Scripts/jquery.blockUI.js"></script>
     <script src="~/Scripts/jquery.cookie.js"></script>
+    <script src="~/Scripts/autosize.min.js"></script>
     @RenderSection("scripts", required: false)
     <script>
         SIDEBAR = false;
@@ -245,6 +246,7 @@
             Cookies.set('SIDEBAR', SIDEBAR);
         });
         $(function () {
+            autosize($('textarea'));
             if (Cookies.get('SIDEBAR') == "true")
                 $('#sidebarToggle').trigger('click');
             $('#HocKy').change(function () {
