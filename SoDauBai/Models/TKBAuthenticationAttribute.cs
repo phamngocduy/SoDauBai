@@ -25,7 +25,7 @@ namespace SoDauBai.Models
             {
                 var model = db.ThoiKhoaBieux.Find(id);
                 if (model == null) return false;
-                return db.GiangViens.SingleOrDefault(gv => gv.MaGV == model.MaGV).Init().Email.Trim() == user.Identity.GetUserName().Trim();
+                return db.GiangViens.SingleOrDefault(gv => gv.MaGV == model.MaGV).Init().Email.Trim().ToLower() == user.Identity.GetUserName().Trim().ToLower();
             }
         }
     }
