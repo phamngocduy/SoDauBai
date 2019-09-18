@@ -3,6 +3,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
 using SoDauBai.Models;
+using System.Transactions;
 using Microsoft.AspNet.Identity;
 
 namespace SoDauBai.Controllers
@@ -30,9 +31,18 @@ namespace SoDauBai.Controllers
             model.from = User.Identity.GetUserName();
             if (ModelState.IsValid)
             {
-                db.LienHes.Add(model);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                using (var scope = new TransactionScope())
+                {
+                    db.LienHes.Add(model);
+                    db.SaveChanges();
+
+                    UrlHelper url = new UrlHelper(Request.RequestContext);
+                    var to = String.Join(",", db.AspNetRoles.FirstOrDefault(r => r.Name == "HoTro").Init().AspNetUsers.Select(u => u.Email).ToArray());
+                    CauHinhController.SendEmail(model.from, to, "[SĐB] Liên hệ / Báo lỗi", model.Question + '\n' + url.Action("Index", "LienHe", null, Request.Url.Scheme));
+
+                    scope.Complete();
+                    return RedirectToAction("Index");
+                }
             }
             return View(model);
         }
@@ -84,9 +94,19 @@ namespace SoDauBai.Controllers
             lienHe.Answer = model.Answer;
             if (ModelState.IsValid)
             {
-                db.Entry(lienHe).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                using (var scope = new TransactionScope())
+                {
+                    db.Entry(lienHe).State = EntityState.Modified;
+                    db.SaveChanges();
+
+                    UrlHelper url = new UrlHelper(Request.RequestContext);
+                    var question = String.Join("\n", lienHe.Question.Split('\n').Select(q => "<pre>" + q + "</pre>"));
+                    question = "________________________________________\n" + question;
+                    CauHinhController.SendEmail(lienHe.to, lienHe.from, "[SĐB] V/v Liên hệ / Báo lỗi", model.Answer + '\n' + question + '\n' + url.Action("Index", "LienHe", null, Request.Url.Scheme));
+
+                    scope.Complete();
+                    return RedirectToAction("Index");
+                }
             }
             return View(model);
         }

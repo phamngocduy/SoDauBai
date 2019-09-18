@@ -1,6 +1,7 @@
 ﻿@model IEnumerable<PhongDayBu>
 @{ 
     var TKB = ViewBag.TKB as ThoiKhoaBieu;
+    var GV = ViewBag.GV as List<GiangVien>;
     var PhongDayBu = Model;
     switch (ViewContext.RouteData.Values["action"].ToString())
     {
@@ -47,8 +48,12 @@
                             <td>
                                 @if (User.IsInRoles("DaoTao,GiaoVu"))
                                 {
+                                    <span>@GV.FirstOrDefault(gv => gv.Email == item.email1).Init().HoTen</span>
                                     <pre>@item.email1</pre>
                                 }
+                                <a href="@Url.Action("Index", "SoDauBai", new { id = item.idTKB })" target="_blank">
+                                    @item.ThoiKhoaBieu.TenMH, thứ @item.ThoiKhoaBieu.ThuKieuSo tiết @item.ThoiKhoaBieu.TietBD - @(item.ThoiKhoaBieu.TietBD + item.ThoiKhoaBieu.SoTiet - 1)
+                                </a>
                                 <div>@item.GhiChu1</div>
                                 <span>Từ ngày @item.NgayBD.ToString("dd/MM/yyyy")</span>
                                 @if (User.IsInTKB(item.idTKB))

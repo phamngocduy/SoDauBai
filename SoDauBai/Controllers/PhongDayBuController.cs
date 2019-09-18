@@ -5,6 +5,7 @@ using System.Web.Mvc;
 using SoDauBai.Models;
 using System.Web.Routing;
 using System.Threading;
+using System.Transactions;
 using System.Globalization;
 using Microsoft.AspNet.Identity;
 using System.Security.Principal;
@@ -38,6 +39,7 @@ namespace SoDauBai.Controllers
         {
             var model = db.PhongDayBus.Where(p => p.idTKB == id);
             ViewBag.TKB = db.ThoiKhoaBieux.Find(id);
+            ViewBag.GV = db.GiangViens.ToList();
             return View("Index", model.ToList());
         }
 
@@ -51,6 +53,7 @@ namespace SoDauBai.Controllers
         public ActionResult Index2()
         {
             var model = FilterGiaoVu(db.PhongDayBus, User, db);
+            ViewBag.GV = db.GiangViens.ToList();
             return View("Index", model.ToList());
         }
 
@@ -82,11 +85,22 @@ namespace SoDauBai.Controllers
             var tkb = db.ThoiKhoaBieux.Find(id);
             if (ModelState.IsValid)
             {
-                model.MaPH = tkb.MaPH;
-                model.TietBD = tkb.TietBD;
-                db.PhongDayBus.Add(model);
-                db.SaveChanges();
-                return RedirectToAction("Index1", new { id = id });
+                using (var scope = new TransactionScope())
+                {
+                    model.MaPH = tkb.MaPH;
+                    model.TietBD = tkb.TietBD;
+                    db.PhongDayBus.Add(model);
+                    db.SaveChanges();
+
+                    UrlHelper url = new UrlHelper(Request.RequestContext);
+                    var course = String.Format("Môn {0}, thứ {1} tiết {2} - {3}", tkb.TenMH, tkb.ThuKieuSo, tkb.TietBD, tkb.TietBD + tkb.SoTiet - 1);
+                    var to = String.Join(",", db.GiaoVus.ToList().Where(gv => gv.MaNganh.Split(',').Contains(tkb.MaNganh)).Select(gv => gv.Email).ToArray());
+                    if (String.IsNullOrWhiteSpace(to)) to = "p.dt@vanlanguni.edu.vn";
+                    CauHinhController.SendEmail(model.email1, to, "[SĐB] Đặt phòng dạy bù", course + '\n' + model.GhiChu1 + '\n' + url.Action("Index2", "PhongDayBu", null, Request.Url.Scheme));
+
+                    scope.Complete();
+                    return RedirectToAction("Index1", new { id = id });
+                }
             }
 
             return View(model);
@@ -137,15 +151,26 @@ namespace SoDauBai.Controllers
             var model = db.PhongDayBus.Find(phong.id);
             if (ModelState.IsValid)
             {
-                model.MaPH = phong.MaPH;
-                model.TietBD = phong.TietBD;
-                model.NgayDay = phong.NgayDay;
-                model.GhiChu2 = phong.GhiChu2;
-                model.status = DateTime.Now;
-                model.email2 = User.Identity.GetUserName();
-                db.Entry(model).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index2", new { id = model.idTKB });
+                using (var scope = new TransactionScope())
+                {
+                    model.MaPH = phong.MaPH;
+                    model.TietBD = phong.TietBD;
+                    model.NgayDay = phong.NgayDay;
+                    model.GhiChu2 = phong.GhiChu2;
+                    model.status = DateTime.Now;
+                    model.email2 = User.Identity.GetUserName();
+                    db.Entry(model).State = EntityState.Modified;
+                    db.SaveChanges();
+
+                    UrlHelper url = new UrlHelper(Request.RequestContext);
+                    var ghiChu1 = String.Join("\n", model.GhiChu1.Split('\n').Select(q => "<pre>" + q + "</pre>"));
+                    ghiChu1 = "________________________________________\n" + ghiChu1;
+                    var ghiChu2 = String.Format("Ngày <mark>{0}</mark> Phòng <mark>{1}</mark>, từ Tiết <mark>{2}</mark>", model.NgayDay.ToString("dd/MM/yyyy"), model.MaPH, model.TietBD);
+                    CauHinhController.SendEmail(model.email2, model.email1, "[SĐB] V/v Đặt phòng dạy bù", model.GhiChu2 + '\n' + ghiChu2 + '\n' + ghiChu1 + '\n' + url.Action("Index1", "PhongDayBu", new { id = model.idTKB }, Request.Url.Scheme));
+
+                    scope.Complete();
+                    return RedirectToAction("Index2", new { id = model.idTKB });
+                }
             }
             return View(phong);
         }
