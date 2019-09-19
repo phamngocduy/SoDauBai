@@ -1,4 +1,5 @@
-﻿@model IEnumerable<SoGhiBai>
+﻿@using SoDauBai.Controllers
+@model IEnumerable<SoGhiBai>
 @{ 
     var count = 1;
     var TKB = ViewBag.TKB as ThoiKhoaBieu;
@@ -7,115 +8,124 @@
     var start = Model.Count() > 0 ? Model.Min(s => s.NgayDay) : DateTime.MinValue;
     int demNghi = 0, tongBu = Model.Count(sdb => sdb.Loai == 2);
     var info = "visible";
+    var buoiGhi = Model.Count();
+    var buoiDay = SoDauBaiController.countSoBuoiDay(Model.Select(sdb => sdb.ThoiKhoaBieu).Distinct().ToList());
+    var tile = (int)((double)buoiGhi * 100 / buoiDay);
+    var hour = Model.Where(sdb => sdb.Loai != 1).Count(sdb => (int)sdb.ThoiGianKT.Subtract(sdb.ThoiGianBD).TotalMinutes);
 }
 
-<div class="card shadow mb-4">
-    <div class="card-header py-3">
-        @if (User.IsInTKB(TKB.id))
-        {
-            <a href="@Url.Action("Create", new { id = TKB.id })" class="btn btn-success btn-circle btn-sm float-right">
-                <i class="fas fa-plus"></i>
-            </a>
-        }
-        @if (true)
-        {
-            var Tiet = new int[TKB.SoTiet];
-            Tiet.For(0, TKB.SoTiet - 1, i => Tiet[i] = TKB.TietBD + i);
-            <a href="#" title="@TKB.MaLop" data-content="@TKB.TenLop" data-toggle="popover" data-placement="left" class="btn btn-info btn-circle btn-sm" style="visibility:@info">
-                <i class="fas fa-info"></i>
-            </a>
-            <h6 class="m-0 font-weight-bold text-primary d-inline">@TKB.TenMH - @GV.HocVi @GV.HoTen - Thứ @TKB.ThuKieuSo, tiết @String.Join("", Tiet) #P:@TKB.MaPH</h6>
-            if (User.IsInTKB(TKB.id))
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            @if (User.IsInTKB(TKB.id))
             {
-                <a href="@Url.Action("Update", "ThoiKhoaBieu", new { id = TKB.id })" class="btn btn-warning btn-circle btn-sm">
-                    <i class="fas fa-pencil-alt"></i>
+                <a href="@Url.Action("Create", new { id = TKB.id })" class="btn btn-success btn-circle btn-sm float-right">
+                    <i class="fas fa-plus"></i>
                 </a>
             }
-            <br />
-        }
-    </div>
-    <div class="card-body">
-        <div class="table-responsive">
-            <table class="table table-bordered table-hover" id="dataTable" width="100%" cellspacing="0">
-                <thead>
-                    <tr>
-                        <th>STT</th>
-                        <th>Thời gian</th>
-                        <th>Phòng</th>
-                        <th>Nội dung</th>
-                        <th>Nhận xét</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model.OrderBy(s => s.NgayDay))
-                    {
-                        var style = item.Loai == 1 ?
-                            ++demNghi > tongBu ? "table-danger" : "table-warning" :
-                            item.Loai == 2 ? "table-success" : null;
-                        var span = item.DeXuat.IsNullOrEmptyOrWhiteSpace() ? 1 : 2;
-                        <tr class="@style">
-                            <td rowspan="@span">
-                                <span style="white-space:nowrap">Buổi @(count++)</span>
-                                <br />
-                                <span style="white-space:nowrap">Tuần @((int)(item.NgayDay - start).TotalDays / 7 + 1)</span>
-                            </td>
-                            <td rowspan="@span">
-                                @item.NgayDay.ToString("dd/MM/yyyy")
-                                <br />
-                                <span style="white-space:nowrap">@item.ThoiGianBD.ToString(@"hh\:mm") - @item.ThoiGianKT.ToString(@"hh\:mm")</span>
-                            </td>
-                            <td rowspan="@span">
-                                P#@item.MaPhong
-                                <br />
-                                @item.TongSoSV<span>SV</span>
-                            </td>
-                            <td>
-                                @foreach (var line in (item.NDGiangDay ?? "").Split('\n'))
-                                {
-                                    if (!String.IsNullOrEmpty((line ?? "").Trim()))
-                                    {
-                                        <span>@line</span><br />
-                                    }
-                                }
-                            </td>
-                            <td>
-                                @foreach (var line in (item.NhanXetSV ?? "").Split('\n'))
-                                {
-                                    if (!String.IsNullOrEmpty((line ?? "").Trim()))
-                                    {
-                                        <span>@line</span><br />
-                                    }
-                                }
-                            </td>
-                            <td rowspan="@span">
-                                @if (User.IsInTKB(item.ThoiKhoaBieu.id) && User.IsInSDB(item.id)
-                                        && (DateTime.Today - item.NgayDay).Days < KhoaSo)
-                                {
-                                    <a href="@Url.Action("Edit", new { id = item.id })" class="btn btn-warning btn-circle btn-sm">
-                                        <i class="fas fa-pencil-alt"></i>
-                                    </a>
-                                    <a href="@Url.Action("Delete", new { id = item.id })" class="btn btn-danger btn-circle btn-sm">
-                                        <i class="fas fa-trash"></i>
-                                    </a>
-                                }
-                                <a title="@item.Email" data-content="@item.NgayTao" data-toggle="popover" data-placement="left" class="btn btn-info btn-circle btn-sm">
-                                    <i class="fas fa-info"></i>
-                                </a>
-                            </td>
+            @if (true)
+            {
+                var Tiet = new int[TKB.SoTiet];
+                Tiet.For(0, TKB.SoTiet - 1, i => Tiet[i] = TKB.TietBD + i);
+                <a href="#" title="@TKB.MaLop" data-content="@TKB.TenLop" data-toggle="popover" data-placement="left" class="btn btn-info btn-circle btn-sm" style="visibility:@info">
+                    <i class="fas fa-info"></i>
+                </a>
+                <h6 class="m-0 font-weight-bold text-primary d-inline">@TKB.TenMH - @GV.HocVi @GV.HoTen - Thứ @TKB.ThuKieuSo, tiết @String.Join("", Tiet) #P:@TKB.MaPH</h6>
+                if (User.IsInTKB(TKB.id))
+                {
+                    <a href="@Url.Action("Update", "ThoiKhoaBieu", new { id = TKB.id })" class="btn btn-warning btn-circle btn-sm">
+                        <i class="fas fa-pencil-alt"></i>
+                    </a>
+                }
+                <br />
+            }
+        </div>
+        <div class="progress">
+            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="@tile" aria-valuemin="0" aria-valuemax="100" style="width: @tile%">
+                <span>Đã ghi @tile% ~ @Math.Round(hour / 45.0) giờ. <span style="cursor:pointer">Xem <u>thống kê...</u></span></span>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>STT</th>
+                            <th>Thời gian</th>
+                            <th>Phòng</th>
+                            <th>Nội dung</th>
+                            <th>Nhận xét</th>
+                            <th></th>
                         </tr>
-                        if (span == 2)
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.OrderBy(s => s.NgayDay))
                         {
-                            <tr>
-                                <td colspan="@span">@item.DeXuat</td>
+                            var style = item.Loai == 1 ?
+                                ++demNghi > tongBu ? "table-danger" : "table-warning" :
+                                item.Loai == 2 ? "table-success" : null;
+                            var span = item.DeXuat.IsNullOrEmptyOrWhiteSpace() ? 1 : 2;
+                            <tr class="@style">
+                                <td rowspan="@span">
+                                    <span style="white-space:nowrap">Buổi @(count++)</span>
+                                    <br />
+                                    <span style="white-space:nowrap">Tuần @((int)(item.NgayDay - start).TotalDays / 7 + 1)</span>
+                                </td>
+                                <td rowspan="@span">
+                                    @item.NgayDay.ToString("dd/MM/yyyy")
+                                    <br />
+                                    <span style="white-space:nowrap">@item.ThoiGianBD.ToString(@"hh\:mm") - @item.ThoiGianKT.ToString(@"hh\:mm")</span>
+                                </td>
+                                <td rowspan="@span">
+                                    P#@item.MaPhong
+                                    <br />
+                                    @item.TongSoSV<span>SV</span>
+                                </td>
+                                <td>
+                                    @foreach (var line in (item.NDGiangDay ?? "").Split('\n'))
+                                    {
+                                        if (!String.IsNullOrEmpty((line ?? "").Trim()))
+                                        {
+                                            <span>@line</span><br />
+                                        }
+                                    }
+                                </td>
+                                <td>
+                                    @foreach (var line in (item.NhanXetSV ?? "").Split('\n'))
+                                    {
+                                        if (!String.IsNullOrEmpty((line ?? "").Trim()))
+                                        {
+                                            <span>@line</span><br />
+                                        }
+                                    }
+                                </td>
+                                <td rowspan="@span">
+                                    @if (User.IsInTKB(item.ThoiKhoaBieu.id) && User.IsInSDB(item.id)
+                                            && (DateTime.Today - item.NgayDay).Days < KhoaSo)
+                                    {
+                                        <a href="@Url.Action("Edit", new { id = item.id })" class="btn btn-warning btn-circle btn-sm">
+                                            <i class="fas fa-pencil-alt"></i>
+                                        </a>
+                                        <a href="@Url.Action("Delete", new { id = item.id })" class="btn btn-danger btn-circle btn-sm">
+                                            <i class="fas fa-trash"></i>
+                                        </a>
+                                    }
+                                    <a title="@item.Email" data-content="@item.NgayTao" data-toggle="popover" data-placement="left" class="btn btn-info btn-circle btn-sm">
+                                        <i class="fas fa-info"></i>
+                                    </a>
+                                </td>
                             </tr>
+                            if (span == 2)
+                            {
+                                <tr>
+                                    <td colspan="@span">@item.DeXuat</td>
+                                </tr>
+                            }
                         }
-                    }
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
-</div>
 
 @section Scripts {
     <script>

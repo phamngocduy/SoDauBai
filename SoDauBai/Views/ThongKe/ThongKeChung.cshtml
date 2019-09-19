@@ -1,4 +1,5 @@
-﻿@model IEnumerable<ThoiKhoaBieu>
+﻿@using SoDauBai.Controllers
+@model IEnumerable<ThoiKhoaBieu>
 @{ 
     var GiangViens = ViewBag.GiangViens as List<GiangVien>;
     var GuiEmails = ViewBag.GuiEmails as List<GuiEmail>;
@@ -17,22 +18,7 @@
     var nhacNho = Emails.Count(e => e.Tag == item.id);
     var email = GV.FirstOrDefault(gv => gv.MaGV == item.MaGV).Init().Email;
     var buoiDau = TKB.Merge(tkb => tkb.SoGhiBais).Min(sdb => sdb.NgayDay, DateTime.MinValue);
-    var buoiDay = 0;
-    if (buoiDau > DateTime.MinValue)
-    {
-        var tempDau = buoiDau;
-        var toDay = DateTime.Today;
-        foreach (var tkb in TKB)
-        {
-            tempDau = buoiDau.AddDays(-(int)buoiDau.DayOfWeek);
-            tempDau = tempDau.AddDays(CONST.DAY[tkb.ThuKieuSo]);
-            while (tempDau <= toDay)
-            {
-                buoiDay++;
-                tempDau = tempDau.AddDays(7);
-            }
-        }
-    }
+    var buoiDay = SoDauBaiController.countSoBuoiDay(TKB.ToList());
     <tr>
         <td>
             <a href="@Url.Action("Index", "SoDauBai", new { id = item.id })" target="_blank">
