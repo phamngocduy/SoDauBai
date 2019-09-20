@@ -143,15 +143,15 @@ namespace SoDauBai.Controllers
 
         public static int countSoBuoiDay(List<ThoiKhoaBieu> TKB)
         {
-            var SDB = TKB.Merge(tkb => tkb.SoGhiBais);
-            if (SDB.Count > 0)
+            var SDB = TKB.Merge(tkb => tkb.SoGhiBais).Where(sdb => sdb.Loai != 1);
+            if (SDB.Count() > 0)
             {
                 var buoiDay = 0;
                 var buoiDau = SDB.Min(sdb => sdb.NgayDay);
                 var buoiSau = SDB.Max(sdb => sdb.NgayDay);
-                if (buoiSau < DateTime.Today) buoiSau = DateTime.Today;
-                if (buoiSau.Subtract(buoiDau).TotalDays > 15 * 7)
+                if (buoiSau.Subtract(buoiDau).TotalDays < 15 * 7)
                     buoiSau = buoiDau.AddDays(15 * 7);
+                if (buoiSau > DateTime.Today) buoiSau = DateTime.Today;
 
                 var tempDau = buoiDau;
                 foreach (var tkb in TKB)
@@ -171,7 +171,7 @@ namespace SoDauBai.Controllers
 
         public ActionResult ThongKe(int id)
         {
-            return View();
+            return View((Index(id) as ViewResult).Model);
         }
 
         protected override void Dispose(bool disposing)

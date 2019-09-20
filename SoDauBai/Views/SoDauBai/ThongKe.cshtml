@@ -1,21 +1,162 @@
-﻿<div class="row">
-    <div class="col-md-6 col-sm-12 mb-4">
+﻿@model IEnumerable<SoGhiBai>
+<div class="row">
+    <div class="col-xl-6 col-lg-12 mb-4">
         <div class="card border-left-primary shadow py-2">
             <div class="card-body">
                 <div class="row no-gutters align-items-center">
-                    abc
+                    <canvas id="teaching"></canvas>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="col-md-6 col-sm-12 mb-4">
+    <div class="col-xl-6 col-lg-12 mb-4">
         <div class="card border-left-primary shadow py-2">
             <div class="card-body">
                 <div class="row no-gutters align-items-center">
-                    def
+                    <canvas id="students"></canvas>
                 </div>
             </div>
         </div>
     </div>
 </div>
+@{ 
+    var SDB = Model.OrderBy(sdb => sdb.NgayDay);
+    var buoiDau = SDB.First().NgayDay;
+    var buoiSau = SDB.Last().NgayDay;
+    var ngayDay = new string[(int)buoiSau.Subtract(buoiDau).TotalDays + 2];
+    for (int i=0; i<ngayDay.Length; i++) { ngayDay[i] = "Buổi " + i; }
+}
+@section Scripts {
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.13.0/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.min.js"></script>
+<script src="https://www.chartjs.org/samples/latest/utils.js"></script>
+<script>
+    var timeFormat = 'DD/MM/YYYY HH:mm';
+
+    function newDateString(days) {
+	    return moment().add(days, 'd').format(timeFormat);
+    }
+
+    var color = Chart.helpers.color;
+    var config = {
+	    type: 'bar',
+	    data: {
+	        labels: [
+                @Html.Raw("\"" + buoiDau.AddDays(-2).ToString("dd/MM/yyyy HH:mm") + "\",")
+			    @foreach (var sdb in SDB)
+                {
+                    @Html.Raw("\"" + sdb.NgayDay.AddMinutes(sdb.ThoiGianBD.TotalMinutes).ToString("dd/MM/yyyy HH:mm") + "\",")
+                }
+                @Html.Raw("\"" + buoiSau.AddDays(2).ToString("dd/MM/yyyy HH:mm") + "\",")
+		    ],
+		    datasets: [{
+		        type: 'bar',
+		        label: 'Buổi dạy',
+		        backgroundColor: color(window.chartColors.blue).alpha(0.5).rgbString(),
+		        borderColor: window.chartColors.blue,
+		        data: [
+                    @("0,")
+				    @foreach (var sdb in SDB)
+                    {
+                        @Html.Raw(String.Format("{0}/50,", sdb.Loai != 1 ? (int)sdb.ThoiGianKT.Subtract(sdb.ThoiGianBD).TotalMinutes : 0))
+                    }
+                    @("0,")
+		        ],
+		    }, {
+		        type: 'bar',
+		        label: 'Buổi nghỉ',
+		        backgroundColor: color(window.chartColors.red).alpha(0.5).rgbString(),
+		        borderColor: window.chartColors.red,
+		        data: [
+                    @("0,")
+				    @foreach (var sdb in SDB)
+                    {
+                        @Html.Raw(String.Format("{0}/50,", sdb.Loai == 1 ? (int)sdb.ThoiGianKT.Subtract(sdb.ThoiGianBD).TotalMinutes : 0))
+                    }
+                    @("0,")
+		        ],
+		    }, {
+			    type: 'line',
+			    label: 'Ghi SĐB',
+			    backgroundColor: color(window.chartColors.green).alpha(0.5).rgbString(),
+			    borderColor: window.chartColors.green,
+			    fill: false,
+			    data: [
+                    @("0,")
+				    @foreach (var sdb in SDB)
+                    {
+                        @Html.Raw(String.Format("{0},", Math.Round(sdb.NgayTao.Subtract(sdb.NgayDay).TotalDays)))
+                    }
+                    @("0,")
+			    ],
+		    }]
+	    },
+	    options: {
+		    title: {
+			    text: 'Chart.js Combo Time Scale'
+		    },
+		    scales: {
+			    xAxes: [{
+				    type: 'time',
+				    display: true,
+				    time: {
+					    format: timeFormat,
+					    // round: 'day'
+				    },
+				    scaleLabel: {
+				        display: true,
+				        labelString: 'Ngày ghi sổ đầu bài'
+				    }
+			    }],
+			    yAxes: [{
+			        display: true,
+			        scaleLabel: {
+			            display: true,
+			            labelString: 'Số giờ dạy / Số ngày ghi trễ'
+			        },
+			    }]
+		    },
+	    }
+    };
+
+    window.onload = function() {
+	    var ctx = document.getElementById('teaching').getContext('2d');
+	    window.myLine = new Chart(ctx, config);
+	    ctx = document.getElementById('students').getContext('2d');
+	    window.myBar = new Chart(ctx, {
+	        type: 'bar',
+	        data: barChartData,
+	        options: {
+	            responsive: true,
+	            legend: {
+	                position: 'top',
+	            }
+	        }
+	    });
+    };
+
+    var barChartData = {
+        labels: [
+            @foreach (var buoi in ngayDay)
+            {
+                @Html.Raw(String.Format("'{0}',", buoi))
+            }
+        ],
+        datasets: [{
+            label: 'Số sinh viên dự lớp',
+            backgroundColor: color(window.chartColors.purple).alpha(0.5).rgbString(),
+            borderColor: window.chartColors.purple,
+            borderWidth: 1,
+            data: [
+                @("0,")
+                @foreach (var sdb in SDB)
+                {
+                    @Html.Raw(String.Format("{0},", sdb.TongSoSV))
+                }
+            ]
+        }]
+
+    };
+</script>
+}

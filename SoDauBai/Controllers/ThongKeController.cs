@@ -26,7 +26,7 @@ namespace SoDauBai.Controllers
 
         public ActionResult LopDangDay()
         {
-            var model = FilterHocKy(db.ThoiKhoaBieux);
+            var model = FilterGiaoVu(FilterHocKy(db.ThoiKhoaBieux));
             ViewBag.GiangViens = db.GiangViens.ToList();
             var now = DateTime.Now;
             var thu = CONST.THU[(int)now.DayOfWeek];

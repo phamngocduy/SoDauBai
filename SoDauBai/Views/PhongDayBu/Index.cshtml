@@ -52,7 +52,7 @@
                                     <pre>@item.email1</pre>
                                 }
                                 <a href="@Url.Action("Index", "SoDauBai", new { id = item.idTKB })" target="_blank">
-                                    @item.ThoiKhoaBieu.TenMH, thứ @item.ThoiKhoaBieu.ThuKieuSo tiết @item.ThoiKhoaBieu.TietBD - @(item.ThoiKhoaBieu.TietBD + item.ThoiKhoaBieu.SoTiet - 1)
+                                    @item.ThoiKhoaBieu.TenMH, thứ @item.ThoiKhoaBieu.ThuKieuSo tiết @item.ThoiKhoaBieu.TietBD - @(item.ThoiKhoaBieu.TietBD + item.ThoiKhoaBieu.SoTiet - 1), phòng @item.MaPH
                                 </a>
                                 <div>@item.GhiChu1</div>
                                 <span>Từ ngày @item.NgayBD.ToString("dd/MM/yyyy")</span>

@@ -105,7 +105,7 @@ namespace SoDauBai.Controllers
             });
 
             from = from.Trim(); to = to.Trim(); subject = subject.Trim(); content = content.Trim();
-            var email = String.Format("From: \"{0}\"<acdm511@gmail.com>\r\nReply-To: {0}\r\nTo: {1}\r\nSubject: =?utf-8?B?{2}?=\r\nContent-Type: text/html; charset=utf-8\r\n\r\n{3}",
+            var email = String.Format("From: \"{0}\" <acdm511@gmail.com>\r\nReply-To: {0}\r\nTo: {1}\r\nSubject: =?utf-8?B?{2}?=\r\nContent-Type: text/html; charset=utf-8\r\n\r\n{3}",
                 from, to, subject.ToBase64(), String.Join("", content.Split('\n').Select(s => String.Format("<p>{0}</p>", s.Trim()))) + "Sent from Sổ Đầu Bài. Please do not reply.");
             var message = new Message();
             message.Raw = email.ToBase64().Replace("+", "-").Replace("/", "_").Replace("=", "");

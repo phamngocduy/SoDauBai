@@ -30,6 +30,9 @@
                                 <abbr title="@giangVien.Email">@giangVien.HocVi @giangVien.HoTen</abbr>
                             </td>
                             <td>
+                                <a href="@Url.Action("Index", "SoDauBai", new { id = item.idTKB })" target="_blank">
+                                    @item.ThoiKhoaBieu.TenMH, thứ @item.ThoiKhoaBieu.ThuKieuSo tiết @item.ThoiKhoaBieu.TietBD - @(item.ThoiKhoaBieu.TietBD + item.ThoiKhoaBieu.SoTiet - 1), phòng @item.MaPhong
+                                </a>
                                 <pre>@item.DeXuat</pre>
                             </td>
                             <td>
