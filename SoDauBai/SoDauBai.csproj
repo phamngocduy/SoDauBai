@@ -432,6 +432,7 @@
     <None Include="App_Data\token.json\Google.Apis.Auth.OAuth2.Responses.TokenResponse-acdm511%40gmail.com">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Content Include="Views\SoDauBai\ThongKe.cshtml" />
     <None Include="Web.CNTT.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>

@@ -169,6 +169,11 @@ namespace SoDauBai.Controllers
             else return 0;
         }
 
+        public ActionResult ThongKe(int id)
+        {
+            return View();
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
