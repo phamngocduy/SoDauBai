@@ -17,8 +17,8 @@
     var tietDay = TKB.Sum(tkb => tkb.SoGhiBais.Where(sdb => sdb.Loai != 1).Sum(sdb => sdb.SoTietDay));
     var nhacNho = Emails.Count(e => e.Tag == item.id);
     var email = GV.FirstOrDefault(gv => gv.MaGV == item.MaGV).Init().Email;
-    var buoiDau = TKB.Merge(tkb => tkb.SoGhiBais).Min(sdb => sdb.NgayDay, DateTime.MinValue);
     var buoiDay = SoDauBaiController.countSoBuoiDay(TKB.ToList());
+    var buoiNghi2 = TKB.Count(tkb => tkb.SoGhiBais.Count(sdb => sdb.Loai == 1 && sdb.NgayDay <= DateTime.Now));
     <tr>
         <td>
             <a href="@Url.Action("Index", "SoDauBai", new { id = item.id })" target="_blank">
@@ -28,7 +28,7 @@
         </td>
         <td><i>@String.Join(", ", giangVien)</i></td>
         <td data-order="@sinhVien.Div(item.TongSoSV)">@sinhVien/@item.TongSoSV</td>
-        <td data-order="@((buoiGhi+buoiNghi).Div(buoiDay))">@(buoiGhi+buoiNghi)/@buoiDay</td>
+        <td data-order="@((buoiGhi+buoiNghi2).Div(buoiDay))">@(buoiGhi+buoiNghi2)/@buoiDay</td>
         <td>@tietDay</td>
         <td data-order="@buoiBu.Div(buoiNghi)">@buoiBu/@buoiNghi</td>
         <td>

@@ -1,4 +1,5 @@
 ﻿@model IEnumerable<SoGhiBai>
+
 <div class="row">
     <div class="col-xl-6 col-lg-12 mb-4">
         <div class="card border-left-primary shadow py-2">
@@ -20,18 +21,22 @@
         </div>
     </div>
 </div>
-@{ 
+
+<div class="row">
+    <a href="javascript:void(window.history.go(-1))">Quay lại</a>
+    <br />
+</div>
+
+@{
     var SDB = Model.OrderBy(sdb => sdb.NgayDay);
     var buoiDau = SDB.First().NgayDay;
     var buoiSau = SDB.Last().NgayDay;
-    var ngayDay = new string[(int)buoiSau.Subtract(buoiDau).TotalDays + 2];
-    for (int i=0; i<ngayDay.Length; i++) { ngayDay[i] = "Buổi " + i; }
 }
 @section Scripts {
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.13.0/moment.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.min.js"></script>
-<script src="https://www.chartjs.org/samples/latest/utils.js"></script>
-<script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.13.0/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.min.js"></script>
+    <script src="https://www.chartjs.org/samples/latest/utils.js"></script>
+    <script>
     var timeFormat = 'DD/MM/YYYY HH:mm';
 
     function newDateString(days) {
@@ -131,10 +136,20 @@
 	            responsive: true,
 	            legend: {
 	                position: 'top',
-	            }
+                },
+                title: {
+						display: true,
+						text: 'Số sinh viên dự lớp'
+				}
 	        }
 	    });
     };
+
+    @{
+        SDB = SDB.Where(sdb => sdb.Loai != 1).OrderBy(sdb => sdb.NgayDay);
+        var ngayDay = new string[SDB.Count() + 2];
+        for (int i = 0; i < ngayDay.Length; i++) { ngayDay[i] = "Buổi " + i; }
+    }
 
     var barChartData = {
         labels: [
@@ -144,7 +159,7 @@
             }
         ],
         datasets: [{
-            label: 'Số sinh viên dự lớp',
+            label: 'Lý thuyết',
             backgroundColor: color(window.chartColors.purple).alpha(0.5).rgbString(),
             borderColor: window.chartColors.purple,
             borderWidth: 1,
@@ -152,11 +167,24 @@
                 @("0,")
                 @foreach (var sdb in SDB)
                 {
-                    @Html.Raw(String.Format("{0},", sdb.TongSoSV))
+                    @Html.Raw(String.Format(sdb.ThoiKhoaBieu.ToTH == null ? "{0}," : "0,", sdb.TongSoSV))
                 }
+                @("0,")
             ]
+		}, {
+			label: 'Thực hành',
+			backgroundColor: color(window.chartColors.orange).alpha(0.5).rgbString(),
+			borderColor: window.chartColors.orange,
+			borderWidth: 1,
+			data: [
+				@("0,")
+                @foreach (var sdb in SDB)
+                {
+                    @Html.Raw(String.Format(sdb.ThoiKhoaBieu.ToTH != null ? "{0}," : "0,", sdb.TongSoSV))
+                }
+                @("0,")
+			]
         }]
-
     };
-</script>
+    </script>
 }

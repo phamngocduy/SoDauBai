@@ -29,15 +29,15 @@ namespace SoDauBai.Models
         public virtual DbSet<AspNetUserClaim> AspNetUserClaims { get; set; }
         public virtual DbSet<AspNetUserLogin> AspNetUserLogins { get; set; }
         public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
+        public virtual DbSet<CauHinh> CauHinhs { get; set; }
         public virtual DbSet<GiangVien> GiangViens { get; set; }
         public virtual DbSet<GiaoVu> GiaoVus { get; set; }
+        public virtual DbSet<GuiEmail> GuiEmails { get; set; }
         public virtual DbSet<LienHe> LienHes { get; set; }
         public virtual DbSet<NganhHoc> NganhHocs { get; set; }
         public virtual DbSet<NhanXet> NhanXets { get; set; }
         public virtual DbSet<PhongDayBu> PhongDayBus { get; set; }
         public virtual DbSet<SoGhiBai> SoGhiBais { get; set; }
         public virtual DbSet<ThoiKhoaBieu> ThoiKhoaBieux { get; set; }
-        public virtual DbSet<GuiEmail> GuiEmails { get; set; }
-        public virtual DbSet<CauHinh> CauHinhs { get; set; }
     }
 }

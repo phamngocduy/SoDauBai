@@ -24,7 +24,8 @@ namespace SoDauBai.Controllers
             var model = db.ThoiKhoaBieux.Where(tkb => tkb.MaMH == TKB.MaMH && tkb.HocKy == TKB.HocKy
                             && tkb.NhomTo == TKB.NhomTo && (tkb.ToTH == TKB.ToTH || tkb.ToTH == null));
             ViewBag.TKB = TKB;
-            ViewBag.GV = db.GiangViens.FirstOrDefault(gv => gv.MaGV == TKB.MaGV);
+            ViewBag.GVs = db.GiangViens.ToList();
+            ViewBag.TKBs = model.ToList();
             ViewBag.KhoaSo = db.CauHinhs.Find(CONFIG.KHOA_SO).GiaTri.ToIntOrDefault(0);
             return View(model.Select(tkb => tkb.SoGhiBais.ToList()).ToList().Merge());
         }
@@ -143,7 +144,7 @@ namespace SoDauBai.Controllers
 
         public static int countSoBuoiDay(List<ThoiKhoaBieu> TKB)
         {
-            var SDB = TKB.Merge(tkb => tkb.SoGhiBais).Where(sdb => sdb.Loai != 1);
+            var SDB = TKB.Merge(tkb => tkb.SoGhiBais);
             if (SDB.Count() > 0)
             {
                 var buoiDay = 0;
@@ -172,6 +173,21 @@ namespace SoDauBai.Controllers
         public ActionResult ThongKe(int id)
         {
             return View((Index(id) as ViewResult).Model);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "DaoTao,GiaoVu")]
+        public bool XemDeXuat(int id, bool xem)
+        {
+            var model = db.SoGhiBais.Find(id);
+            if (model != null)
+            {
+                model.XemDeXuat = xem ? model.XemDeXuat = User.Identity.GetUserName() : null;
+                db.Entry(model).State = EntityState.Modified;
+                db.SaveChanges();
+                return true;
+            }
+            return false;
         }
 
         protected override void Dispose(bool disposing)

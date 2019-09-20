@@ -15,7 +15,9 @@
                         <th>Ngày</th>
                         <th>Giảng viên</th>
                         <th>Đề xuất</th>
-                        <th></th>
+                        <th>
+                            <input type="checkbox" onclick="LocDeXuat(this)" />
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -34,11 +36,14 @@
                                     @item.ThoiKhoaBieu.TenMH, thứ @item.ThoiKhoaBieu.ThuKieuSo tiết @item.ThoiKhoaBieu.TietBD - @(item.ThoiKhoaBieu.TietBD + item.ThoiKhoaBieu.SoTiet - 1), phòng @item.MaPhong
                                 </a>
                                 <pre>@item.DeXuat</pre>
+                                @if (!String.IsNullOrEmpty(item.XemDeXuat))
+                                {
+                                    <br />
+                                    <em>Đã được ghi nhận bởi @item.XemDeXuat</em>
+                                }
                             </td>
                             <td>
-                                <a href="@Url.Action("Index", "SoDauBai", new { id = item.idTKB })" class="text-info" target="_blank">
-                                    <i class="fas fa-folder-open"></i>
-                                </a>
+                                <input type="checkbox" name="XemDeXuat" onclick="XemDeXuat(this,@item.id)" @(!String.IsNullOrEmpty(item.XemDeXuat) ? "checked" : null ) />
                             </td>
                         </tr>
                     }
@@ -53,3 +58,27 @@
         white-space: pre-wrap;
     }
 </style>
+
+@section Scripts {
+<script>
+    function LocDeXuat(checkbox) {
+        if (checkbox.checked)
+            $('[name=XemDeXuat]:not(:checked)').each(function () {
+                $(this).parents('tr').hide();
+            })
+        else $('[name=XemDeXuat]').parents('tr').show();
+    }
+
+    function XemDeXuat(checkbox, id) {
+        if (confirm('Tiếp nhận đề xuất bởi @User.Identity.Name?'))
+            $.post('@Url.Action("XemDeXuat", "SoDauBai")/' + id + '?xem=' + checkbox.checked, function (data) {
+                if (data == 'True')
+                    return checkbox.checked = !checkbox.checked;
+                else alert('false');
+            }).fail(function () {
+                alert("error");
+            });
+        checkbox.checked = !checkbox.checked;
+    }
+</script>
+}

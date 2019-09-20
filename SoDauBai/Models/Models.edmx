@@ -158,6 +158,7 @@
           <Property Name="Email" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="idTKB" Type="int" Nullable="false" />
           <Property Name="Loai" Type="tinyint" Nullable="false" />
+          <Property Name="XemDeXuat" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="ThoiKhoaBieu">
           <Key>
@@ -311,8 +312,10 @@
           <EntitySet Name="AspNetUserClaims" EntityType="SoDauBaiModel.AspNetUserClaim" />
           <EntitySet Name="AspNetUserLogins" EntityType="SoDauBaiModel.AspNetUserLogin" />
           <EntitySet Name="AspNetUsers" EntityType="SoDauBaiModel.AspNetUser" />
+          <EntitySet Name="CauHinhs" EntityType="SoDauBaiModel.CauHinh" />
           <EntitySet Name="GiangViens" EntityType="SoDauBaiModel.GiangVien" />
           <EntitySet Name="GiaoVus" EntityType="SoDauBaiModel.GiaoVu" />
+          <EntitySet Name="GuiEmails" EntityType="SoDauBaiModel.GuiEmail" />
           <EntitySet Name="LienHes" EntityType="SoDauBaiModel.LienHe" />
           <EntitySet Name="NganhHocs" EntityType="SoDauBaiModel.NganhHoc" />
           <EntitySet Name="NhanXets" EntityType="SoDauBaiModel.NhanXet" />
@@ -339,8 +342,6 @@
             <End Role="AspNetRole" EntitySet="AspNetRoles" />
             <End Role="AspNetUser" EntitySet="AspNetUsers" />
           </AssociationSet>
-          <EntitySet Name="GuiEmails" EntityType="SoDauBaiModel.GuiEmail" />
-          <EntitySet Name="CauHinhs" EntityType="SoDauBaiModel.CauHinh" />
         </EntityContainer>
         <EntityType Name="AspNetRole">
           <Key>
@@ -391,6 +392,13 @@
           <NavigationProperty Name="AspNetUserLogins" Relationship="SoDauBaiModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUser" ToRole="AspNetUserLogin" />
           <NavigationProperty Name="AspNetRoles" Relationship="SoDauBaiModel.AspNetUserRoles" FromRole="AspNetUser" ToRole="AspNetRole" />
         </EntityType>
+        <EntityType Name="CauHinh">
+          <Key>
+            <PropertyRef Name="ThamSo" />
+          </Key>
+          <Property Name="ThamSo" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="GiaTri" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+        </EntityType>
         <EntityType Name="GiangVien">
           <Key>
             <PropertyRef Name="id" />
@@ -408,6 +416,20 @@
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Email" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="MaNganh" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="GuiEmail">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Tag" Type="Int32" Nullable="false" />
+          <Property Name="Loai" Type="Int32" Nullable="false" />
+          <Property Name="Ngay" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="MaGV" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FromTo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="TieuDe" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="NoiDung" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="LienHe">
           <Key>
@@ -473,6 +495,7 @@
           <Property Name="Email" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="idTKB" Type="Int32" Nullable="false" />
           <Property Name="Loai" Type="Byte" Nullable="false" />
+          <Property Name="XemDeXuat" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="ThoiKhoaBieu" Relationship="SoDauBaiModel.FK_SoDauBai_ThoiKhoaBieu" FromRole="SoGhiBai" ToRole="ThoiKhoaBieu" />
         </EntityType>
         <EntityType Name="ThoiKhoaBieu">
@@ -555,27 +578,6 @@
           <End Type="SoDauBaiModel.AspNetRole" Role="AspNetRole" Multiplicity="*" />
           <End Type="SoDauBaiModel.AspNetUser" Role="AspNetUser" Multiplicity="*" />
         </Association>
-        <EntityType Name="GuiEmail">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Tag" Type="Int32" Nullable="false" />
-          <Property Name="Loai" Type="Int32" Nullable="false" />
-          <Property Name="Ngay" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="MaGV" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Name="Email" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="FromTo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="TieuDe" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="NoiDung" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <EntityType Name="CauHinh">
-          <Key>
-            <PropertyRef Name="ThamSo" />
-          </Key>
-          <Property Name="ThamSo" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Name="GiaTri" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
-        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -627,6 +629,14 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="CauHinhs">
+            <EntityTypeMapping TypeName="SoDauBaiModel.CauHinh">
+              <MappingFragment StoreEntitySet="CauHinh">
+                <ScalarProperty Name="GiaTri" ColumnName="GiaTri" />
+                <ScalarProperty Name="ThamSo" ColumnName="ThamSo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="GiangViens">
             <EntityTypeMapping TypeName="SoDauBaiModel.GiangVien">
               <MappingFragment StoreEntitySet="GiangVien">
@@ -643,6 +653,21 @@
               <MappingFragment StoreEntitySet="GiaoVu">
                 <ScalarProperty Name="MaNganh" ColumnName="MaNganh" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GuiEmails">
+            <EntityTypeMapping TypeName="SoDauBaiModel.GuiEmail">
+              <MappingFragment StoreEntitySet="GuiEmail">
+                <ScalarProperty Name="NoiDung" ColumnName="NoiDung" />
+                <ScalarProperty Name="TieuDe" ColumnName="TieuDe" />
+                <ScalarProperty Name="FromTo" ColumnName="FromTo" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="MaGV" ColumnName="MaGV" />
+                <ScalarProperty Name="Ngay" ColumnName="Ngay" />
+                <ScalarProperty Name="Loai" ColumnName="Loai" />
+                <ScalarProperty Name="Tag" ColumnName="Tag" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -699,6 +724,7 @@
           <EntitySetMapping Name="SoGhiBais">
             <EntityTypeMapping TypeName="SoDauBaiModel.SoGhiBai">
               <MappingFragment StoreEntitySet="SoGhiBai">
+                <ScalarProperty Name="XemDeXuat" ColumnName="XemDeXuat" />
                 <ScalarProperty Name="Loai" ColumnName="Loai" />
                 <ScalarProperty Name="idTKB" ColumnName="idTKB" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
@@ -747,29 +773,6 @@
               <ScalarProperty Name="Id" ColumnName="RoleId" />
             </EndProperty>
           </AssociationSetMapping>
-          <EntitySetMapping Name="GuiEmails">
-            <EntityTypeMapping TypeName="SoDauBaiModel.GuiEmail">
-              <MappingFragment StoreEntitySet="GuiEmail">
-                <ScalarProperty Name="NoiDung" ColumnName="NoiDung" />
-                <ScalarProperty Name="TieuDe" ColumnName="TieuDe" />
-                <ScalarProperty Name="FromTo" ColumnName="FromTo" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="MaGV" ColumnName="MaGV" />
-                <ScalarProperty Name="Ngay" ColumnName="Ngay" />
-                <ScalarProperty Name="Loai" ColumnName="Loai" />
-                <ScalarProperty Name="Tag" ColumnName="Tag" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="CauHinhs">
-            <EntityTypeMapping TypeName="SoDauBaiModel.CauHinh">
-              <MappingFragment StoreEntitySet="CauHinh">
-                <ScalarProperty Name="GiaTri" ColumnName="GiaTri" />
-                <ScalarProperty Name="ThamSo" ColumnName="ThamSo" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

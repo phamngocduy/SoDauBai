@@ -3,15 +3,16 @@
 @{ 
     var count = 1;
     var TKB = ViewBag.TKB as ThoiKhoaBieu;
-    var GV = (ViewBag.GV as GiangVien).Init();
+    var GVs = ViewBag.GVs as List<GiangVien>;
+    var TKBs = ViewBag.TKBs as List<ThoiKhoaBieu>;
     var KhoaSo = (int)ViewBag.KhoaSo;
     var start = Model.Count() > 0 ? Model.Min(s => s.NgayDay) : DateTime.MinValue;
     int demNghi = 0, tongBu = Model.Count(sdb => sdb.Loai == 2);
-    var info = "visible";
-    var buoiGhi = Model.Count();
-    var buoiDay = SoDauBaiController.countSoBuoiDay(Model.Select(sdb => sdb.ThoiKhoaBieu).Distinct().ToList());
+    var buoiGhi = Model.Where(sdb => sdb.NgayDay <= DateTime.Now).Count();
+    var buoiDay = SoDauBaiController.countSoBuoiDay(TKBs);
     var tile = (int)((double)buoiGhi * 100 / buoiDay);
     var hour = Model.Where(sdb => sdb.Loai != 1).Count(sdb => (int)sdb.ThoiGianKT.Subtract(sdb.ThoiGianBD).TotalMinutes);
+    var more = Model.Count(sdb => sdb.Loai == 1) - Model.Count(sdb => sdb.Loai == 2);
 }
 <link rel="stylesheet" href="~/Content/font-awesome-animation.min.css">
 <div class="card shadow mb-4">
@@ -24,33 +25,36 @@
         }
         @if (true)
         {
-            var Tiet = new int[TKB.SoTiet];
-            Tiet.For(0, TKB.SoTiet - 1, i => Tiet[i] = TKB.TietBD + i);
-            <a href="#" title="@TKB.MaLop" data-content="@TKB.TenLop" data-toggle="popover" data-placement="left" class="btn btn-info btn-circle btn-sm" style="visibility:@info">
-                <i class="fas fa-info"></i>
-            </a>
-            <h6 class="m-0 font-weight-bold text-primary d-inline">@TKB.TenMH - @GV.HocVi @GV.HoTen - Thứ @TKB.ThuKieuSo, tiết @String.Join("", Tiet) #P: @TKB.MaPH</h6>
-            if (User.IsInTKB(TKB.id))
+            foreach (var tkb in TKBs.OrderBy(tkb => tkb.ThuKieuSo))
             {
-                <a href="@Url.Action("Update", "ThoiKhoaBieu", new { id = TKB.id })" class="btn btn-warning btn-circle btn-sm">
-                    <i class="fas fa-pencil-alt"></i>
-                </a>
+                var Tiet = new int[TKB.SoTiet];
+                Tiet.For(0, TKB.SoTiet - 1, i => Tiet[i] = TKB.TietBD + i);
+                var GV = GVs.FirstOrDefault(gv => gv.MaGV == tkb.MaGV).Init();
+                <h6 class="m-0 font-weight-bold text-primary d-inline">@tkb.NhomTo - @tkb.TenMH - @GV.HocVi @GV.HoTen - Thứ @tkb.ThuKieuSo, tiết @String.Join("", Tiet) #P: @tkb.MaPH</h6>
+                <span class="badge">@(tkb.ToTH == null ? "LT" : "TH")</span>
+                if (tkb.id == TKB.id && User.IsInTKB(TKB.id))
+                {
+                    <a href="@Url.Action("Update", "ThoiKhoaBieu", new { id = TKB.id })" class="btn btn-warning btn-circle btn-sm">
+                        <i class="fas fa-pencil-alt"></i>
+                    </a>
+                }
+                <br />
             }
-            <br />
+        }
+        @if (Model.Count() > 0)
+        {
+            var color = tile <= 25 ? "danger" : tile <= 50 ? "info" : tile <= 75 ? "primary" : tile <= 100 ? "success" : "warning";
+            <div class="progress" style="margin-top:1rem">
+                <div class="progress-bar bg-@color progress-bar-striped" role="progressbar" aria-valuenow="@tile" aria-valuemin="0" aria-valuemax="100" style="width: @tile%">
+                    <span>
+                        Đã ghi @tile% ~ @Math.Round(hour / 45.0) giờ. <b>@(more > 0 ? String.Format("Cần dạy bù {0} buổi.", more) : null)</b>
+                        <span onclick="javascript:void(window.location.href='@Url.Action("ThongKe", new { id = TKB.id })')" style="cursor:pointer">Xem thống kê...</span>
+                        <i class="fa fa-hand-point-left faa-passing-reverse animated"></i>
+                    </span>
+                </div>
+            </div>
         }
     </div>
-    @if (Model.Count() > 0)
-    {
-        <div class="progress">
-            <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="@tile" aria-valuemin="0" aria-valuemax="100" style="width: @tile%">
-                <span>
-                    Đã ghi @tile% ~ @Math.Round(hour / 45.0) giờ.
-                    <span onclick="javascript:void(window.location.href='@Url.Action("ThongKe", new { id = TKB.id })')" style="cursor:pointer">Xem thống kê...</span>
-                    <i class="fa fa-hand-point-left faa-passing-reverse animated"></i>
-                </span>
-            </div>
-        </div>
-    }
     <div class="card-body">
         <div class="table-responsive">
             <table class="table table-bordered table-hover" id="dataTable" width="100%" cellspacing="0">
@@ -65,19 +69,22 @@
                     </tr>
                 </thead>
                 <tbody>
+                    @{ SoGhiBai prev = null; }
                     @foreach (var item in Model.OrderBy(s => s.NgayDay))
                     {
                         var style = item.Loai == 1 ?
                             ++demNghi > tongBu ? "table-danger" : "table-warning" :
                             item.Loai == 2 ? "table-success" : null;
                         var span = item.DeXuat.IsNullOrEmptyOrWhiteSpace() ? 1 : 2;
-                        <tr class="@style">
+                        <tr class="@style" style="@(prev != null && item.NgayDay == prev.NgayDay && item.ThoiGianBD == prev.ThoiGianBD ? "text-decoration:line-through" : null)">
                             <td rowspan="@span">
                                 <span style="white-space:nowrap">Buổi @(count++)</span>
                                 <br />
                                 <span style="white-space:nowrap">Tuần @((int)(item.NgayDay - start).TotalDays / 7 + 1)</span>
                             </td>
                             <td rowspan="@span">
+                                @item.NgayDay.DayOfWeek
+                                <br />
                                 @item.NgayDay.ToString("dd/MM/yyyy")
                                 <br />
                                 <span style="white-space:nowrap">@item.ThoiGianBD.ToString(@"hh\:mm") - @item.ThoiGianKT.ToString(@"hh\:mm")</span>
@@ -124,9 +131,18 @@
                         if (span == 2)
                         {
                             <tr>
-                                <td colspan="@span">@item.DeXuat</td>
+                                <td colspan="@span">
+                                    @item.DeXuat
+                                    @if (!String.IsNullOrEmpty(item.XemDeXuat))
+                                    {
+                                        <a data-content="Đã được tiếp nhận bởi @item.XemDeXuat" data-toggle="popover" class="btn btn-success btn-circle btn-sm">
+                                            <i class="fas fa-user-check"></i>
+                                        </a>
+                                    }
+                                </td>
                             </tr>
                         }
+                        prev = item;
                     }
                 </tbody>
             </table>
