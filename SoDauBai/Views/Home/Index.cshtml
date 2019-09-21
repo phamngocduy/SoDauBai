@@ -1,11 +1,14 @@
 ﻿@using SoDauBai.Controllers
 @model IEnumerable<ThoiKhoaBieu>
 
-@helper Display(IEnumerable<ThoiKhoaBieu> group)
+@helper Display(List<ThoiKhoaBieu> group)
 {
     var item = group.First();
+    var GVs = ViewBag.GVs as List<GiangVien>;
+    var buoiDay = SoDauBaiController.countSoBuoiDay(group);
+    var buoiGhi = group.Merge(tkb => tkb.SoGhiBais).Count(sdb => sdb.Loai != 1 || (sdb.Loai == 1 && sdb.NgayDay <= DateTime.Now));
     <div class="col-xl-4 col-md-6 mb-4 course">
-        <div class="card border-left-primary shadow py-2">
+        <div class="card border-left-@(buoiGhi < buoiDay ? "danger" : buoiGhi == buoiDay ? "primary" : "warning") shadow py-2">
             <div class="card-body">
                 <div class="row no-gutters align-items-center">
                     <div class="col">
@@ -25,6 +28,7 @@
                         <br />
                         @foreach (var tkb in group)
                         {
+                            var GV = GVs.FirstOrDefault(gv => gv.MaGV == tkb.MaGV);
                             var phong = PhongDayBuController.countPhongDayBu(tkb.id);
                             <div class="filter" ThuKieuSo="@tkb.ThuKieuSo">
                                 @if (tkb != item && tkb.ToTH != item.ToTH)
@@ -44,6 +48,9 @@
                                         @String.Format("Phòng {0}: Thứ {1} tiết {2} - {3}", tkb.MaPH, tkb.ThuKieuSo, tkb.TietBD, tkb.TietBD + tkb.SoTiet - 1)
                                     </a>
                                 </div>
+                                <span class="small">
+                                    @(GV != null ? (!String.IsNullOrEmpty(GV.HocVi) ? GV.HocVi : "GV" ) + " " + GV.HoTen : null)
+                                </span>
                                 <span class="badge badge-success">
                                     <i class="fas fa-book-open"></i>
                                     @tkb.SoGhiBais.Count()
@@ -142,7 +149,7 @@
         }
         else
         {
-            @Display(group.OrderBy(g => g.ThuKieuSo))
+            @Display(group.OrderBy(g => g.ThuKieuSo).ToList())
         }
     }
 </div>

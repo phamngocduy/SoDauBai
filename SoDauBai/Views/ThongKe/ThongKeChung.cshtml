@@ -22,13 +22,13 @@
     <tr>
         <td>
             <a href="@Url.Action("Index", "SoDauBai", new { id = item.id })" target="_blank">
-                <abbr title="@item.MaMH">@item.TenMH</abbr> - @item.NhomTo
+                <abbr title="@item.MaMH - @item.MaLop">@item.TenMH</abbr> - @item.NhomTo
                 @if (item.ToTH != null) { <span class="badge badge-primary">TH</span> }
             </a>
         </td>
         <td><i>@String.Join(", ", giangVien)</i></td>
         <td data-order="@sinhVien.Div(item.TongSoSV)">@sinhVien/@item.TongSoSV</td>
-        <td data-order="@((buoiGhi+buoiNghi2).Div(buoiDay))">@(buoiGhi+buoiNghi2)/@buoiDay</td>
+        <td data-order="@((buoiGhi+buoiBu+buoiNghi2).Div(buoiDay))">@(buoiGhi+buoiBu+buoiNghi2)/@buoiDay</td>
         <td>@tietDay</td>
         <td data-order="@buoiBu.Div(buoiNghi)">@buoiBu/@buoiNghi</td>
         <td>

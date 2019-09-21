@@ -27,6 +27,7 @@ namespace SoDauBai.Controllers
                             where gv.Email == email && tkb.HocKy == hk
                             select tkb.MaMH + "_" + tkb.NhomTo).ToList();
             var model = db.ThoiKhoaBieux.Where(tkb => MaMH_NhomTo.Contains(tkb.MaMH + "_" + tkb.NhomTo) && tkb.HocKy == hk);
+            ViewBag.GVs = db.GiangViens.ToList();
             return View(model.ToList());
         }
 
