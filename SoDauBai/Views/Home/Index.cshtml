@@ -14,7 +14,7 @@
                     <div class="col">
                         <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                             <i>@item.MaMH - @item.SoTinChi<span>TC</span> (@item.TongSoSV<span>SV</span>)</i>
-                            <span class="text-warning" style="float:right">Nhóm @item.NhomTo</span>
+                            <span class="text-success" style="float:right">Nhóm @item.NhomTo</span>
                         </div>
                         <div class="h5 mb-0 font-weight-bold text-gray-800">
                             <h4>@item.TenMH</h4>
@@ -28,6 +28,7 @@
                         <br />
                         @foreach (var tkb in group)
                         {
+                            var isInTKB = User.IsInTKB(tkb.id);
                             var GV = GVs.FirstOrDefault(gv => gv.MaGV == tkb.MaGV);
                             var phong = PhongDayBuController.countPhongDayBu(tkb.id);
                             <div class="filter" ThuKieuSo="@tkb.ThuKieuSo">
@@ -44,7 +45,7 @@
                                     <br />
                                 }
                                 <div style="font-weight:bold">
-                                    <a href="@Url.Action("Index", "SoDauBai", new { id = tkb.id })" class="btn btn-primary @(!User.IsInTKB(tkb.id) ? "disabled" : null) filter">
+                                    <a href="@Url.Action("Index", "SoDauBai", new { id = tkb.id })" class="btn btn-@(isInTKB ? "primary" : "info") @(!isInTKB ? "disabled" : null) filter">
                                         @String.Format("Phòng {0}: Thứ {1} tiết {2} - {3}", tkb.MaPH, tkb.ThuKieuSo, tkb.TietBD, tkb.TietBD + tkb.SoTiet - 1)
                                     </a>
                                 </div>
@@ -62,7 +63,7 @@
                                         @phong
                                     </span>
                                 }
-                                @if (!User.IsInTKB(tkb.id))
+                                @if (!isInTKB)
                                 {
                                     <a href="@Url.Action("Index", "SoDauBai", new { id = tkb.id })">
                                         <span class="badge badge-default">
