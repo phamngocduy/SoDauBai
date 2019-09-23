@@ -31,13 +31,22 @@ namespace SoDauBai.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Index(int khoaSo)
+        public ActionResult Index(string passwd, int khoaSo, string noEmail)
         {
             using (var db = new SoDauBaiEntities())
             {
+                var PassWD = db.CauHinhs.Find(CONFIG.ACDM511);
+                PassWD.GiaTri = passwd;
+                db.Entry(PassWD).State = EntityState.Modified;
+
                 var KhoaSo = db.CauHinhs.Find(CONFIG.KHOA_SO);
                 KhoaSo.GiaTri = khoaSo.ToString();
                 db.Entry(KhoaSo).State = EntityState.Modified;
+
+                var NoEmail = db.CauHinhs.Find(CONFIG.NO_EMAIL);
+                NoEmail.GiaTri = (noEmail ?? "").Trim();
+                db.Entry(NoEmail).State = EntityState.Modified;
+
                 db.SaveChanges();
             }
             TempData["Message"] = "Cập nhật thông tin thành công.";
@@ -81,8 +90,13 @@ namespace SoDauBai.Controllers
 
         public static void SendEmail(string from, string to, string subject, string content)
         {
-            UserCredential credential;
+            using (var db = new SoDauBaiEntities())
+            {
+                var noEmails = db.CauHinhs.Find(CONFIG.NO_EMAIL).Init().GiaTri ?? "";
+                to = String.Join(",", (to ?? "").ToLower().Split(',').Except(noEmails.ToLower().Split(',')));
+            }
 
+            UserCredential credential;
             using (var stream =
                 new FileStream(Path.Combine(HostingEnvironment.MapPath("~/bin"), "credentials.json"), FileMode.Open, FileAccess.Read))
             {

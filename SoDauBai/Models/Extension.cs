@@ -69,8 +69,9 @@ namespace SoDauBai.Models
 
     public class CONFIG
     {
-        public const string KHOA_SO = "KHOA_SO";
         public const string ACDM511 = "ACDM511";
+        public const string KHOA_SO = "KHOA_SO";
+        public const string NO_EMAIL = "NO_EMAIL";
     }
 
     public static class Extension

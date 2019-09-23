@@ -1,6 +1,8 @@
 ﻿@model IEnumerable<CauHinh>
 @{
+    var passwd = Model.First(c => c.ThamSo == CONFIG.ACDM511).GiaTri;
     var khoaSo = Model.First(c => c.ThamSo == CONFIG.KHOA_SO).GiaTri.ToIntOrDefault(0);
+    var noEmail = Model.First(c => c.ThamSo == CONFIG.NO_EMAIL).GiaTri;
 }
 
 <div class="card shadow mb-4">
@@ -15,9 +17,23 @@
             <div class="form-horizontal">
                 <div class="form-group">
                     <div class="col-md-10">
+                        <strong>Mật khẩu email hệ thống:</strong>
+                        <input type="text" name="passwd" value="@passwd" required />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-10">
                         <strong>Khóa Ghi/Sửa/Xóa thông tin buổi dạy sau</strong>
                         <input type="number" name="khoaSo" value="@khoaSo" required />
                         <strong>ngày.</strong>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-10">
+                        <strong>Danh sách không nhận email:</strong>
+                        <input type="text" name="noEmail" value="@noEmail" placeholder="email," />
                     </div>
                 </div>
 
@@ -34,4 +50,15 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $(function () {
+            $('[name=noEmail]').on('keypress focusout', function () {
+                if (this.value.length > 0) {
+                    this.style.width = ((this.value.length + 1) * 10) + 'px';
+                } else {
+                    this.style.width = (($(this).attr('placeholder').length + 1) * 10) + 'px';
+                }
+            }).trigger('keypress');
+        });
+    </script>
 }
