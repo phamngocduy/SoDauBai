@@ -31,14 +31,10 @@ namespace SoDauBai.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Index(string passwd, int khoaSo, string noEmail)
+        public ActionResult Index(int khoaSo, string noEmail)
         {
             using (var db = new SoDauBaiEntities())
             {
-                var PassWD = db.CauHinhs.Find(CONFIG.ACDM511);
-                PassWD.GiaTri = passwd;
-                db.Entry(PassWD).State = EntityState.Modified;
-
                 var KhoaSo = db.CauHinhs.Find(CONFIG.KHOA_SO);
                 KhoaSo.GiaTri = khoaSo.ToString();
                 db.Entry(KhoaSo).State = EntityState.Modified;
@@ -58,14 +54,14 @@ namespace SoDauBai.Controllers
             var password = "AnthonyChauDuyMi";
             using (var db = new SoDauBaiEntities())
             {
-                password = db.CauHinhs.Find(CONFIG.ACDM511).GiaTri;
+                password = db.CauHinhs.Find(CONFIG.PASS_WD).GiaTri;
             }
-            var credentials = new NetworkCredential("acdm511@gmail.com",
+            var credentials = new NetworkCredential(CONFIG.ACDM511,
                 Encoding.ASCII.GetString(Convert.FromBase64String(password)));
 
             var mail = new MailMessage()
             {
-                From = new MailAddress("acdm511@gmail.com", from),
+                From = new MailAddress(CONFIG.ACDM511, from),
                 Subject = subject,
                 Body = content + Environment.NewLine + "Sent from Sổ Đầu Bài. Please do not reply."
             };
@@ -83,6 +79,12 @@ namespace SoDauBai.Controllers
             };
 
             client.Send(mail);
+        }
+
+        public string TestEmail()
+        {
+            SendEmail(User.Identity.Name, CONFIG.ACDM511, "Test sending email", "<h1>Hello World</h1>");
+            return "OK";
         }
 
         static string[] Scopes = { GmailService.Scope.GmailSend };
@@ -106,7 +108,7 @@ namespace SoDauBai.Controllers
                 credential = GoogleWebAuthorizationBroker.AuthorizeAsync(
                     GoogleClientSecrets.Load(stream).Secrets,
                     Scopes,
-                    "acdm511@gmail.com",
+                    CONFIG.ACDM511,
                     CancellationToken.None,
                     new FileDataStore(credPath, true)).Result;
             }
@@ -119,7 +121,7 @@ namespace SoDauBai.Controllers
             });
 
             from = from.Trim(); to = to.Trim(); subject = subject.Trim(); content = content.Trim();
-            var email = String.Format("From: \"{0}\" <acdm511@gmail.com>\r\nReply-To: {0}\r\nTo: {1}\r\nSubject: =?utf-8?B?{2}?=\r\nContent-Type: text/html; charset=utf-8\r\n\r\n{3}",
+            var email = String.Format("From: \"{0}\" <" + CONFIG.ACDM511 + ">\r\nReply-To: {0}\r\nTo: {1}\r\nSubject: =?utf-8?B?{2}?=\r\nContent-Type: text/html; charset=utf-8\r\n\r\n{3}",
                 from, to, subject.ToBase64(), String.Join("", content.Split('\n').Select(s => String.Format("<p>{0}</p>", s.Trim()))) + "Sent from Sổ Đầu Bài. Please do not reply.");
             var message = new Message();
             message.Raw = email.ToBase64().Replace("+", "-").Replace("/", "_").Replace("=", "");

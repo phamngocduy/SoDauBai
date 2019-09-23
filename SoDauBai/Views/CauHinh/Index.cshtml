@@ -1,6 +1,5 @@
 ﻿@model IEnumerable<CauHinh>
 @{
-    var passwd = Model.First(c => c.ThamSo == CONFIG.ACDM511).GiaTri;
     var khoaSo = Model.First(c => c.ThamSo == CONFIG.KHOA_SO).GiaTri.ToIntOrDefault(0);
     var noEmail = Model.First(c => c.ThamSo == CONFIG.NO_EMAIL).GiaTri;
 }
@@ -15,13 +14,6 @@
             @Html.AntiForgeryToken()
 
             <div class="form-horizontal">
-                <div class="form-group">
-                    <div class="col-md-10">
-                        <strong>Mật khẩu email hệ thống:</strong>
-                        <input type="text" name="passwd" value="@passwd" required />
-                    </div>
-                </div>
-
                 <div class="form-group">
                     <div class="col-md-10">
                         <strong>Khóa Ghi/Sửa/Xóa thông tin buổi dạy sau</strong>
