@@ -23,7 +23,7 @@ namespace SoDauBai.Controllers
             {
                 var email = user.Identity.GetUserName();
                 var GV = db.GiaoVus.SingleOrDefault(gv => gv.Email == email);
-                var maNganh = GV.Init().MaNganh.Split(',');
+                var maNganh = (GV.Init().MaNganh ?? "").Split(',');
                 Phong = Phong.Where(p => maNganh.Contains(p.ThoiKhoaBieu.MaNganh));
             }
             return Phong;

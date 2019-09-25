@@ -65,6 +65,12 @@ namespace SoDauBai
                 ClientId = "21109320241-aqor6arhsib0bh15n5i2h1vvssvr3qsg.apps.googleusercontent.com",
                 ClientSecret = "w_jfO6HRBjPhyeLWAzpSjmY2"
             });
+
+            app.UseYahooAuthentication(new YahooAuthenticationOptions()
+            {
+                ConsumerKey = "dj0yJmk9YzRsMUk3MFhQcVRaJmQ9WVdrOVJ6RmxiVUl3TjJzbWNHbzlNQS0tJnM9Y29uc3VtZXJzZWNyZXQmc3Y9MCZ4PWEw",
+                ConsumerSecret = "fd6b893fa10e099395239c95d1019d00961e41a4"
+            });
         }
     }
 }
