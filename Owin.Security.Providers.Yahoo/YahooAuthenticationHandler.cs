@@ -10,6 +10,9 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Helpers;
 using Microsoft.Owin.Infrastructure;
@@ -25,7 +28,6 @@ namespace Owin.Security.Providers.Yahoo
     {
         private static readonly DateTime Epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
         private const string StateCookie = "__YahooState";
-        private const string RequestTokenEndpoint = "https://api.login.yahoo.com/oauth/v2/get_request_token";
         private const string AuthenticationEndpoint = "https://api.login.yahoo.com/oauth2/request_auth";
         private const string AccessTokenEndpoint = "https://api.login.yahoo.com/oauth2/get_token";
         private const string UserInformationEndpoint = "https://social.yahooapis.com/v1/user/me/profile";
@@ -124,6 +126,16 @@ namespace Owin.Security.Providers.Yahoo
                     context.Identity.AddClaim(new Claim("urn:yahoo:nickname", context.NickName,
                         "http://www.w3.org/2001/XMLSchema#string", Options.AuthenticationType));
                 }
+
+                var idClaim = context.Identity.FindFirst(ClaimTypes.NameIdentifier);
+                HttpContext.Current.Session["ExternalLoginInfo"] = new ExternalLoginInfo
+                {
+                    ExternalIdentity = context.Identity,
+                    Login = new UserLoginInfo(idClaim.Issuer, idClaim.Value),
+                    DefaultUserName = context.NickName,
+                    Email = context.Email
+                };
+
                 context.Properties = requestToken.Properties;
 
                 Response.Cookies.Delete(StateCookie);
@@ -183,7 +195,6 @@ namespace Owin.Security.Providers.Yahoo
                     };
 
                     Response.StatusCode = 302;
-                    requestToken.Properties.RedirectUri = callBackUrl;
                     Response.Cookies.Append(StateCookie, Options.StateDataFormat.Protect(requestToken), cookieOptions);
                     Response.Headers.Set("Location", yahooAuthenticationEndpoint);
                 }
@@ -236,68 +247,6 @@ namespace Owin.Security.Providers.Yahoo
             return context.IsRequestCompleted;
         }
 
-        private async Task<RequestToken> ObtainRequestTokenAsync(string consumerKey, string consumerSecret, string callBackUri, AuthenticationProperties properties)
-        {
-            // http://developer.yahoo.com/oauth/guide/oauth-requesttoken.html
-
-            _logger.WriteVerbose("ObtainRequestToken");
-
-            var nonce = Guid.NewGuid().ToString("N");
-
-            var authorizationParts = new SortedDictionary<string, string>
-            {
-                { "oauth_callback", callBackUri },
-                { "oauth_consumer_key", consumerKey },
-                { "oauth_nonce", nonce },
-                { "oauth_signature_method", "HMAC-SHA1" },
-                { "oauth_timestamp", GenerateTimeStamp() },
-                { "oauth_version", "1.0" }
-            };
-
-            var parameterBuilder = new StringBuilder();
-            foreach (var authorizationKey in authorizationParts)
-            {
-                parameterBuilder.AppendFormat("{0}={1}&", Uri.EscapeDataString(authorizationKey.Key), Uri.EscapeDataString(authorizationKey.Value));
-            }
-            parameterBuilder.Length--;
-            var parameterString = parameterBuilder.ToString();
-
-            var canonicalRequestBuilder = new StringBuilder();
-            canonicalRequestBuilder.Append(HttpMethod.Post.Method);
-            canonicalRequestBuilder.Append("&");
-            canonicalRequestBuilder.Append(Uri.EscapeDataString(RequestTokenEndpoint));
-            canonicalRequestBuilder.Append("&");
-            canonicalRequestBuilder.Append(Uri.EscapeDataString(parameterString));
-
-            var signature = ComputeSignature(consumerSecret, null, canonicalRequestBuilder.ToString());
-            authorizationParts.Add("oauth_signature", signature);
-
-            //--
-            var authorizationHeaderBuilder = new StringBuilder();
-            authorizationHeaderBuilder.Append("OAuth ");
-            foreach (var authorizationPart in authorizationParts)
-            {
-                authorizationHeaderBuilder.AppendFormat(
-                    "{0}=\"{1}\", ", authorizationPart.Key, Uri.EscapeDataString(authorizationPart.Value));
-            }
-            authorizationHeaderBuilder.Length = authorizationHeaderBuilder.Length - 2;
-
-            var request = new HttpRequestMessage(HttpMethod.Post, RequestTokenEndpoint);
-            request.Headers.Add("Authorization", authorizationHeaderBuilder.ToString());
-
-            var response = await _httpClient.SendAsync(request, Request.CallCancelled);
-            response.EnsureSuccessStatusCode();
-            var responseText = await response.Content.ReadAsStringAsync();
-
-            var responseParameters = WebHelpers.ParseForm(responseText);
-            if (string.Equals(responseParameters["oauth_callback_confirmed"], "true", StringComparison.InvariantCulture))
-            {
-                return new RequestToken { Token = Uri.UnescapeDataString(responseParameters["oauth_token"]), TokenSecret = Uri.UnescapeDataString(responseParameters["oauth_token_secret"]), CallbackConfirmed = true, Properties = properties };
-            }
-
-            return new RequestToken();
-        }
-
         private async Task<AccessToken> ObtainAccessTokenAsync(string consumerKey, string consumerSecret, RequestToken token, string verifier)
         {
             // http://developer.yahoo.com/oauth/guide/oauth-accesstoken.html
@@ -305,12 +254,14 @@ namespace Owin.Security.Providers.Yahoo
             _logger.WriteVerbose("ObtainAccessToken");
 
             //var nonce = Guid.NewGuid().ToString("N");
+            var requestPrefix = Request.Scheme + "://" + Request.Host;
+            var callBackUrl = requestPrefix + RequestPathBase + Options.CallbackPath;
 
             var authorizationParts = new SortedDictionary<string, string>
             {
                 { "client_id", consumerKey },
                 { "client_secret", consumerSecret },
-                { "redirect_uri", token.Properties.RedirectUri },
+                { "redirect_uri", callBackUrl },
                 { "grant_type", "authorization_code" },
                 { "code", verifier },
             };
@@ -440,34 +391,14 @@ namespace Owin.Security.Providers.Yahoo
 
             var responseText = await response.Content.ReadAsStringAsync();
             var responseObject = JObject.Parse(responseText);
-
+            /*
             var queryObject = responseObject.SelectToken("query");
             if (queryObject == null) return null;
             var count = (int) queryObject.SelectToken("count");
             if (count <= 0) return null;
             var userCard = (JObject)queryObject.SelectToken("results.profile");
-
-            return userCard;
-        }
-
-        private static string GenerateTimeStamp()
-        {
-            var secondsSinceUnixEpochStart = DateTime.UtcNow - Epoch;
-            return Convert.ToInt64(secondsSinceUnixEpochStart.TotalSeconds).ToString(CultureInfo.InvariantCulture);
-        }
-
-        private static string ComputeSignature(string consumerSecret, string tokenSecret, string signatureData)
-        {
-            using (var algorithm = new HMACSHA1())
-            {
-                algorithm.Key = Encoding.ASCII.GetBytes(
-                    string.Format(CultureInfo.InvariantCulture,
-                        "{0}&{1}",
-                        Uri.EscapeDataString(consumerSecret),
-                        string.IsNullOrEmpty(tokenSecret) ? string.Empty : Uri.EscapeDataString(tokenSecret)));
-                var hash = algorithm.ComputeHash(Encoding.ASCII.GetBytes(signatureData));
-                return Convert.ToBase64String(hash);
-            }
+            */
+            return (JObject)responseObject.SelectToken("profile");
         }
     }
 }

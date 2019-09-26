@@ -31,7 +31,7 @@ namespace Owin.Security.Providers.Yahoo
             : base(context)
         {
             User = user;
-            UserId = userId;
+            UserId = (string)user.SelectToken("guid");
             NickName = TryGetValue(user, "nickname");
             AccessToken = accessToken;
             AccessTokenSecret = accessTokenSecret;
