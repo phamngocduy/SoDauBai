@@ -16,6 +16,7 @@ namespace SoDauBai.Models
     {
         public int id { get; set; }
         public System.DateTime NgayTao { get; set; }
+        public System.DateTime NgaySua { get; set; }
         public System.DateTime NgayDay { get; set; }
         public System.TimeSpan ThoiGianBD { get; set; }
         public System.TimeSpan ThoiGianKT { get; set; }

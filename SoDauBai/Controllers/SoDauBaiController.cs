@@ -109,7 +109,7 @@ namespace SoDauBai.Controllers
             Validate(model);
             if (ModelState.IsValid)
             {
-                model.NgayTao = DateTime.Now;
+                model.NgaySua = DateTime.Now;
                 db.Entry(model).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index", new { id = model.idTKB });

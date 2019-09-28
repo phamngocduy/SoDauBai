@@ -146,6 +146,7 @@
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="NgayTao" Type="datetime" Nullable="false" />
+          <Property Name="NgaySua" Type="datetime" Nullable="false" />
           <Property Name="NgayDay" Type="date" Nullable="false" />
           <Property Name="ThoiGianBD" Type="time" Precision="7" Nullable="false" />
           <Property Name="ThoiGianKT" Type="time" Precision="7" Nullable="false" />
@@ -483,6 +484,7 @@
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="NgayTao" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="NgaySua" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="NgayDay" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="ThoiGianBD" Type="Time" Nullable="false" Precision="7" />
           <Property Name="ThoiGianKT" Type="Time" Nullable="false" Precision="7" />
@@ -737,6 +739,7 @@
                 <ScalarProperty Name="ThoiGianKT" ColumnName="ThoiGianKT" />
                 <ScalarProperty Name="ThoiGianBD" ColumnName="ThoiGianBD" />
                 <ScalarProperty Name="NgayDay" ColumnName="NgayDay" />
+                <ScalarProperty Name="NgaySua" ColumnName="NgaySua" />
                 <ScalarProperty Name="NgayTao" ColumnName="NgayTao" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>

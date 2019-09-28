@@ -16,9 +16,9 @@
         <EntityTypeShape EntityType="SoDauBaiModel.LienHe" Width="1.5" PointX="9.75" PointY="0.75" />
         <EntityTypeShape EntityType="SoDauBaiModel.NganhHoc" Width="1.5" PointX="9.75" PointY="4.75" />
         <EntityTypeShape EntityType="SoDauBaiModel.NhanXet" Width="1.5" PointX="9.75" PointY="7.75" />
-        <EntityTypeShape EntityType="SoDauBaiModel.PhongDayBu" Width="1.5" PointX="3" PointY="7.25" />
-        <EntityTypeShape EntityType="SoDauBaiModel.SoGhiBai" Width="1.5" PointX="3" PointY="11.5" />
-        <EntityTypeShape EntityType="SoDauBaiModel.ThoiKhoaBieu" Width="1.5" PointX="0.75" PointY="9.125" />
+        <EntityTypeShape EntityType="SoDauBaiModel.PhongDayBu" Width="1.5" PointX="3" PointY="12.25" />
+        <EntityTypeShape EntityType="SoDauBaiModel.SoGhiBai" Width="1.5" PointX="3" PointY="7.25" />
+        <EntityTypeShape EntityType="SoDauBaiModel.ThoiKhoaBieu" Width="1.5" PointX="0.75" PointY="9.25" />
         <AssociationConnector Association="SoDauBaiModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" />
         <AssociationConnector Association="SoDauBaiModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" />
         <AssociationConnector Association="SoDauBaiModel.FK_PhongDayBu_ThoiKhoaBieu" />

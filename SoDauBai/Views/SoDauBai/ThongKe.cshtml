@@ -64,7 +64,7 @@
                     @("0,")
 				    @foreach (var sdb in SDB)
                     {
-                        @Html.Raw(String.Format("{0}/50,", sdb.Loai != 1 ? (int)sdb.ThoiGianKT.Subtract(sdb.ThoiGianBD).TotalMinutes : 0))
+                        @Html.Raw(String.Format("{0}/50.0,", sdb.Loai != 1 ? (int)sdb.ThoiGianKT.Subtract(sdb.ThoiGianBD).TotalMinutes : 0))
                     }
                     @("0,")
 		        ],
@@ -77,7 +77,7 @@
                     @("0,")
 				    @foreach (var sdb in SDB)
                     {
-                        @Html.Raw(String.Format("{0}/50,", sdb.Loai == 1 ? (int)sdb.ThoiGianKT.Subtract(sdb.ThoiGianBD).TotalMinutes : 0))
+                        @Html.Raw(String.Format("{0}/50.0,", sdb.Loai == 1 ? (int)sdb.ThoiGianKT.Subtract(sdb.ThoiGianBD).TotalMinutes : 0))
                     }
                     @("0,")
 		        ],
@@ -98,9 +98,6 @@
 		    }]
 	    },
 	    options: {
-		    title: {
-			    text: 'Chart.js Combo Time Scale'
-		    },
 		    scales: {
 			    xAxes: [{
 				    type: 'time',
