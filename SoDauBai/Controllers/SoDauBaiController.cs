@@ -78,6 +78,7 @@ namespace SoDauBai.Controllers
                 try
                 {
                     model.NgayTao = DateTime.Now;
+                    model.NgaySua = DateTime.Now;
                     model.Email = User.Identity.GetUserName();
                     db.SoGhiBais.Add(model);
                     db.SaveChanges();

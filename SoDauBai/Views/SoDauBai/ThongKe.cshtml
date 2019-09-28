@@ -91,7 +91,7 @@
                     @("0,")
 				    @foreach (var sdb in SDB)
                     {
-                        @Html.Raw(String.Format("{0},", Math.Round(sdb.NgayTao.Subtract(sdb.NgayDay).TotalDays)))
+                        @Html.Raw(String.Format("{0},", (int)sdb.NgayTao.Subtract(sdb.NgayDay).TotalDays))
                     }
                     @("0,")
 			    ],
