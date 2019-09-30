@@ -110,6 +110,7 @@ namespace SoDauBai.Controllers
             Validate(model);
             if (ModelState.IsValid)
             {
+                model.NgayTao = db.SoGhiBais.AsNoTracking().Single(sdb => sdb.id == model.id).NgayTao;
                 model.NgaySua = DateTime.Now;
                 db.Entry(model).State = EntityState.Modified;
                 db.SaveChanges();
