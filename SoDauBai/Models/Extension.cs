@@ -72,6 +72,7 @@ namespace SoDauBai.Models
         public const string ACDM511 = "acdm511@gmail.com";
         public const string PASS_WD = "ACDM511";
         public const string KHOA_SO = "KHOA_SO";
+        public const string EP_CNTT = "EP_CNTT";
         public const string NO_EMAIL = "NO_EMAIL";
     }
 

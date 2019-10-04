@@ -96,7 +96,9 @@ namespace SoDauBai.Controllers
                     var course = String.Format("Môn {0}, thứ {1} tiết {2} - {3}", tkb.TenMH, tkb.ThuKieuSo, tkb.TietBD, tkb.TietBD + tkb.SoTiet - 1);
                     var to = String.Join(",", db.GiaoVus.ToList().Where(gv => gv.MaNganh.Split(',').Contains(tkb.MaNganh)).Select(gv => gv.Email).ToArray());
                     if (String.IsNullOrWhiteSpace(to)) to = "p.dt@vanlanguni.edu.vn";
-                    CauHinhController.SendEmail(model.email1, to, "[SĐB] Đặt phòng dạy bù", course + '\n' + model.GhiChu1 + '\n' + url.Action("Index2", "PhongDayBu", null, Request.Url.Scheme));
+                    var cc = db.CauHinhs.Find(CONFIG.EP_CNTT).GiaTri;
+                    cc = model.PhongMay && !String.IsNullOrEmpty(cc) ? cc : null;
+                    CauHinhController.SendEmail(model.email1, to, "[SĐB] Đặt phòng dạy bù", course + '\n' + model.GhiChu1 + '\n' + url.Action("Index2", "PhongDayBu", null, Request.Url.Scheme), cc);
 
                     scope.Complete();
                     return RedirectToAction("Index1", new { id = id });
@@ -136,6 +138,7 @@ namespace SoDauBai.Controllers
                 model.GhiChu1 = phong.GhiChu1;
                 model.email1 = User.Identity.GetUserName();
                 model.status = null;
+                model.PhongMay = phong.PhongMay;
                 db.Entry(model).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index1", new { id = model.idTKB });

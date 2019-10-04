@@ -139,6 +139,7 @@
           <Property Name="status" Type="date" />
           <Property Name="email1" Type="nvarchar" MaxLength="50" />
           <Property Name="email2" Type="nvarchar" MaxLength="50" />
+          <Property Name="PhongMay" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="SoGhiBai">
           <Key>
@@ -476,6 +477,7 @@
           <Property Name="status" Type="DateTime" Precision="0" />
           <Property Name="email1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="email2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PhongMay" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="ThoiKhoaBieu" Relationship="SoDauBaiModel.FK_PhongDayBu_ThoiKhoaBieu" FromRole="PhongDayBu" ToRole="ThoiKhoaBieu" />
         </EntityType>
         <EntityType Name="SoGhiBai">
@@ -708,6 +710,7 @@
           <EntitySetMapping Name="PhongDayBus">
             <EntityTypeMapping TypeName="SoDauBaiModel.PhongDayBu">
               <MappingFragment StoreEntitySet="PhongDayBu">
+                <ScalarProperty Name="PhongMay" ColumnName="PhongMay" />
                 <ScalarProperty Name="email2" ColumnName="email2" />
                 <ScalarProperty Name="email1" ColumnName="email1" />
                 <ScalarProperty Name="status" ColumnName="status" />

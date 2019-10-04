@@ -31,7 +31,7 @@ namespace SoDauBai.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Index(int khoaSo, string noEmail)
+        public ActionResult Index(int khoaSo, string noEmail, string pCNTT)
         {
             using (var db = new SoDauBaiEntities())
             {
@@ -42,6 +42,10 @@ namespace SoDauBai.Controllers
                 var NoEmail = db.CauHinhs.Find(CONFIG.NO_EMAIL);
                 NoEmail.GiaTri = (noEmail ?? "").Trim();
                 db.Entry(NoEmail).State = EntityState.Modified;
+
+                var PCNTT = db.CauHinhs.Find(CONFIG.EP_CNTT);
+                PCNTT.GiaTri = (pCNTT ?? "").Trim();
+                db.Entry(PCNTT).State = EntityState.Modified;
 
                 db.SaveChanges();
             }
@@ -90,7 +94,7 @@ namespace SoDauBai.Controllers
         static string[] Scopes = { GmailService.Scope.GmailSend };
         static string ApplicationName = "SoDauBai";
 
-        public static void SendEmail(string from, string to, string subject, string content)
+        public static void SendEmail(string from, string to, string subject, string content, string cc = null)
         {
             using (var db = new SoDauBaiEntities())
             {
@@ -121,8 +125,9 @@ namespace SoDauBai.Controllers
             });
 
             from = from.Trim(); to = to.Trim(); subject = subject.Trim(); content = content.Trim();
-            var email = String.Format("From: \"{0}\" <" + CONFIG.ACDM511 + ">\r\nReply-To: {0}\r\nTo: {1}\r\nSubject: =?utf-8?B?{2}?=\r\nContent-Type: text/html; charset=utf-8\r\n\r\n{3}",
-                from, to, subject.ToBase64(), String.Join("", content.Split('\n').Select(s => String.Format("<p>{0}</p>", s.Trim()))) + "Sent from Sổ Đầu Bài. Please do not reply.");
+            cc = cc != null ? String.Format("Cc: {0}\r\n", cc) : null;
+            var email = String.Format("From: \"{0}\" <" + CONFIG.ACDM511 + ">\r\nReply-To: {0}\r\nTo: {1}\r\n{4}Subject: =?utf-8?B?{2}?=\r\nContent-Type: text/html; charset=utf-8\r\n\r\n{3}",
+                from, to, subject.ToBase64(), String.Join("", content.Split('\n').Select(s => String.Format("<p>{0}</p>", s.Trim()))) + "Sent from Sổ Đầu Bài. Please do not reply.", cc);
             var message = new Message();
             message.Raw = email.ToBase64().Replace("+", "-").Replace("/", "_").Replace("=", "");
             service.Users.Messages.Send(message, "me").Execute();

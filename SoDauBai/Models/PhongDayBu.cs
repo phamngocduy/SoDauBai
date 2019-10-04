@@ -26,6 +26,7 @@ namespace SoDauBai.Models
         public Nullable<System.DateTime> status { get; set; }
         public string email1 { get; set; }
         public string email2 { get; set; }
+        public bool PhongMay { get; set; }
     
         public virtual ThoiKhoaBieu ThoiKhoaBieu { get; set; }
     }

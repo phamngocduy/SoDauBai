@@ -2,6 +2,7 @@
 @{
     var khoaSo = Model.First(c => c.ThamSo == CONFIG.KHOA_SO).GiaTri.ToIntOrDefault(0);
     var noEmail = Model.First(c => c.ThamSo == CONFIG.NO_EMAIL).GiaTri;
+    var pCNTT = Model.First(c => c.ThamSo == CONFIG.EP_CNTT).GiaTri;
 }
 
 <div class="card shadow mb-4">
@@ -19,6 +20,14 @@
                         <strong>Khóa Ghi/Sửa/Xóa thông tin buổi dạy sau</strong>
                         <input type="number" name="khoaSo" value="@khoaSo" required />
                         <strong>ngày.</strong>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-10">
+                        <strong>Email phòng CNTT:</strong>
+                        <input type="text" name="pCNTT" value="@pCNTT" />
+                        <em>(để nhận mail đăng ký dạy bù trong phòng máy)</em>
                     </div>
                 </div>
 
@@ -44,7 +53,7 @@
     @Scripts.Render("~/bundles/jqueryval")
     <script>
         $(function () {
-            $('[name=noEmail]').on('keypress focusout', function () {
+            $('[name=noEmail],[name=pCNTT]').on('keypress focusout', function () {
                 if (this.value.length > 0) {
                     this.style.width = ((this.value.length + 1) * 10) + 'px';
                 } else {

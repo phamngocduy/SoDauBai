@@ -24,6 +24,12 @@
                 <span>môn @Html.ActionLink(TKB.TenMH, "Index", "SoDauBai", new { id = TKB.id }, new { style = "text-decoration:underline" })</span>
             }
         </h6>
+        @if (TKB == null && User.IsInRoles("DaoTao,GiaoVu"))
+        {
+            <a href="#" onclick="showPhongMay()" class="btn btn-success btn-circle btn-sm float-right">
+                <i class="fas fa-desktop"></i>
+            </a>
+        }
         @if (TKB != null)
         {
             <a href="@Url.Action("Create", new { id = TKB.id })" class="btn btn-success btn-circle btn-sm float-right">
@@ -44,7 +50,7 @@
                 <tbody>
                     @foreach (var item in PhongDayBu)
                     {
-                        <tr>
+                        <tr tag="@(item.PhongMay ? "PhongMay" : "PhongThuong")">
                             <td>
                                 @if (User.IsInRoles("DaoTao,GiaoVu"))
                                 {
@@ -54,8 +60,16 @@
                                 <a href="@Url.Action("Index", "SoDauBai", new { id = item.idTKB })" target="_blank">
                                     @item.ThoiKhoaBieu.TenMH, thứ @item.ThoiKhoaBieu.ThuKieuSo tiết @item.ThoiKhoaBieu.TietBD - @(item.ThoiKhoaBieu.TietBD + item.ThoiKhoaBieu.SoTiet - 1), phòng @item.MaPH
                                 </a>
-                                <div>@item.GhiChu1</div>
-                                <span>Từ ngày @item.NgayBD.ToString("dd/MM/yyyy")</span>
+                                <div>
+                                    @item.GhiChu1
+                                </div>
+                                <span>
+                                    Từ ngày @item.NgayBD.ToString("dd/MM/yyyy")
+                                    @if (item.PhongMay)
+                                    {
+                                        <i title="Học phòng máy" class="fas fa-desktop text-success"></i>
+                                    }
+                                </span>
                                 @if (User.IsInTKB(item.idTKB))
                                 {
                                     <a href="@Url.Action("Edit1", new { id = item.id })" class="btn btn-warning btn-circle btn-sm">
@@ -96,3 +110,9 @@
         </div>
     </div>
 </div>
+
+<script>
+    function showPhongMay() {
+        $('[tag=PhongThuong]').toggle();
+    }
+</script>
