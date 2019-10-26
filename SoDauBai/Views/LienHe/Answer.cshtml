@@ -14,6 +14,10 @@
             <div class="form-horizontal">
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                 <div class="form-group">
+                    <span>@Model.Question</span>
+                </div>
+
+                <div class="form-group">
                     <div class="col-md-10">
                         @Html.TextAreaFor(model => model.Answer, new { @class = "form-control", placeholder = "Nội dung", required = true })
                         @Html.ValidationMessageFor(model => model.Answer, "", new { @class = "text-danger" })
