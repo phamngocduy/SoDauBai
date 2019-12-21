@@ -183,6 +183,7 @@
           <Property Name="MaGV" Type="nvarchar" MaxLength="10" Nullable="false" />
           <Property Name="MaPH" Type="nvarchar(max)" Nullable="false" />
           <Property Name="HocKy" Type="tinyint" Nullable="false" />
+          <Property Name="KetThuc" Type="bit" Nullable="false" />
         </EntityType>
         <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
           <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
@@ -523,6 +524,7 @@
           <Property Name="MaGV" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
           <Property Name="MaPH" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="HocKy" Type="Byte" Nullable="false" />
+          <Property Name="KetThuc" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="PhongDayBus" Relationship="SoDauBaiModel.FK_PhongDayBu_ThoiKhoaBieu" FromRole="ThoiKhoaBieu" ToRole="PhongDayBu" />
           <NavigationProperty Name="SoGhiBais" Relationship="SoDauBaiModel.FK_SoDauBai_ThoiKhoaBieu" FromRole="ThoiKhoaBieu" ToRole="SoGhiBai" />
         </EntityType>
@@ -751,6 +753,7 @@
           <EntitySetMapping Name="ThoiKhoaBieux">
             <EntityTypeMapping TypeName="SoDauBaiModel.ThoiKhoaBieu">
               <MappingFragment StoreEntitySet="ThoiKhoaBieu">
+                <ScalarProperty Name="KetThuc" ColumnName="KetThuc" />
                 <ScalarProperty Name="HocKy" ColumnName="HocKy" />
                 <ScalarProperty Name="MaPH" ColumnName="MaPH" />
                 <ScalarProperty Name="MaGV" ColumnName="MaGV" />
