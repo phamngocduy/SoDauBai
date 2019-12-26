@@ -38,7 +38,8 @@ namespace SoDauBai.Models
         public string MaGV { get; set; }
         public string MaPH { get; set; }
         public byte HocKy { get; set; }
-        public bool KetThuc { get; set; }
+        public byte TuanBD { get; set; }
+        public byte TuanKT { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PhongDayBu> PhongDayBus { get; set; }

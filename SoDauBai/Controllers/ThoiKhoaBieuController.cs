@@ -117,6 +117,10 @@ namespace SoDauBai.Controllers
                         }
                         i++;
                         row.MaPH = reader.GetText(i);
+                        i++;
+                        row.TuanBD = reader.GetText(i).Parse<byte>(1);
+                        i++;
+                        row.TuanKT = reader.GetText(i).Parse<byte>(15);
                     }
                     catch (Exception e)
                     {
@@ -225,6 +229,8 @@ namespace SoDauBai.Controllers
                     tkb.ThuKieuSo = model.ThuKieuSo;
                     tkb.TietBD = model.TietBD;
                     tkb.SoTiet = model.SoTiet;
+                    tkb.TuanBD = model.TuanBD;
+                    tkb.TuanKT = model.TuanKT;
                     tkb.MaPH = model.MaPH;
 
                     db.Entry(tkb).State = EntityState.Modified;
@@ -236,22 +242,6 @@ namespace SoDauBai.Controllers
                     ModelState.AddModelError("", e.GetBaseException().Message);
                 }
             return View(model);
-        }
-
-        [OverrideAuthorization]
-        [TKBAuthorization]
-        public ActionResult Toggle(int id)
-        {
-            var model = db.ThoiKhoaBieux.Find(id);
-            model.KetThuc = !model.KetThuc;
-            db.Entry(model).State = EntityState.Modified;
-            foreach (var item in db.ThoiKhoaBieux.Where(tkb => tkb.MaMH == model.MaMH && tkb.HocKy == model.HocKy && tkb.NhomTo == model.NhomTo))
-            {
-                item.KetThuc = model.KetThuc;
-                db.Entry(item).State = EntityState.Modified;
-            }
-            db.SaveChanges();
-            return RedirectToAction("Index", "SoDauBai", new { id });
         }
 
         public ActionResult Delete(int id)

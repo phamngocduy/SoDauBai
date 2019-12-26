@@ -287,6 +287,18 @@
     <Compile Include="Models\ThoiKhoaBieu.cs">
       <DependentUpon>Models.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\TkbDanhSach.cs">
+      <DependentUpon>Models.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TkbGiangVien.cs">
+      <DependentUpon>Models.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TkbHocPhan.cs">
+      <DependentUpon>Models.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TkbThongKe.cs">
+      <DependentUpon>Models.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>

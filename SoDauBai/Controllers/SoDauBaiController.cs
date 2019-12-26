@@ -149,6 +149,7 @@ namespace SoDauBai.Controllers
             var SDB = TKB.Merge(tkb => tkb.SoGhiBais);
             if (SDB.Count() > 0)
             {
+                /*
                 var buoiDay = 0;
                 var buoiDau = SDB.Min(sdb => sdb.NgayDay);
                 var buoiSau = SDB.Max(sdb => sdb.NgayDay);
@@ -168,6 +169,8 @@ namespace SoDauBai.Controllers
                     }
                 }
                 return buoiDay;
+                */
+                return TKB.Sum(tkb => tkb.TuanKT - tkb.TuanBD + 1);
             }
             else return 0;
         }
