@@ -14,8 +14,8 @@
     var hour = Model.Where(sdb => sdb.Loai != 1).Count(sdb => (int)sdb.ThoiGianKT.Subtract(sdb.ThoiGianBD).TotalMinutes);
     var more = Model.Count(sdb => sdb.Loai == 1) - Model.Count(sdb => sdb.Loai == 2);
     var ngayBD = Model.Min(sdb => sdb.NgayDay, DateTime.MaxValue);
-    var tuanKT = TKBs.Max(tkb => tkb.TuanKT);
-    var ngayKT = ngayBD.AddDays(tuanKT * 7);
+    int tuanBD = TKBs.Max(tkb => tkb.TuanBD), tuanKT = TKBs.Max(tkb => tkb.TuanKT);
+    var ngayKT = ngayBD.AddDays((tuanKT - tuanBD + 1) * 7);
 }
 <link rel="stylesheet" href="~/Content/font-awesome-animation.min.css">
 <div class="card shadow mb-4">

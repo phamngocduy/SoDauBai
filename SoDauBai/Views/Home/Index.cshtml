@@ -8,8 +8,8 @@
     var buoiDay = SoDauBaiController.countSoBuoiDay(group);
     var buoiGhi = group.Merge(tkb => tkb.SoGhiBais).Count(sdb => sdb.Loai != 1 || (sdb.Loai == 1 && sdb.NgayDay <= DateTime.Now));
     var ngayBD = group.Min(tkb => tkb.SoGhiBais.Min(sdb => sdb.NgayDay, DateTime.MaxValue));
-    var tuanKT = group.Max(tkb => tkb.TuanKT);
-    var ngayKT = ngayBD.AddDays(tuanKT * 7);
+    int tuanBD = group.Min(tkb => tkb.TuanBD), tuanKT = group.Max(tkb => tkb.TuanKT);
+    var ngayKT = ngayBD.AddDays((tuanKT - tuanBD + 1) * 7);
     <div class="col-xl-4 col-md-6 mb-4 course">
         <div class="card border-left-@(ngayKT < DateTime.Today && item.HocKy == 191 ? "info" : buoiGhi < buoiDay ? "danger" : buoiGhi == buoiDay ? "primary" : "warning") shadow py-2">
             <div class="card-body">
