@@ -15,7 +15,7 @@
     var more = Model.Count(sdb => sdb.Loai == 1) - Model.Count(sdb => sdb.Loai == 2);
     var ngayBD = Model.Min(sdb => sdb.NgayDay, DateTime.MaxValue);
     int tuanBD = TKBs.Max(tkb => tkb.TuanBD), tuanKT = TKBs.Max(tkb => tkb.TuanKT);
-    var ngayKT = ngayBD.AddDays((tuanKT - tuanBD + 1) * 7);
+    var ngayKT = ngayBD < DateTime.MaxValue ? ngayBD.AddDays((tuanKT - tuanBD + 1) * 7) : DateTime.MinValue;
 }
 <link rel="stylesheet" href="~/Content/font-awesome-animation.min.css">
 <div class="card shadow mb-4">
@@ -25,8 +25,36 @@
             var Tiet = new int[TKB.SoTiet];
             Tiet.For(0, TKB.SoTiet - 1, i => Tiet[i] = TKB.TietBD + i);
             var GV = GVs.FirstOrDefault(gv => gv.MaGV == tkb.MaGV).Init();
-            <h6 class="m-0 font-weight-bold text-primary d-inline">@tkb.NhomTo - @tkb.TenMH - @GV.HocVi @GV.HoTen - Thứ @tkb.ThuKieuSo, tiết @String.Join("", Tiet) #P: @tkb.MaPH</h6>
+            <h6 class="m-0 font-weight-bold text-primary d-inline">
+                @tkb.NhomTo - @tkb.TenMH - 
+                <abbr title="@GV.HocVi @GV.HoTen">
+                    <i class="fas fa-user-tie"></i>
+                </abbr>
+                @foreach (var pg in tkb.PhuGiangs)
+                {
+                    GV = GVs.FirstOrDefault(gv => gv.MaGV == pg.MaGV).Init();
+                    <abbr title="@GV.HocVi @GV.HoTen">
+                        <i class="fas fa-user-tie"></i>
+                    </abbr>
+                }
+                - Thứ @tkb.ThuKieuSo, tiết @String.Join("", Tiet) #P: @tkb.MaPH
+            </h6>
             <span class="badge">@(tkb.ToTH == null ? "LT" : "TH")</span>
+            if (tkb.BanCanSus.Count() > 0)
+            {
+                foreach (var bcs in tkb.BanCanSus)
+                {
+                    <abbr title="@bcs.Email">
+                        <i class="fas fa-user-graduate text-warning"></i>
+                    </abbr>
+                }
+            }
+            else
+            {
+                <abbr title="Chưa chọn Ban cán sự lớp Học phần">
+                    <i class="fas fa-exclamation text-danger"></i>
+                </abbr>
+            }
             if (User.IsInTKB(tkb.id))
             {
                 <a href="@Url.Action("Update", "ThoiKhoaBieu", new { tkb.id })" class="btn btn-warning btn-circle btn-sm">
@@ -176,6 +204,10 @@
         </div>
     </div>
 </div>
+
+<style>
+    abbr { text-decoration: none !important }
+</style>
 
 @section Scripts {
     <script>

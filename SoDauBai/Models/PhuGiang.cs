@@ -12,13 +12,12 @@ namespace SoDauBai.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class TkbThongKe
+    public partial class PhuGiang
     {
         public int id { get; set; }
+        public int idTKB { get; set; }
         public string MaGV { get; set; }
-        public int MaHP { get; set; }
-        public int Thu { get; set; }
-        public int TietBatDau { get; set; }
-        public int SoTiet { get; set; }
+    
+        public virtual ThoiKhoaBieu ThoiKhoaBieu { get; set; }
     }
 }

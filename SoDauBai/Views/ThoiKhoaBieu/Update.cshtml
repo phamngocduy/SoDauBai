@@ -1,116 +1,278 @@
 ﻿@model ThoiKhoaBieu
 
 <div class="card shadow mb-4">
-    <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">Cập nhật Thông tin lớp</h6>
-    </div>
-    <div class="card-body">
-        @using (Html.BeginForm())
-        {
-            @Html.AntiForgeryToken()
-            @Html.HiddenFor(model => model.id)
-            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <ul class="card-header py-3 nav nav-tabs">
+        <li><a href="#ThongTin" data-toggle="tab"><h6 class="m-0 font-weight-bold text-primary btn btn-warning">Cập nhật Thông tin lớp</h6></a></li>
+        <li><a href="#BanCanSu" data-toggle="tab"><h6 class="m-0 font-weight-bold text-primary btn">Danh sách Ban cán sự</h6></a></li>
+        <li><a href="#PhuGiang" data-toggle="tab"><h6 class="m-0 font-weight-bold text-primary btn">Trợ giảng/ Phụ giảng</h6></a></li>
+    </ul>
+    <div class="card-body tab-content">
+        <div class="tab-pane fade active show" id="ThongTin">
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+                @Html.HiddenFor(model => model.id)
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
+                <div class="form-group">
+                    @Html.LabelFor(model => model.MaLop, "Mã lớp", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.MaLop, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.MaLop, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.TenLop, "Tên lớp", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.TenLop, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.TenLop, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.TongSoSV, "Tổng số SV", htmlAttributes: new { @class = "control-label col-md-12" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.TongSoSV, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.TongSoSV, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.ThuKieuSo, "Thứ kiểu số", htmlAttributes: new { @class = "control-label col-md-12" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.ThuKieuSo, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.ThuKieuSo, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.TietBD, "Tiết bắt đầu", htmlAttributes: new { @class = "control-label col-md-12" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.TietBD, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.TietBD, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.SoTiet, "Số tiết dạy", htmlAttributes: new { @class = "control-label col-md-12" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.SoTiet, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.SoTiet, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.TuanBD, "Tuần bắt đầu", htmlAttributes: new { @class = "control-label col-md-12" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.TuanBD, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.TuanBD, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.TuanKT, "Tuần kết thúc", htmlAttributes: new { @class = "control-label col-md-12" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.TuanKT, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.TuanKT, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.MaPH, "Mã phòng", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.MaPH, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.MaPH, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Cập nhật" class="btn btn-primary" /> |
+                        <a href="@Url.Action("Index", "SoDauBai", new { id = Model.id })" class="btn btn-default">Quay lại</a>
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="tab-pane fade" id="BanCanSu">
+            <blockquote class="blockquote">
+                <p class="mb-0">Ban cán sự các lớp học phần theo dõi tình hình của lớp học phần, nếu có sv nghỉ học quá thời gian quy định phải làm ngay báo cáo gửi lớp trưởng lớp sinh viên quản lý sv đó</p>
+            </blockquote>
             <div class="form-group">
-                @Html.LabelFor(model => model.MaLop, "Mã lớp", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.MaLop, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.MaLop, "", new { @class = "text-danger" })
-                </div>
+                <select id="searchBanCanSu" class="form-control"></select>
             </div>
-
+            <div id="BCS">
+                <a href="#" class="btn btn-light btn-icon-split" v-for="bcs in BanCanSu">
+                    <span class="text">{{ bcs }}</span>
+                    <span class="icon text-gray-600" onclick="deleteBanCanSu(this)" :email="bcs">
+                        <i class="fas fa-times"></i>
+                    </span>
+                </a>
+            </div>
+            <div class="my-2"></div>
+            <a href="@Url.Action("Index", "SoDauBai", new { id = Model.id })" class="btn btn-secondary">Quay lại</a>
+        </div>
+        <div class="tab-pane fade" id="PhuGiang">
             <div class="form-group">
-                @Html.LabelFor(model => model.TenLop, "Tên lớp", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.TenLop, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.TenLop, "", new { @class = "text-danger" })
-                </div>
+                <select id="searchPhuGiang" class="form-control"></select>
             </div>
-
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.TongSoSV, "Tổng số SV", htmlAttributes: new { @class = "control-label col-md-12" })
-                        <div class="col-md-10">
-                            @Html.EditorFor(model => model.TongSoSV, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.TongSoSV, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-6">
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.ThuKieuSo, "Thứ kiểu số", htmlAttributes: new { @class = "control-label col-md-12" })
-                        <div class="col-md-10">
-                            @Html.EditorFor(model => model.ThuKieuSo, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.ThuKieuSo, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                </div>
+            <div id="PGS">
+                <a href="#" class="btn btn-light btn-icon-split" v-for="pg in PhuGiang">
+                    <span class="text">{{ pg.MaGV }} - {{ pg.HoTen }}</span>
+                    <span class="icon text-gray-600" onclick="deletePhuGiang(this)" :maGV="pg.MaGV">
+                        <i class="fas fa-times"></i>
+                    </span>
+                </a>
             </div>
-
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.TietBD, "Tiết bắt đầu", htmlAttributes: new { @class = "control-label col-md-12" })
-                        <div class="col-md-10">
-                            @Html.EditorFor(model => model.TietBD, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.TietBD, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-6">
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.SoTiet, "Số tiết dạy", htmlAttributes: new { @class = "control-label col-md-12" })
-                        <div class="col-md-10">
-                            @Html.EditorFor(model => model.SoTiet, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.SoTiet, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.TuanBD, "Tuần bắt đầu", htmlAttributes: new { @class = "control-label col-md-12" })
-                        <div class="col-md-10">
-                            @Html.EditorFor(model => model.TuanBD, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.TuanBD, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-6">
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.TuanKT, "Tuần kết thúc", htmlAttributes: new { @class = "control-label col-md-12" })
-                        <div class="col-md-10">
-                            @Html.EditorFor(model => model.TuanKT, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.TuanKT, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.MaPH, "Mã phòng", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.MaPH, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.MaPH, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Cập nhật" class="btn btn-primary" /> |
-                    <a href="@Url.Action("Index", "SoDauBai", new { id = Model.id })" class="btn btn-default">Quay lại</a>
-                </div>
-            </div>
-        }
+            <div class="my-2"></div>
+            <a href="@Url.Action("Index", "SoDauBai", new { id = Model.id })" class="btn btn-secondary">Quay lại</a>
+        </div>
     </div>
 </div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    <link href="~/Content/select2.min.css" rel="stylesheet" />
+    <link href="~/Content/select2-bootstrap.min.css" rel="stylesheet" />
+    <script src="~/Scripts/select2.min.js"></script>
+    <script>
+        $(function () {
+            $('#searchBanCanSu').select2({
+                dataType: 'json',
+                placeholder: 'Nhập thông tin email sinh viên',
+                minimumInputLength: 5,
+                theme: 'bootstrap',
+                ajax: {
+                    delay: 250,
+                    transport: function (params, success, failure) {
+                        $.getJSON('@Url.Action("Search", "BanCanSu")', params.data)
+                            .done(success).fail(failure);
+                    },
+                    processResults: function (data, params) {
+                        return {
+                            results: $.map(data, function (e, i) {
+                                return {
+                                    id: e,
+                                    text: e.replace(params.term, '<b><u>' + params.term + '</u></b>')
+                                };
+                            })
+                        };
+                    }
+                },
+                escapeMarkup: function (markup) {
+                    return markup;
+                }
+            }).change(function () {
+                if ($(this).val() != null) {
+                    if (confirm('Thêm SV này vào Ban cán sự ?')) {
+                        $.post('@Url.Action("Create", "BanCanSu", new { id = Model.id })?email=' + $(this).val(), function (data) {
+                            if (data.length > 0)
+                                alert(data);
+                            else loadBanCanSu();
+                        });
+                    }
+                    $(this).val(null).trigger('change');
+                }
+            });
+            loadBanCanSu();
+
+            $('#searchPhuGiang').select2({
+                dataType: 'json',
+                placeholder: 'Nhập mã giảng viên hoặc họ tên',
+                minimumInputLength: 5,
+                theme: 'bootstrap',
+                ajax: {
+                    delay: 250,
+                    transport: function (params, success, failure) {
+                        $.getJSON('@Url.Action("Search", "PhuGiang")', params.data)
+                            .done(success).fail(failure);
+                    },
+                    processResults: function (data, params) {
+                        return {
+                            results: $.map(data, function (e, i) {
+                                return {
+                                    id: e.MaGV,
+                                    text: e.MaGV + ' - ' + e.HoTen
+                                };
+                            })
+                        };
+                    }
+                },
+                escapeMarkup: function (markup) {
+                    return markup;
+                }
+            }).change(function () {
+                if ($(this).val() != null) {
+                    if (confirm('Thêm giảng viên này vào lớp ?')) {
+                        $.post('@Url.Action("Create", "PhuGiang", new { id = Model.id })?maGV=' + $(this).val(), function (data) {
+                            if (data.length > 0)
+                                alert(data);
+                            else loadPhuGiang();
+                        });
+                    }
+                    $(this).val(null).trigger('change');
+                }
+            });
+            loadPhuGiang();
+        });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        var bcs = new Vue({
+            el: '#BCS',
+            data: {
+                BanCanSu: []
+            }
+        });
+        function loadBanCanSu() {
+            $.getJSON('@Url.Action("Index", "BanCanSu", new { id = Model.id })')
+                .done(function (json) { bcs.BanCanSu = json; });
+        }
+        function deleteBanCanSu(span) {
+            var email = $(span).attr('email');
+            if (confirm('Xóa SV này khỏi Ban cán sự ?'))
+            $.post('@Url.Action("Delete", "BanCanSu", new { id = Model.id })?email=' + email, function (data) {
+                if (data.length > 0)
+                    alert(data);
+                else loadBanCanSu();
+            });
+        }
+        var pgs = new Vue({
+            el: '#PGS',
+            data: {
+                PhuGiang: []
+            }
+        });
+        function loadPhuGiang() {
+            $.getJSON('@Url.Action("Index", "PhuGiang", new { id = Model.id })')
+                .done(function (json) { pgs.PhuGiang = json; });
+        }
+        function deletePhuGiang(span) {
+            var maGV = $(span).attr('maGV');
+            if (confirm('Xóa giảng viên này khỏi lớp ?'))
+            $.post('@Url.Action("Delete", "PhuGiang", new { id = Model.id })?maGV=' + maGV, function (data) {
+                if (data.length > 0)
+                    alert(data);
+                else loadPhuGiang();
+            });
+        }
+    </script>
 }

@@ -56,6 +56,14 @@
           <Property Name="AccessFailedCount" Type="int" Nullable="false" />
           <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
         </EntityType>
+        <EntityType Name="BanCanSu">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="idTKB" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="CauHinh">
           <Key>
             <PropertyRef Name="ThamSo" />
@@ -141,6 +149,14 @@
           <Property Name="email2" Type="nvarchar" MaxLength="50" />
           <Property Name="PhongMay" Type="bit" Nullable="false" />
         </EntityType>
+        <EntityType Name="PhuGiang">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idTKB" Type="int" Nullable="false" />
+          <Property Name="MaGV" Type="nvarchar" MaxLength="20" Nullable="false" />
+        </EntityType>
         <EntityType Name="SoGhiBai">
           <Key>
             <PropertyRef Name="id" />
@@ -186,63 +202,29 @@
           <Property Name="TuanBD" Type="tinyint" Nullable="false" />
           <Property Name="TuanKT" Type="tinyint" Nullable="false" />
         </EntityType>
-        <EntityType Name="TkbDanhSach">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="NgayTao" Type="datetime" Nullable="false" />
-          <Property Name="TenGoi" Type="nvarchar" MaxLength="50" Nullable="false" />
-        </EntityType>
-        <EntityType Name="TkbGiangVien">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="MaGV" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="HoTen" Type="nvarchar(max)" Nullable="false" />
-        </EntityType>
-        <EntityType Name="TkbHocPhan">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Tkb_id" Type="int" Nullable="false" />
-          <Property Name="MaHP" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="TenHocPhan" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="TinChi" Type="int" Nullable="false" />
-          <Property Name="NhomTo" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="Thu" Type="int" Nullable="false" />
-          <Property Name="Phong" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="TietBatDau" Type="int" Nullable="false" />
-          <Property Name="SoTiet" Type="int" Nullable="false" />
-          <Property Name="SoSV" Type="int" Nullable="false" />
-          <Property Name="TuanBatDau" Type="int" Nullable="false" />
-          <Property Name="TuanKetThuc" Type="int" Nullable="false" />
-          <Property Name="Nganh" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="MaKhoa" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="VietTat" Type="nvarchar(max)" />
-        </EntityType>
-        <EntityType Name="TkbThongKe">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="MaGV" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="MaHP" Type="int" Nullable="false" />
-          <Property Name="Thu" Type="int" Nullable="false" />
-          <Property Name="TietBatDau" Type="int" Nullable="false" />
-          <Property Name="SoTiet" Type="int" Nullable="false" />
-        </EntityType>
-        <Association Name="FK__TkbHocPha__Tkb_i__395884C4">
-          <End Role="TkbDanhSach" Type="Self.TkbDanhSach" Multiplicity="1" />
-          <End Role="TkbHocPhan" Type="Self.TkbHocPhan" Multiplicity="*" />
+        <Association Name="FK__BanCanSu__idTKB__04E4BC85">
+          <End Role="ThoiKhoaBieu" Type="Self.ThoiKhoaBieu" Multiplicity="1" />
+          <End Role="BanCanSu" Type="Self.BanCanSu" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="TkbDanhSach">
+            <Principal Role="ThoiKhoaBieu">
               <PropertyRef Name="id" />
             </Principal>
-            <Dependent Role="TkbHocPhan">
-              <PropertyRef Name="Tkb_id" />
+            <Dependent Role="BanCanSu">
+              <PropertyRef Name="idTKB" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__PhuGiang__idTKB__07C12930">
+          <End Role="ThoiKhoaBieu" Type="Self.ThoiKhoaBieu" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="PhuGiang" Type="Self.PhuGiang" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ThoiKhoaBieu">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="PhuGiang">
+              <PropertyRef Name="idTKB" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -332,6 +314,7 @@
           <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BanCanSu" EntityType="Self.BanCanSu" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CauHinh" EntityType="Self.CauHinh" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GiangVien" EntityType="Self.GiangVien" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GiaoVu" EntityType="Self.GiaoVu" Schema="dbo" store:Type="Tables" />
@@ -340,15 +323,16 @@
           <EntitySet Name="NganhHoc" EntityType="Self.NganhHoc" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="NhanXet" EntityType="Self.NhanXet" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PhongDayBu" EntityType="Self.PhongDayBu" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PhuGiang" EntityType="Self.PhuGiang" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SoGhiBai" EntityType="Self.SoGhiBai" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ThoiKhoaBieu" EntityType="Self.ThoiKhoaBieu" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="TkbDanhSach" EntityType="Self.TkbDanhSach" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="TkbGiangVien" EntityType="Self.TkbGiangVien" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="TkbHocPhan" EntityType="Self.TkbHocPhan" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="TkbThongKe" EntityType="Self.TkbThongKe" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK__TkbHocPha__Tkb_i__395884C4" Association="Self.FK__TkbHocPha__Tkb_i__395884C4">
-            <End Role="TkbDanhSach" EntitySet="TkbDanhSach" />
-            <End Role="TkbHocPhan" EntitySet="TkbHocPhan" />
+          <AssociationSet Name="FK__BanCanSu__idTKB__04E4BC85" Association="Self.FK__BanCanSu__idTKB__04E4BC85">
+            <End Role="ThoiKhoaBieu" EntitySet="ThoiKhoaBieu" />
+            <End Role="BanCanSu" EntitySet="BanCanSu" />
+          </AssociationSet>
+          <AssociationSet Name="FK__PhuGiang__idTKB__07C12930" Association="Self.FK__PhuGiang__idTKB__07C12930">
+            <End Role="ThoiKhoaBieu" EntitySet="ThoiKhoaBieu" />
+            <End Role="PhuGiang" EntitySet="PhuGiang" />
           </AssociationSet>
           <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
@@ -394,10 +378,6 @@
           <EntitySet Name="PhongDayBus" EntityType="SoDauBaiModel.PhongDayBu" />
           <EntitySet Name="SoGhiBais" EntityType="SoDauBaiModel.SoGhiBai" />
           <EntitySet Name="ThoiKhoaBieux" EntityType="SoDauBaiModel.ThoiKhoaBieu" />
-          <EntitySet Name="TkbDanhSaches" EntityType="SoDauBaiModel.TkbDanhSach" />
-          <EntitySet Name="TkbGiangViens" EntityType="SoDauBaiModel.TkbGiangVien" />
-          <EntitySet Name="TkbHocPhans" EntityType="SoDauBaiModel.TkbHocPhan" />
-          <EntitySet Name="TkbThongKes" EntityType="SoDauBaiModel.TkbThongKe" />
           <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="SoDauBaiModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
             <End Role="AspNetUser" EntitySet="AspNetUsers" />
             <End Role="AspNetUserClaim" EntitySet="AspNetUserClaims" />
@@ -414,13 +394,19 @@
             <End Role="ThoiKhoaBieu" EntitySet="ThoiKhoaBieux" />
             <End Role="SoGhiBai" EntitySet="SoGhiBais" />
           </AssociationSet>
-          <AssociationSet Name="FK__TkbHocPha__Tkb_i__395884C4" Association="SoDauBaiModel.FK__TkbHocPha__Tkb_i__395884C4">
-            <End Role="TkbDanhSach" EntitySet="TkbDanhSaches" />
-            <End Role="TkbHocPhan" EntitySet="TkbHocPhans" />
-          </AssociationSet>
           <AssociationSet Name="AspNetUserRoles" Association="SoDauBaiModel.AspNetUserRoles">
             <End Role="AspNetRole" EntitySet="AspNetRoles" />
             <End Role="AspNetUser" EntitySet="AspNetUsers" />
+          </AssociationSet>
+          <EntitySet Name="BanCanSus" EntityType="SoDauBaiModel.BanCanSu" />
+          <AssociationSet Name="FK__BanCanSu__idTKB__04E4BC85" Association="SoDauBaiModel.FK__BanCanSu__idTKB__04E4BC85">
+            <End Role="ThoiKhoaBieu" EntitySet="ThoiKhoaBieux" />
+            <End Role="BanCanSu" EntitySet="BanCanSus" />
+          </AssociationSet>
+          <EntitySet Name="PhuGiangs" EntityType="SoDauBaiModel.PhuGiang" />
+          <AssociationSet Name="FK__PhuGiang__idTKB__07C12930" Association="SoDauBaiModel.FK__PhuGiang__idTKB__07C12930">
+            <End Role="ThoiKhoaBieu" EntitySet="ThoiKhoaBieux" />
+            <End Role="PhuGiang" EntitySet="PhuGiangs" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="AspNetRole">
@@ -605,56 +591,8 @@
           <Property Name="TuanKT" Type="Byte" Nullable="false" />
           <NavigationProperty Name="PhongDayBus" Relationship="SoDauBaiModel.FK_PhongDayBu_ThoiKhoaBieu" FromRole="ThoiKhoaBieu" ToRole="PhongDayBu" />
           <NavigationProperty Name="SoGhiBais" Relationship="SoDauBaiModel.FK_SoDauBai_ThoiKhoaBieu" FromRole="ThoiKhoaBieu" ToRole="SoGhiBai" />
-        </EntityType>
-        <EntityType Name="TkbDanhSach">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="NgayTao" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="TenGoi" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="TkbHocPhans" Relationship="SoDauBaiModel.FK__TkbHocPha__Tkb_i__395884C4" FromRole="TkbDanhSach" ToRole="TkbHocPhan" />
-        </EntityType>
-        <EntityType Name="TkbGiangVien">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="MaGV" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="HoTen" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <EntityType Name="TkbHocPhan">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Tkb_id" Type="Int32" Nullable="false" />
-          <Property Name="MaHP" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="TenHocPhan" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="TinChi" Type="Int32" Nullable="false" />
-          <Property Name="NhomTo" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Thu" Type="Int32" Nullable="false" />
-          <Property Name="Phong" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="TietBatDau" Type="Int32" Nullable="false" />
-          <Property Name="SoTiet" Type="Int32" Nullable="false" />
-          <Property Name="SoSV" Type="Int32" Nullable="false" />
-          <Property Name="TuanBatDau" Type="Int32" Nullable="false" />
-          <Property Name="TuanKetThuc" Type="Int32" Nullable="false" />
-          <Property Name="Nganh" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="MaKhoa" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="VietTat" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="TkbDanhSach" Relationship="SoDauBaiModel.FK__TkbHocPha__Tkb_i__395884C4" FromRole="TkbHocPhan" ToRole="TkbDanhSach" />
-        </EntityType>
-        <EntityType Name="TkbThongKe">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="MaGV" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="MaHP" Type="Int32" Nullable="false" />
-          <Property Name="Thu" Type="Int32" Nullable="false" />
-          <Property Name="TietBatDau" Type="Int32" Nullable="false" />
-          <Property Name="SoTiet" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="BanCanSus" Relationship="SoDauBaiModel.FK__BanCanSu__idTKB__04E4BC85" FromRole="ThoiKhoaBieu" ToRole="BanCanSu" />
+          <NavigationProperty Name="PhuGiangs" Relationship="SoDauBaiModel.FK__PhuGiang__idTKB__07C12930" FromRole="ThoiKhoaBieu" ToRole="PhuGiang" />
         </EntityType>
         <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
           <End Type="SoDauBaiModel.AspNetUser" Role="AspNetUser" Multiplicity="1">
@@ -708,21 +646,53 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__TkbHocPha__Tkb_i__395884C4">
-          <End Type="SoDauBaiModel.TkbDanhSach" Role="TkbDanhSach" Multiplicity="1" />
-          <End Type="SoDauBaiModel.TkbHocPhan" Role="TkbHocPhan" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TkbDanhSach">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="TkbHocPhan">
-              <PropertyRef Name="Tkb_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="AspNetUserRoles">
           <End Type="SoDauBaiModel.AspNetRole" Role="AspNetRole" Multiplicity="*" />
           <End Type="SoDauBaiModel.AspNetUser" Role="AspNetUser" Multiplicity="*" />
+        </Association>
+        <EntityType Name="BanCanSu">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="idTKB" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="ThoiKhoaBieu" Relationship="SoDauBaiModel.FK__BanCanSu__idTKB__04E4BC85" FromRole="BanCanSu" ToRole="ThoiKhoaBieu" />
+        </EntityType>
+        <Association Name="FK__BanCanSu__idTKB__04E4BC85">
+          <End Type="SoDauBaiModel.ThoiKhoaBieu" Role="ThoiKhoaBieu" Multiplicity="1" />
+          <End Type="SoDauBaiModel.BanCanSu" Role="BanCanSu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ThoiKhoaBieu">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="BanCanSu">
+              <PropertyRef Name="idTKB" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="PhuGiang">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idTKB" Type="Int32" Nullable="false" />
+          <Property Name="MaGV" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="ThoiKhoaBieu" Relationship="SoDauBaiModel.FK__PhuGiang__idTKB__07C12930" FromRole="PhuGiang" ToRole="ThoiKhoaBieu" />
+        </EntityType>
+        <Association Name="FK__PhuGiang__idTKB__07C12930">
+          <End Type="SoDauBaiModel.ThoiKhoaBieu" Role="ThoiKhoaBieu" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="SoDauBaiModel.PhuGiang" Role="PhuGiang" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ThoiKhoaBieu">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="PhuGiang">
+              <PropertyRef Name="idTKB" />
+            </Dependent>
+          </ReferentialConstraint>
         </Association>
         </Schema>
     </edmx:ConceptualModels>
@@ -915,58 +885,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="TkbDanhSaches">
-            <EntityTypeMapping TypeName="SoDauBaiModel.TkbDanhSach">
-              <MappingFragment StoreEntitySet="TkbDanhSach">
-                <ScalarProperty Name="TenGoi" ColumnName="TenGoi" />
-                <ScalarProperty Name="NgayTao" ColumnName="NgayTao" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="TkbGiangViens">
-            <EntityTypeMapping TypeName="SoDauBaiModel.TkbGiangVien">
-              <MappingFragment StoreEntitySet="TkbGiangVien">
-                <ScalarProperty Name="HoTen" ColumnName="HoTen" />
-                <ScalarProperty Name="MaGV" ColumnName="MaGV" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="TkbHocPhans">
-            <EntityTypeMapping TypeName="SoDauBaiModel.TkbHocPhan">
-              <MappingFragment StoreEntitySet="TkbHocPhan">
-                <ScalarProperty Name="VietTat" ColumnName="VietTat" />
-                <ScalarProperty Name="MaKhoa" ColumnName="MaKhoa" />
-                <ScalarProperty Name="Nganh" ColumnName="Nganh" />
-                <ScalarProperty Name="TuanKetThuc" ColumnName="TuanKetThuc" />
-                <ScalarProperty Name="TuanBatDau" ColumnName="TuanBatDau" />
-                <ScalarProperty Name="SoSV" ColumnName="SoSV" />
-                <ScalarProperty Name="SoTiet" ColumnName="SoTiet" />
-                <ScalarProperty Name="TietBatDau" ColumnName="TietBatDau" />
-                <ScalarProperty Name="Phong" ColumnName="Phong" />
-                <ScalarProperty Name="Thu" ColumnName="Thu" />
-                <ScalarProperty Name="NhomTo" ColumnName="NhomTo" />
-                <ScalarProperty Name="TinChi" ColumnName="TinChi" />
-                <ScalarProperty Name="TenHocPhan" ColumnName="TenHocPhan" />
-                <ScalarProperty Name="MaHP" ColumnName="MaHP" />
-                <ScalarProperty Name="Tkb_id" ColumnName="Tkb_id" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="TkbThongKes">
-            <EntityTypeMapping TypeName="SoDauBaiModel.TkbThongKe">
-              <MappingFragment StoreEntitySet="TkbThongKe">
-                <ScalarProperty Name="SoTiet" ColumnName="SoTiet" />
-                <ScalarProperty Name="TietBatDau" ColumnName="TietBatDau" />
-                <ScalarProperty Name="Thu" ColumnName="Thu" />
-                <ScalarProperty Name="MaHP" ColumnName="MaHP" />
-                <ScalarProperty Name="MaGV" ColumnName="MaGV" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <AssociationSetMapping Name="AspNetUserRoles" TypeName="SoDauBaiModel.AspNetUserRoles" StoreEntitySet="AspNetUserRoles">
             <EndProperty Name="AspNetUser">
               <ScalarProperty Name="Id" ColumnName="UserId" />
@@ -975,6 +893,24 @@
               <ScalarProperty Name="Id" ColumnName="RoleId" />
             </EndProperty>
           </AssociationSetMapping>
+          <EntitySetMapping Name="BanCanSus">
+            <EntityTypeMapping TypeName="SoDauBaiModel.BanCanSu">
+              <MappingFragment StoreEntitySet="BanCanSu">
+                <ScalarProperty Name="idTKB" ColumnName="idTKB" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PhuGiangs">
+            <EntityTypeMapping TypeName="SoDauBaiModel.PhuGiang">
+              <MappingFragment StoreEntitySet="PhuGiang">
+                <ScalarProperty Name="MaGV" ColumnName="MaGV" />
+                <ScalarProperty Name="idTKB" ColumnName="idTKB" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

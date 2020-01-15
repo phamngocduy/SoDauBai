@@ -207,6 +207,8 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\PhuGiangController.cs" />
+    <Compile Include="Controllers\BanCanSuController.cs" />
     <Compile Include="Controllers\CauHinhController.cs" />
     <Compile Include="Controllers\ExportController.cs" />
     <Compile Include="Controllers\GiangVienController.cs" />
@@ -235,6 +237,9 @@
       <DependentUpon>Models.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\AspNetUserLogin.cs">
+      <DependentUpon>Models.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BanCanSu.cs">
       <DependentUpon>Models.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\CauHinh.cs">
@@ -279,24 +284,15 @@
     <Compile Include="Models\PhongDayBu.cs">
       <DependentUpon>Models.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\PhuGiang.cs">
+      <DependentUpon>Models.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\SDBAuthenticationAttribute.cs" />
     <Compile Include="Models\TKBAuthenticationAttribute.cs" />
     <Compile Include="Models\SoGhiBai.cs">
       <DependentUpon>Models.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ThoiKhoaBieu.cs">
-      <DependentUpon>Models.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\TkbDanhSach.cs">
-      <DependentUpon>Models.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\TkbGiangVien.cs">
-      <DependentUpon>Models.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\TkbHocPhan.cs">
-      <DependentUpon>Models.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\TkbThongKe.cs">
       <DependentUpon>Models.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -356,9 +352,12 @@
     <Content Include="Content\img\logo.png" />
     <Content Include="Content\img\undraw_posting_photo.svg" />
     <Content Include="Content\img_4574.jpg" />
+    <Content Include="Content\select2-bootstrap.min.css" />
+    <Content Include="Content\select2.min.css" />
     <Content Include="Scripts\autosize.min.js" />
     <Content Include="Scripts\jquery-ui.min.js" />
     <Content Include="Scripts\moment-locales.js" />
+    <Content Include="Scripts\select2.min.js" />
     <Content Include="Scripts\tempusdominus.js" />
     <Content Include="favicon.png" />
     <Content Include="Global.asax" />
@@ -500,6 +499,7 @@
     <Folder Include="Content\js\" />
     <Folder Include="Content\vendor\" />
     <Folder Include="Views\Backup\" />
+    <Folder Include="Views\BanCanSu\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
