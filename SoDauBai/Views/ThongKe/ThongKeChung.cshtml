@@ -26,9 +26,11 @@
                 @if (item.ToTH != null) { <span class="badge badge-primary">TH</span> }
             </a>
         </td>
+        <td>@item.MaNganh</td>
         <td><i>@String.Join(", ", giangVien)</i></td>
-        <td data-order="@sinhVien.Div(item.TongSoSV)">@sinhVien/@item.TongSoSV</td>
-        <td data-order="@((buoiGhi+buoiBu+buoiNghi2).Div(buoiDay))">@(buoiGhi+buoiBu+buoiNghi2)/@buoiDay</td>
+        <!--td data-order="@sinhVien.Div(item.TongSoSV)">@sinhVien/@item.TongSoSV</td-->
+        <td>@(buoiGhi+buoiBu+buoiNghi2)</td>
+        <td>@buoiDay</td>
         <td>@tietDay</td>
         <td data-order="@buoiBu.Div(buoiNghi)">@buoiBu/@buoiNghi</td>
         <td>
@@ -63,10 +65,14 @@
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                     <tr>
-                        <th>Lớp học</th>
+                        <th>Lớp học phần</th>
+                        <th><abbr title="Ngành">N</abbr></th>
                         <th>Giảng viên</th>
-                        <th>Số SV</th>
+                        <!--th>Số SV</th-->
                         <th>Ghi sổ</th>
+                        <th>
+                            <abbr title="Số buổi dạy theo kế hoạch (giả sử dạy 15 tuần nếu chưa có dữ liệu)">KH</abbr>
+                        </th>
                         <th>Số giờ</th>
                         <th>Dạy bù</th>
                         <th></th>
