@@ -58,8 +58,8 @@ namespace SoDauBai.Controllers
                         row.TenMH = reader.GetText(i);
                         i++;
                         row.SoTinChi = reader.GetText(i).Parse<byte>("SoTinChi không phải là số!");
-                        if (row.SoTinChi < 1)
-                            throw new Exception("SoTinChi không trong khoảng [1-?]!");
+                        if (row.SoTinChi < 0)
+                            throw new Exception("SoTinChi không trong khoảng [0-?]!");
                         i++;
                         row.NhomTo = reader.GetText(i);
                         i++;
