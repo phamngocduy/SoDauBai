@@ -22,12 +22,34 @@
 }
 @helper DisplaySGC(SoGhiChu soGhiChu)
 {
+    var KhoaSo = (int)ViewBag.KhoaSo;
     <tr style="font-style:italic">
-        <td>@soGhiChu.NgayGhi.ToString("dd/MM/yyyy")</td>
-        <td>@soGhiChu.GioBD.ToString(@"hh\:mm") - @(soGhiChu.GioKT?.ToString(@"hh\:mm"))</td>
-        <td>@soGhiChu.DanhGia</td>
-        <td colspan="2">@soGhiChu.NoiDung</td>
-        <td></td>
+        <td>
+            @if (soGhiChu.Email == User.Identity.Name && (DateTime.Today - soGhiChu.NgayGhi).TotalDays < KhoaSo)
+            {
+                <a href="@Url.Action("Update", "BanCanSu", new { id = soGhiChu.id })" class="btn btn-warning btn-circle btn-sm">
+                    <i class="fas fa-pencil-alt"></i>
+                </a>
+            }
+        </td>
+        <td colspan="2">
+            Giờ học từ @soGhiChu.GioBD.ToString(@"hh\:mm") đến @(soGhiChu.GioKT?.ToString(@"hh\:mm"))
+        </td>
+        <td>@soGhiChu.NoiDung</td>
+        <td>
+            @for (int i = 0; i < 5; i++)
+            {
+                <span><i class="@(i < soGhiChu.DanhGia ? "fas" : "far") fa-star"></i></span>
+            }
+        </td>
+        <td>
+            @if (soGhiChu.Email == User.Identity.Name && (DateTime.Today - soGhiChu.NgayGhi).TotalDays < KhoaSo)
+            {
+                <a href="@Url.Action("Delete", "BanCanSu", new { id = soGhiChu.id })" class="btn btn-danger btn-circle btn-sm">
+                    <i class="fas fa-trash"></i>
+                </a>
+            }
+        </td>
     </tr>
 }
 <link rel="stylesheet" href="~/Content/font-awesome-animation.min.css">
@@ -40,13 +62,13 @@
             var GV = GVs.FirstOrDefault(gv => gv.MaGV == tkb.MaGV).Init();
             <h6 class="m-0 font-weight-bold text-primary d-inline">
                 @tkb.NhomTo - @tkb.TenMH -
-                <abbr title="GV: @GV.HocVi @GV.HoTen">
+                <abbr title="Giảng viên @GV.HocVi @GV.HoTen">
                     <i class="fas fa-user-tie"></i>
                 </abbr>
                 @foreach (var pg in tkb.PhuGiangs)
                 {
                     GV = GVs.FirstOrDefault(gv => gv.MaGV == pg.MaGV).Init();
-                    <abbr title="GV: @GV.HocVi @GV.HoTen">
+                    <abbr title="Giảng viên @GV.HocVi @GV.HoTen">
                         <i class="fas fa-user-tie"></i>
                     </abbr>
                 }
@@ -55,9 +77,10 @@
             <span class="badge">@(tkb.ToTH == null ? "LT" : "TH")</span>
             if (tkb.BanCanSus.Count() > 0)
             {
+                var num = 1;
                 foreach (var bcs in tkb.BanCanSus)
                 {
-                    <abbr title="BCS: @bcs.Email">
+                    <abbr title="Ban cán sự, thành viên @(num++): @bcs.Email">
                         <i class="fas fa-user-graduate text-warning"></i>
                     </abbr>
                 }
@@ -103,7 +126,8 @@
                 if (tkb.ThuKieuSo == thuKieuSo && User.IsInBCS(tkb.id))
                 {
                     isBanCanSu = true;
-                    if (tkb.SoGhiChus.Count(sgc => sgc.NgayGhi.Date == DateTime.Today) == 0)
+                    var email = User.Identity.Name;
+                    if (tkb.SoGhiChus.Count(sgc => sgc.NgayGhi.Date == DateTime.Today && sgc.Email == email) == 0)
                     {
                         <div style="margin-top:1rem">
                             <a href="@Url.Action("Create", "BanCanSu", new { id = tkb.id })">[<b>BanCánSự</b>] Ghi thông tin về buổi học T@(thuKieuSo) ngày @DateTime.Today.ToString("dd/MM/yyyy") (<i>click here</i>)</a>

@@ -3,6 +3,7 @@
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.id)
     @Html.HiddenFor(m => m.idTKB)
     <div class="form-horizontal">
         <h5>Ghi chú về buổi học của sinh viên</h5>
@@ -69,8 +70,8 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-primary" />
-                @Html.ActionLink("Quay lại", "Index", new { id = Model.idTKB })
+                <input type="submit" value="Lưu" class="btn btn-primary" />
+                @Html.ActionLink("Quay lại", "Index", "SoDauBai", new { id = Model.idTKB }, null)
             </div>
         </div>
     </div>

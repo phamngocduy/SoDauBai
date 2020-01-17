@@ -544,6 +544,7 @@
     </None>
     <Content Include="Views\SoDauBai\ThongKe.cshtml" />
     <Content Include="Views\BanCanSu\Create.cshtml" />
+    <Content Include="Views\BanCanSu\Delete.cshtml" />
     <None Include="Web.CNTT.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>

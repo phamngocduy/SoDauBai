@@ -72,24 +72,80 @@ namespace SoDauBai.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(SoGhiChu model)
+        public ActionResult Create(SoGhiChu model, bool create = true)
         {
             if (User.IsInBCS(model.idTKB))
             {
-                model.NgayGhi = DateTime.Today;
-                ValidateModel(model);
                 if (ModelState.IsValid)
                 {
-                    if (model.id == 0)
+                    if (create)
                         model.NgayGhi = DateTime.Now;
                     model.NgaySua = DateTime.Now;
                     model.Email = User.Identity.GetUserName();
-                    db.SoGhiChus.Add(model);
+                    if (create)
+                        db.SoGhiChus.Add(model);
+                    else // same method for create & edit
+                    {
+                        var soGhiChu = db.SoGhiChus.Find(model.id);
+                        var KhoaSo = db.CauHinhs.Find(CONFIG.KHOA_SO).GiaTri.ToIntOrDefault(0);
+                        if ((DateTime.Today - soGhiChu.NgayGhi).Days > KhoaSo)
+                            ModelState.AddModelError("", "NgayHomNay - NgayGhi > " + KhoaSo);
+                        if (ModelState.IsValid)
+                        {
+                            soGhiChu.NgaySua = model.NgaySua;
+                            soGhiChu.GioBD = model.GioBD;
+                            soGhiChu.GioKT = model.GioKT;
+                            soGhiChu.DanhGia = model.DanhGia;
+                            soGhiChu.NoiDung = model.NoiDung;
+                        }
+                    }
                     db.SaveChanges();
                     return RedirectToAction("Index", "SoDauBai", new { id = model.idTKB });
                 }
             }
-            return View(model);
+            return View("Create", model);
+        }
+
+        [HttpGet]
+        public ActionResult Update(int id)
+        {
+            var model = db.SoGhiChus.Find(id);
+            if (model != null && model.Email == User.Identity.Name)
+                return View("Create", model);
+            return HttpNotFound();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Update(SoGhiChu model)
+        {
+            var soGhiChu = db.SoGhiChus.Find(model.id);
+            if (soGhiChu != null && soGhiChu.Email == User.Identity.Name)
+                return Create(model, false);
+            return HttpNotFound();
+        }
+
+        [HttpGet]
+        public ActionResult Delete(int id)
+        {
+            var model = db.SoGhiChus.Find(id);
+            if (model != null && model.Email == User.Identity.Name)
+                return View(model);
+            return HttpNotFound();
+        }
+
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(int id)
+        {
+            var KhoaSo = db.CauHinhs.Find(CONFIG.KHOA_SO).GiaTri.ToIntOrDefault(0);
+            var model = db.SoGhiChus.Find(id);
+            if ((DateTime.Today - model.NgayGhi).Days < KhoaSo && model.Email == User.Identity.Name)
+            {
+                db.SoGhiChus.Remove(model);
+                db.SaveChanges();
+            }
+            return RedirectToAction("Index", "SoDauBai", new { id = model.idTKB });
         }
 
         protected override void Dispose(bool disposing)
