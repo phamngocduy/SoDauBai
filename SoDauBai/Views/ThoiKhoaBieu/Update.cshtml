@@ -4,7 +4,7 @@
     <ul class="card-header py-3 nav nav-tabs">
         <li><a href="#ThongTin" data-toggle="tab"><h6 class="m-0 font-weight-bold text-primary btn btn-warning">Cập nhật Thông tin lớp</h6></a></li>
         <li><a href="#BanCanSu" data-toggle="tab"><h6 class="m-0 font-weight-bold text-primary btn">Danh sách Ban cán sự</h6></a></li>
-        <li><a href="#PhuGiang" data-toggle="tab"><h6 class="m-0 font-weight-bold text-primary btn">Trợ giảng/ Phụ giảng</h6></a></li>
+        <li><a href="#PhuGiang" data-toggle="tab"><h6 class="m-0 font-weight-bold text-primary btn">Giảng viên cùng giảng</h6></a></li>
     </ul>
     <div class="card-body tab-content">
         <div class="tab-pane fade active show" id="ThongTin">
@@ -183,7 +183,7 @@
             }).change(function () {
                 if ($(this).val() != null) {
                     if (confirm('Thêm SV này vào Ban cán sự ?')) {
-                        $.post('@Url.Action("Create", "BanCanSu", new { id = Model.id })?email=' + $(this).val(), function (data) {
+                        $.post('@Url.Action("Insert", "BanCanSu", new { id = Model.id })?email=' + $(this).val(), function (data) {
                             if (data.length > 0)
                                 alert(data);
                             else loadBanCanSu();
@@ -249,7 +249,7 @@
         function deleteBanCanSu(span) {
             var email = $(span).attr('email');
             if (confirm('Xóa SV này khỏi Ban cán sự ?'))
-            $.post('@Url.Action("Delete", "BanCanSu", new { id = Model.id })?email=' + email, function (data) {
+            $.post('@Url.Action("Remove", "BanCanSu", new { id = Model.id })?email=' + email, function (data) {
                 if (data.length > 0)
                     alert(data);
                 else loadBanCanSu();

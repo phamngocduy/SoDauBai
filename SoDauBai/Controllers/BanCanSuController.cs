@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using SoDauBai.Models;
+using Microsoft.AspNet.Identity;
 
 namespace SoDauBai.Controllers
 {
@@ -12,28 +13,21 @@ namespace SoDauBai.Controllers
     {
         public JsonResult Search(string term)
         {
-            using (var db = new SoDauBaiEntities())
-            {
-                return Json(db.AspNetUsers.Select(u => u.Email).ToArray().Select(s => s.ToLower())
-                    .Where(e => e.EndsWith("@vanlanguni.vn") && e.Contains(term.ToLower())).ToArray(),
-                    JsonRequestBehavior.AllowGet);
-            }
+            return Json(db.AspNetUsers.Select(u => u.Email).ToArray().Select(s => s.ToLower())
+                .Where(e => e.EndsWith("@vanlanguni.vn") && e.Contains(term.ToLower())).ToArray(),
+                JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult Index(int id)
         {
-            using (var db = new SoDauBaiEntities())
-            {
-                return Json(db.BanCanSus.Where(bcs => bcs.idTKB == id).Select(bcs => bcs.Email).ToArray(),
-                    JsonRequestBehavior.AllowGet);
-            }
+            return Json(db.BanCanSus.Where(bcs => bcs.idTKB == id).Select(bcs => bcs.Email).ToArray(),
+                JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
         [TKBAuthorization]
-        public string Create(int id, string email)
+        public string Insert(int id, string email)
         {
-            using (var db = new SoDauBaiEntities())
             try
             {
                 db.BanCanSus.Add(new BanCanSu
@@ -52,9 +46,8 @@ namespace SoDauBai.Controllers
 
         [HttpPost]
         [TKBAuthorization]
-        public string Delete(int id, string email)
+        public string Remove(int id, string email)
         {
-            using (var db = new SoDauBaiEntities())
             try
             {
                 foreach (var item in db.BanCanSus.Where(bcs => bcs.idTKB == id && bcs.Email == email))
@@ -66,6 +59,43 @@ namespace SoDauBai.Controllers
             {
                 return e.GetBaseException().Message;
             }
+        }
+
+        /// For students to write notes
+        SoDauBaiEntities db = new SoDauBaiEntities();
+
+        [BCSAuthorization]
+        public ActionResult Create(int id)
+        {
+            return View(new SoGhiChu { idTKB = id, GioBD = DateTime.Now.TimeOfDay });
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create(SoGhiChu model)
+        {
+            if (User.IsInBCS(model.idTKB))
+            {
+                model.NgayGhi = DateTime.Today;
+                ValidateModel(model);
+                if (ModelState.IsValid)
+                {
+                    if (model.id == 0)
+                        model.NgayGhi = DateTime.Now;
+                    model.NgaySua = DateTime.Now;
+                    model.Email = User.Identity.GetUserName();
+                    db.SoGhiChus.Add(model);
+                    db.SaveChanges();
+                    return RedirectToAction("Index", "SoDauBai", new { id = model.idTKB });
+                }
+            }
+            return View(model);
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            db.Dispose();
+            base.Dispose(disposing);
         }
     }
 }

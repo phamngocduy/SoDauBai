@@ -21,6 +21,7 @@ namespace SoDauBai.Models
             this.SoGhiBais = new HashSet<SoGhiBai>();
             this.BanCanSus = new HashSet<BanCanSu>();
             this.PhuGiangs = new HashSet<PhuGiang>();
+            this.SoGhiChus = new HashSet<SoGhiChu>();
         }
     
         public int id { get; set; }
@@ -51,5 +52,7 @@ namespace SoDauBai.Models
         public virtual ICollection<BanCanSu> BanCanSus { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PhuGiang> PhuGiangs { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SoGhiChu> SoGhiChus { get; set; }
     }
 }

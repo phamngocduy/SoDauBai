@@ -1,0 +1,108 @@
+﻿@model SoGhiChu
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.idTKB)
+    <div class="form-horizontal">
+        <h5>Ghi chú về buổi học của sinh viên</h5>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label class="control-label col-md-10">Ngày học</label>
+                    <div class="col-md-10">
+                        <input class="form-control" value="@DateTime.Today.ToString("dd/MM/yyyy")" disabled />
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="form-group">
+                    <abbr title="Bắt buộc nhập" style="color:red">*</abbr>
+                    @Html.LabelFor(model => model.GioBD, "Giờ bắt đầu", htmlAttributes: new { @class = "control-label col-md-10" })
+                    <div class="col-md-10">
+                        <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
+                            @Html.EditorFor(model => model.GioBD, new { htmlAttributes = new { @class = "form-control datetimepicker-input", data_target = "#datetimepicker1", required = true } })
+                            <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
+                                <div class="input-group-text"><i class="fa fa-clock"></i></div>
+                            </div>
+                        </div>
+                        @Html.ValidationMessageFor(model => model.GioBD, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.GioKT, "Giờ kết thúc", htmlAttributes: new { @class = "control-label col-md-10" })
+                    <div class="col-md-10">
+                        <div class="input-group date" id="datetimepicker2" data-target-input="nearest">
+                            @Html.EditorFor(model => model.GioKT, new { htmlAttributes = new { @class = "form-control datetimepicker-input", data_target = "#datetimepicker2" } })
+                            <div class="input-group-append" data-target="#datetimepicker2" data-toggle="datetimepicker">
+                                <div class="input-group-text"><i class="fa fa-clock"></i></div>
+                            </div>
+                        </div>
+                        @Html.ValidationMessageFor(model => model.GioKT, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.DanhGia, "Mức độ hài lòng về nội dung buổi học", htmlAttributes: new { @class = "control-label col-md-10" })
+            <div class="col-md-10">
+                @Html.HiddenFor(m => m.DanhGia, new { @class = "star-rating" })
+                @Html.ValidationMessageFor(model => model.DanhGia, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.NoiDung, "Thông tin thêm về buổi học (nếu có)", htmlAttributes: new { @class = "control-label col-md-10" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.NoiDung, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.NoiDung, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-primary" />
+                @Html.ActionLink("Quay lại", "Index", new { id = Model.idTKB })
+            </div>
+        </div>
+    </div>
+}
+
+<link href="~/Content/tempusdominus.min.css" rel="stylesheet" />
+<link href="~/Content/bootstrap-rating.css" rel="stylesheet" />
+<style>
+    .rating-symbol {
+        margin-left: 1em;
+    }
+</style>
+@section Scripts {
+    <script src="~/Scripts/moment-locales.js"></script>
+    <script src="~/Scripts/tempusdominus.js"></script>
+    <script src="~/Scripts/bootstrap-rating.js"></script>
+    <script>
+        $(function () {
+            $('.star-rating').rating({
+                filled: 'fas fa-star fa-2x',
+                empty: 'far fa-star fa-2x',
+                extendSymbol: function (rate) {
+                    $(this).tooltip({
+                        container: 'body',
+                        placement: 'top',
+                        title: rate < 2 ? '1- Không ý kiến' : rate < 3 ? '2- Không hài lòng' : rate < 4 ? '3- Bình thường' : rate < 5 ? '4- Hài lòng' : '5- Rất hài lòng'
+                    });
+                }
+            });
+            $('#datetimepicker1,#datetimepicker2').datetimepicker({
+                format: 'HH:mm'
+            });
+        })
+    </script>
+}

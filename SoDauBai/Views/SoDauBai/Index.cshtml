@@ -1,6 +1,6 @@
 ﻿@using SoDauBai.Controllers
 @model IEnumerable<SoGhiBai>
-@{ 
+@{
     var count = 1;
     var TKB = ViewBag.TKB as ThoiKhoaBieu;
     var GVs = ViewBag.GVs as List<GiangVien>;
@@ -16,6 +16,19 @@
     var ngayBD = Model.Min(sdb => sdb.NgayDay, DateTime.MaxValue);
     int tuanBD = TKBs.Max(tkb => tkb.TuanBD), tuanKT = TKBs.Max(tkb => tkb.TuanKT);
     var ngayKT = ngayBD < DateTime.MaxValue ? ngayBD.AddDays((tuanKT - tuanBD + 1) * 7) : DateTime.MinValue;
+    //BanCanSu
+    var SoGhiChu = TKBs.Merge(tkb => tkb.SoGhiChus).Where(sgc => sgc.Email == User.Identity.Name).OrderBy(sgc => sgc.NgayGhi).ToList();
+    var isBanCanSu = false; // La BanCanSu
+}
+@helper DisplaySGC(SoGhiChu soGhiChu)
+{
+    <tr style="font-style:italic">
+        <td>@soGhiChu.NgayGhi.ToString("dd/MM/yyyy")</td>
+        <td>@soGhiChu.GioBD.ToString(@"hh\:mm") - @(soGhiChu.GioKT?.ToString(@"hh\:mm"))</td>
+        <td>@soGhiChu.DanhGia</td>
+        <td colspan="2">@soGhiChu.NoiDung</td>
+        <td></td>
+    </tr>
 }
 <link rel="stylesheet" href="~/Content/font-awesome-animation.min.css">
 <div class="card shadow mb-4">
@@ -26,14 +39,14 @@
             Tiet.For(0, TKB.SoTiet - 1, i => Tiet[i] = TKB.TietBD + i);
             var GV = GVs.FirstOrDefault(gv => gv.MaGV == tkb.MaGV).Init();
             <h6 class="m-0 font-weight-bold text-primary d-inline">
-                @tkb.NhomTo - @tkb.TenMH - 
-                <abbr title="@GV.HocVi @GV.HoTen">
+                @tkb.NhomTo - @tkb.TenMH -
+                <abbr title="GV: @GV.HocVi @GV.HoTen">
                     <i class="fas fa-user-tie"></i>
                 </abbr>
                 @foreach (var pg in tkb.PhuGiangs)
                 {
                     GV = GVs.FirstOrDefault(gv => gv.MaGV == pg.MaGV).Init();
-                    <abbr title="@GV.HocVi @GV.HoTen">
+                    <abbr title="GV: @GV.HocVi @GV.HoTen">
                         <i class="fas fa-user-tie"></i>
                     </abbr>
                 }
@@ -44,7 +57,7 @@
             {
                 foreach (var bcs in tkb.BanCanSus)
                 {
-                    <abbr title="@bcs.Email">
+                    <abbr title="BCS: @bcs.Email">
                         <i class="fas fa-user-graduate text-warning"></i>
                     </abbr>
                 }
@@ -84,6 +97,21 @@
                     </span>
                 </div>
             </div>
+            foreach (var tkb in TKBs)
+            {
+                var thuKieuSo = CONST.THU[(int)DateTime.Today.DayOfWeek];
+                if (tkb.ThuKieuSo == thuKieuSo && User.IsInBCS(tkb.id))
+                {
+                    isBanCanSu = true;
+                    if (tkb.SoGhiChus.Count(sgc => sgc.NgayGhi.Date == DateTime.Today) == 0)
+                    {
+                        <div style="margin-top:1rem">
+                            <a href="@Url.Action("Create", "BanCanSu", new { id = tkb.id })">[<b>BanCánSự</b>] Ghi thông tin về buổi học T@(thuKieuSo) ngày @DateTime.Today.ToString("dd/MM/yyyy") (<i>click here</i>)</a>
+                        </div>
+                        break;
+                    }
+                }
+            }
         }
     </div>
     <div class="card-body">
@@ -131,6 +159,11 @@
                             ++demNghi > tongBu ? "table-danger" : "table-warning" :
                             item.Loai == 2 ? "table-success" : null;
                         var span = item.DeXuat.IsNullOrEmptyOrWhiteSpace() ? 1 : 2;
+                        if (isBanCanSu && SoGhiChu.Count > 0 && SoGhiChu[0].NgayGhi < item.NgayDay)
+                        {
+                            @DisplaySGC(SoGhiChu[0])
+                            SoGhiChu.RemoveAt(0);
+                        }
                         <tr class="@style" style="@(prev != null && item.NgayDay == prev.NgayDay && item.ThoiGianBD == prev.ThoiGianBD ? "text-decoration:line-through" : null)">
                             <td rowspan="@span">
                                 <span style="white-space:nowrap">Buổi @(count++)</span>
@@ -199,6 +232,13 @@
                         }
                         prev = item;
                     }
+                    @if (isBanCanSu && SoGhiChu.Count > 0)
+                    {
+                        foreach (var item in SoGhiChu)
+                        {
+                            @DisplaySGC(item)
+                        }
+                    }
                 </tbody>
             </table>
         </div>
@@ -206,7 +246,9 @@
 </div>
 
 <style>
-    abbr { text-decoration: none !important }
+    abbr {
+        text-decoration: none !important
+    }
 </style>
 
 @section Scripts {

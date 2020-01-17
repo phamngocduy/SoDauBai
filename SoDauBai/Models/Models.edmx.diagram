@@ -28,6 +28,8 @@
         <AssociationConnector Association="SoDauBaiModel.FK__BanCanSu__idTKB__04E4BC85" />
         <EntityTypeShape EntityType="SoDauBaiModel.PhuGiang" Width="1.5" PointX="3" PointY="20" />
         <AssociationConnector Association="SoDauBaiModel.FK__PhuGiang__idTKB__07C12930" />
+        <EntityTypeShape EntityType="SoDauBaiModel.SoGhiChu" Width="1.5" PointX="3" PointY="23.5" />
+        <AssociationConnector Association="SoDauBaiModel.FK__SoGhiChu__idTKB__114A936A" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

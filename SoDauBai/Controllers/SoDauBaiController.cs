@@ -69,8 +69,8 @@ namespace SoDauBai.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         [TKBAuthorization]
+        [ValidateAntiForgeryToken]
         public ActionResult Create(SoGhiBai model)
         {
             Validate(model);
@@ -103,8 +103,8 @@ namespace SoDauBai.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         [SDBAuthorization]
+        [ValidateAntiForgeryToken]
         public ActionResult Edit(SoGhiBai model)
         {
             Validate(model);

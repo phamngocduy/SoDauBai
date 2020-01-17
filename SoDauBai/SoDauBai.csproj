@@ -288,6 +288,10 @@
       <DependentUpon>Models.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SDBAuthenticationAttribute.cs" />
+    <Compile Include="Models\BCSAuthenticationAttribute.cs" />
+    <Compile Include="Models\SoGhiChu.cs">
+      <DependentUpon>Models.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\TKBAuthenticationAttribute.cs" />
     <Compile Include="Models\SoGhiBai.cs">
       <DependentUpon>Models.tt</DependentUpon>
@@ -300,6 +304,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\anh-co-so-3.jpg" />
+    <Content Include="Content\bootstrap-rating.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\font-awesome-animation.min.css" />
@@ -403,6 +408,7 @@
     <Content Include="Content\select2-bootstrap.min.css" />
     <Content Include="Content\select2.min.css" />
     <Content Include="Scripts\autosize.min.js" />
+    <Content Include="Scripts\bootstrap-rating.js" />
     <Content Include="Scripts\jquery-ui.min.js" />
     <Content Include="Scripts\moment-locales.js" />
     <Content Include="Scripts\select2.min.js" />
@@ -537,6 +543,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <Content Include="Views\SoDauBai\ThongKe.cshtml" />
+    <Content Include="Views\BanCanSu\Create.cshtml" />
     <None Include="Web.CNTT.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
@@ -547,7 +554,6 @@
     <Folder Include="Content\js\" />
     <Folder Include="Content\vendor\" />
     <Folder Include="Views\Backup\" />
-    <Folder Include="Views\BanCanSu\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

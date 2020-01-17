@@ -41,5 +41,6 @@ namespace SoDauBai.Models
         public virtual DbSet<ThoiKhoaBieu> ThoiKhoaBieux { get; set; }
         public virtual DbSet<BanCanSu> BanCanSus { get; set; }
         public virtual DbSet<PhuGiang> PhuGiangs { get; set; }
+        public virtual DbSet<SoGhiChu> SoGhiChus { get; set; }
     }
 }
