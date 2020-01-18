@@ -24,7 +24,7 @@ namespace SoDauBai.Controllers
             var email = User.Identity.GetUserName();
             var MaMH_NhomTo = (from tkb in db.ThoiKhoaBieux
                             join gv in db.GiangViens on tkb.MaGV equals gv.MaGV
-                            where gv.Email == email && tkb.HocKy == hk
+                            where tkb.HocKy == hk && (gv.Email == email || tkb.BanCanSus.Count(bcs => bcs.Email == email) > 0)
                             select tkb.MaMH + "_" + tkb.NhomTo).ToList();
             var model = db.ThoiKhoaBieux.Where(tkb => MaMH_NhomTo.Contains(tkb.MaMH + "_" + tkb.NhomTo) && tkb.HocKy == hk);
             ViewBag.GVs = db.GiangViens.ToList();

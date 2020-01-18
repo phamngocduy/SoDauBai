@@ -59,7 +59,8 @@
 		        type: 'bar',
 		        label: 'Buổi dạy',
 		        backgroundColor: color(window.chartColors.blue).alpha(0.5).rgbString(),
-		        borderColor: window.chartColors.blue,
+                borderColor: window.chartColors.blue,
+                borderWidth: 1,
 		        data: [
                     @("0,")
 				    @foreach (var sdb in SDB)
@@ -67,12 +68,14 @@
                         @Html.Raw(String.Format("{0}/50.0,", sdb.Loai != 1 ? (int)sdb.ThoiGianKT.Subtract(sdb.ThoiGianBD).TotalMinutes : 0))
                     }
                     @("0,")
-		        ],
+                ],
+                yAxisID: 'y-axis-1'
 		    }, {
 		        type: 'bar',
 		        label: 'Buổi nghỉ',
 		        backgroundColor: color(window.chartColors.red).alpha(0.5).rgbString(),
-		        borderColor: window.chartColors.red,
+                borderColor: window.chartColors.red,
+                borderWidth: 1,
 		        data: [
                     @("0,")
 				    @foreach (var sdb in SDB)
@@ -81,20 +84,22 @@
                     }
                     @("0,")
 		        ],
+                yAxisID: 'y-axis-1'
 		    }, {
 			    type: 'line',
 			    label: 'Ghi SĐB',
 			    backgroundColor: color(window.chartColors.green).alpha(0.5).rgbString(),
-			    borderColor: window.chartColors.green,
+			    borderColor: window.chartColors.black,
 			    fill: false,
 			    data: [
                     @("0,")
 				    @foreach (var sdb in SDB)
                     {
-                        @Html.Raw(String.Format("{0},", (int)sdb.NgayTao.Subtract(sdb.NgayDay).TotalDays))
+                        @Html.Raw(String.Format("{0},", (int)Math.Max(sdb.NgayTao.Subtract(sdb.NgayDay).TotalDays, 0)))
                     }
                     @("0,")
 			    ],
+                yAxisID: 'y-axis-2'
 		    }]
 	    },
 	    options: {
@@ -109,15 +114,30 @@
 				    scaleLabel: {
 				        display: true,
 				        labelString: 'Ngày ghi sổ đầu bài'
-				    }
+                    },
+                    barPercentage: 1
 			    }],
-			    yAxes: [{
-			        display: true,
-			        scaleLabel: {
-			            display: true,
-			            labelString: 'Số giờ dạy / Số ngày ghi trễ'
-			        },
-			    }]
+                yAxes: [{
+                    display: true,
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Số giờ dạy'
+                    },
+                    ticks: {
+                        beginAtZero: true,
+                        max: @((int)(SDB.Max(sdb => sdb.ThoiGianKT.Subtract(sdb.ThoiGianBD).TotalMinutes) * 1.5 / 50))
+                    },
+                    position: 'left',
+                    id: 'y-axis-1',
+                }, {
+                    display: true,
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Số ngày ghi trễ'
+                    },
+                    position: 'right',
+                    id: 'y-axis-2',
+                }]
 		    },
 	    }
     };

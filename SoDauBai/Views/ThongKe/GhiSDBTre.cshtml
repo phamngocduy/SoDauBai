@@ -2,22 +2,22 @@
 @model IEnumerable<ThoiKhoaBieu>
 @{ 
     var GiangViens = ViewBag.GiangViens as List<GiangVien>;
-    var GuiEmails = ViewBag.GuiEmails as List<GuiEmail>;
 }
 
-@helper Display(IEnumerable<ThoiKhoaBieu> TKB, List<GiangVien> GV, List<GuiEmail> Emails)
+@helper Display(IEnumerable<ThoiKhoaBieu> TKB, List<GiangVien> GV)
 {
     var item = TKB.First();
     var maGV = TKB.Select(tkb => tkb.MaGV).Distinct().ToArray();
     var giangVien = GV.Where(gv => maGV.Contains(gv.MaGV)).Select(gv => gv.HoTen + " - " + gv.MaGV).ToArray();
-    var buoiGhi = TKB.Count(tkb => tkb.SoGhiBais.Count(sdb => sdb.Loai == 0));
-    var buoiNghi = TKB.Count(tkb => tkb.SoGhiBais.Count(sdb => sdb.Loai == 1));
-    var buoiBu = TKB.Count(tkb => tkb.SoGhiBais.Count(sdb => sdb.Loai == 2));
-    var tietDay = TKB.Sum(tkb => tkb.SoGhiBais.Where(sdb => sdb.Loai != 1).Sum(sdb => sdb.SoTietDay));
-    var nhacNho = Emails.Count(e => e.Tag == item.id);
-    var email = GV.FirstOrDefault(gv => gv.MaGV == item.MaGV).Init().Email;
-    var buoiDay = SoDauBaiController.countSoBuoiDay(TKB.ToList());
-    var buoiNghi2 = TKB.Count(tkb => tkb.SoGhiBais.Count(sdb => sdb.Loai == 1 && sdb.NgayDay <= DateTime.Now));
+    var calLate = new Func<DateTime, DateTime, double>((tao, day) => {
+        return tao > day ? (tao - day).TotalDays : 0;
+    });
+    var varLate = new Func<DateTime, DateTime, double, double>((tao, day, avg) => {
+        return tao >= day ? Math.Pow((tao-day).TotalDays-avg, 2) : 0;
+    });
+    var sumLate = TKB.Sum(tkb => tkb.SoGhiBais.Sum(sdb => calLate(sdb.NgayTao.Date, sdb.NgayDay.Date)));
+    var numLate = TKB.Count(tkb => tkb.SoGhiBais.Count());
+    var sigLate = numLate > 0 ? TKB.Sum(tkb => tkb.SoGhiBais.Sum(sdb => varLate(sdb.NgayTao.Date, sdb.NgayDay.Date, sumLate/numLate))) : 0;
     <tr>
         <td>
             <a href="@Url.Action("Index", "SoDauBai", new { id = item.id })" target="_blank">
@@ -27,36 +27,20 @@
         </td>
         <td>@item.MaNganh</td>
         <td><i>@String.Join(", ", giangVien)</i></td>
-        <td>@(buoiGhi+buoiBu+buoiNghi2)</td>
-        <td>@buoiDay</td>
-        <td>@tietDay</td>
-        <td data-order="@buoiBu.Div(buoiNghi)">@buoiBu/@buoiNghi</td>
+        <td>@TKB.Sum(tkb => tkb.SoGhiBais.Count())</td>
+        <td>@(numLate > 0 ? Math.Round(sumLate / numLate, 1) : 99)</td>
         <td>
-            <a href="#" id="@item.id" data-content="@String.Format("ThuKieuSo: {0}\nTietBD: {1}\nSoTiet: {2}\nMaPH: {3}\nMaLop: {4}\nTenLop: {5}", item.ThuKieuSo, item.TietBD, item.SoTiet, item.MaPH, item.MaLop, item.TenLop)" data-toggle="popover" data-placement="left">
+            @(numLate > 0 ? Math.Round(Math.Sqrt(sigLate / numLate), 1) : 99)
+            <a href="#" id="@item.id" data-content="@String.Format("ThuKieuSo: {0}\nTietBD: {1}\nSoTiet: {2}\nMaPH: {3}\nMaLop: {4}\nTenLop: {5}", item.ThuKieuSo, item.TietBD, item.SoTiet, item.MaPH, item.MaLop, item.TenLop)" data-toggle="popover" data-placement="left" style="float:right">
                 <i class="fas fa-info"></i>
             </a>
-            @if (!(email != null && email.StartsWith("ACDM") && email.EndsWith("@gmail.com")))
-            {
-                if (nhacNho > 0)
-                {
-                    <a title="Đã nhắc @nhacNho lần" href="@Url.Action("GuiMailNhacNho", new { id = item.id })">
-                        <span class="badge badge-danger">@nhacNho</span>
-                    </a>
-                }
-                else
-                {
-                    <a title="Gửi mail nhắc nhở" href="@Url.Action("GuiMailNhacNho", new { id = item.id })" class="text-warning">
-                        <i class="fas fa-envelope"></i>
-                    </a>
-                }
-            }
         </td>
     </tr>
 }
 
 <div class="card shadow mb-4">
     <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary d-inline">Thống kê các môn học trong học kỳ</h6>
+        <h6 class="m-0 font-weight-bold text-primary d-inline">Thống kê thời gian ghi sổ đầu bài trễ (theo đơn vị là số ngày trễ)</h6>
     </div>
     <div class="card-body">
         <div class="table-responsive">
@@ -66,20 +50,15 @@
                         <th>Lớp học phần</th>
                         <th><abbr title="Ngành">N</abbr></th>
                         <th>Giảng viên</th>
-                        <!--th>Số SV</th-->
                         <th>Ghi sổ</th>
-                        <th>
-                            <abbr title="Số buổi dạy theo kế hoạch (giả sử dạy 15 tuần nếu chưa có dữ liệu)">KH</abbr>
-                        </th>
-                        <th>Số giờ</th>
-                        <th>Dạy bù</th>
-                        <th></th>
+                        <th>TB trễ</th>
+                        <th>Phương sai</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var group in Model.GroupBy(tkb => new { tkb.MaMH, tkb.NhomTo, tkb.ToTH }))
                     {
-                        @Display(group.ToArray(), GiangViens, GuiEmails)
+                        @Display(group.ToArray(), GiangViens)
                     }
                 </tbody>
             </table>

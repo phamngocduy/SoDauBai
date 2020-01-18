@@ -101,7 +101,7 @@
         }
         @if (Model.Count() > 0)
         {
-            tile = ngayKT < DateTime.Now && TKB.HocKy == 191 ? 100 : tile;
+            tile = ngayKT < DateTime.Today.AddDays(1) && TKB.HocKy == 191 ? 100 : tile;
             var color = tile <= 25 ? "danger" : tile <= 50 ? "warning" : tile <= 75 ? "info" : tile <= 100 ? "success" : "primary";
             <div class="progress" style="margin-top:1rem">
                 <div class="progress-bar bg-@color progress-bar-striped" role="progressbar" aria-valuenow="@tile" aria-valuemin="0" aria-valuemax="100" style="width: @tile%">
@@ -120,19 +120,22 @@
                     </span>
                 </div>
             </div>
-            foreach (var tkb in TKBs)
+            if (DateTime.Today.AddDays(1) < ngayKT || true)
             {
-                var thuKieuSo = CONST.THU[(int)DateTime.Today.DayOfWeek];
-                if (tkb.ThuKieuSo == thuKieuSo && User.IsInBCS(tkb.id))
+                foreach (var tkb in TKBs)
                 {
-                    isBanCanSu = true;
-                    var email = User.Identity.Name;
-                    if (tkb.SoGhiChus.Count(sgc => sgc.NgayGhi.Date == DateTime.Today && sgc.Email == email) == 0)
+                    var thuKieuSo = CONST.THU[(int)DateTime.Today.DayOfWeek];
+                    if (tkb.ThuKieuSo == thuKieuSo && User.IsInBCS(tkb.id))
                     {
-                        <div style="margin-top:1rem">
-                            <a href="@Url.Action("Create", "BanCanSu", new { id = tkb.id })">[<b>BanCánSự</b>] Ghi thông tin về buổi học T@(thuKieuSo) ngày @DateTime.Today.ToString("dd/MM/yyyy") (<i>click here</i>)</a>
-                        </div>
-                        break;
+                        isBanCanSu = true;
+                        var email = User.Identity.Name;
+                        if (tkb.SoGhiChus.Count(sgc => sgc.NgayGhi.Date == DateTime.Today && sgc.Email == email) == 0)
+                        {
+                            <div style="margin-top:1rem">
+                                <a href="@Url.Action("Create", "BanCanSu", new { id = tkb.id })">[<b>BanCánSự</b>] Ghi thông tin về buổi học T@(thuKieuSo) ngày @DateTime.Today.ToString("dd/MM/yyyy") (<i class="text-warning">click here</i>)</a>
+                            </div>
+                            break;
+                        }
                     }
                 }
             }

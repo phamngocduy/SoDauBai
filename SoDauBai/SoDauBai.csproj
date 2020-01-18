@@ -307,6 +307,7 @@
     <Content Include="Content\bootstrap-rating.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\click-here.png" />
     <Content Include="Content\font-awesome-animation.min.css" />
     <Content Include="Content\grunge.png" />
     <Content Include="Content\HuongDanSuDung.htm" />
@@ -545,6 +546,8 @@
     <Content Include="Views\SoDauBai\ThongKe.cshtml" />
     <Content Include="Views\BanCanSu\Create.cshtml" />
     <Content Include="Views\BanCanSu\Delete.cshtml" />
+    <Content Include="Views\ThongKe\SoLopDay.cshtml" />
+    <Content Include="Views\ThongKe\GhiSDBTre.cshtml" />
     <None Include="Web.CNTT.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>

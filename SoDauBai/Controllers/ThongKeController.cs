@@ -41,7 +41,7 @@ namespace SoDauBai.Controllers
             {
                 var email = User.Identity.GetUserName();
                 var GV = db.GiaoVus.SingleOrDefault(gv => gv.Email == email);
-                var maNganh = GV.Init().MaNganh.Split(',');
+                var maNganh = GV.Init().MaNganh?.Split(',') ?? new string[0];
                 TKB = TKB.Where(tkb => maNganh.Contains(tkb.MaNganh));
             }
             return TKB;
@@ -53,6 +53,22 @@ namespace SoDauBai.Controllers
                         join sdb in db.SoGhiBais on tkb.id equals sdb.idTKB
                         where sdb.DeXuat != null && sdb.DeXuat != ""
                         select sdb;
+            ViewBag.GiangViens = db.GiangViens.ToList();
+            return View(model.ToList());
+        }
+
+        public ActionResult SoLopDay()
+        {
+            var hk = this.GetHocKy(db);
+            var model = FilterGiaoVu(FilterHocKy(db.ThoiKhoaBieux, hk));
+            ViewBag.GiangViens = db.GiangViens.ToList();
+            return View(model.ToList());
+        }
+
+        public ActionResult GhiSDBTre()
+        {
+            var hk = this.GetHocKy(db);
+            var model = FilterGiaoVu(FilterHocKy(db.ThoiKhoaBieux, hk));
             ViewBag.GiangViens = db.GiangViens.ToList();
             return View(model.ToList());
         }

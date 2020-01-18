@@ -34,7 +34,7 @@
                         <br />
                         @foreach (var tkb in group)
                         {
-                            var isInTKB = User.IsInTKB(tkb.id);
+                            var isInTKB = User.IsInTKB(tkb.id) || User.IsInBCS(tkb.id);
                             var GV = GVs.FirstOrDefault(gv => gv.MaGV == tkb.MaGV);
                             var phong = PhongDayBuController.countPhongDayBu(tkb.id);
                             <div class="filter" ThuKieuSo="@tkb.ThuKieuSo">
@@ -160,6 +160,127 @@
         <a class="dropdown-item" href="#" onclick="filter(7)">Thứ Bảy @DisplayColorfulBadge("SAT", rand)</a>
     </div>
 </div>
+
+<div class="row">
+    <span class="text-primary">Thời khóa biểu ngày hôm nay:</span>
+    @{
+        var today = new int[16];
+        foreach (var tkb in Model.Where(tkb => tkb.ThuKieuSo == 3 || CONST.DAY[tkb.ThuKieuSo] == (int)DateTime.Today.DayOfWeek).OrderBy(tkb => tkb.TietBD))
+        {
+            if (User.IsInTKB(tkb.id))
+            {
+                for (int i = 0; i < tkb.SoTiet; i++)
+                {
+                    today[tkb.TietBD + i] = tkb.id;
+                }
+            }
+        }
+        var letter = 'A';
+        for (int i = 1; i < today.Length; i++)
+        {
+            <span class="badge" style="font-size:100%;padding-right:0">
+                @if (today[i] > 0)
+                {
+                    var id = today[i];
+                    var course = "" + letter;
+                    for (i = i + 1; i < today.Length; i++)
+                    {
+                        if (today[i] == today[i-1])
+                        {
+                            course = course + ' ' + letter;
+                        }
+                        else
+                        {
+                            i = i - 1;
+                            letter++;
+                            break;
+                        }
+                    }
+                    <a href="@Url.Action("Index", "SoDauBai", new { id })" class="text-warning">@course</a>
+                }
+                else
+                {
+                    @(i % 10)
+                }
+            </span>
+        }
+    }
+    <a href="#" data-toggle="modal" data-target="#timeTable">
+        <i style="padding-left:0.4em">Xem tất cả...</i>
+    </a>
+
+    <!-- Modal -->
+    <div class="modal fade" id="timeTable" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <table class="table table-sm table-striped table-hover table-bordered">
+                        <colgroup>
+                            <col span="1" style="width:10%" />
+                            @for (int i = 2; i <= 8; i++)
+                            {
+                                <col span="1" style="width:13%" />
+                            }
+                        </colgroup>
+                        <thead>
+                            <tr>
+                                <th>Giờ</th>
+                                @for (int i = 2; i <= 8; i++)
+                                {
+                                    <th>
+                                        @(i < 8 ? "Thứ " + i : "Chủ nhật")
+                                    </th>
+                                }
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                var week = new ThoiKhoaBieu[9][];
+                                for (int i = 0; i < week.Length; i++)
+                                {
+                                    week[i] = new ThoiKhoaBieu[16];
+                                }
+                                foreach (var tkb in Model)
+                                {
+                                    for (int i = 0; i < tkb.SoTiet; i++)
+                                    {
+                                        week[tkb.ThuKieuSo][tkb.TietBD + i] = tkb;
+                                    }
+                                }
+                            }
+                            @for (int j = 1; j < week[0].Length; j++)
+                            {
+                                <tr>
+                                    <td><b>@j</b></td>
+                                    @for (int i = 2; i < week.Length; i++)
+                                    {
+                                        if (week[i][j] != null)
+                                        {
+                                            if (week[i][j] != week[i][j - 1])
+                                            {
+                                                <td rowspan="@week[i][j].SoTiet">
+                                                    <a href="@Url.Action("Index", "SoDauBai", new { id = week[i][j].id })">@week[i][j].TenMH</a>
+                                                </td>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <td></td>
+                                        }
+                                    }
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<br />
 
 <!-- Content Row -->
 <div class="row">

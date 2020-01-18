@@ -67,7 +67,10 @@ namespace SoDauBai.Controllers
         [BCSAuthorization]
         public ActionResult Create(int id)
         {
-            return View(new SoGhiChu { idTKB = id, GioBD = DateTime.Now.TimeOfDay });
+            var tkb = db.ThoiKhoaBieux.Find(id);
+            if (tkb != null && CONST.DAY[tkb.ThuKieuSo] == (int)DateTime.Today.DayOfWeek)
+                return View(new SoGhiChu { idTKB = id, GioBD = DateTime.Now.TimeOfDay });
+            return HttpNotFound();
         }
 
         [HttpPost]
