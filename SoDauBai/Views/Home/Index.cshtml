@@ -261,7 +261,7 @@
                                         {
                                             if (week[i][j] != week[i][j - 1])
                                             {
-                                                <td rowspan="@week[i][j].SoTiet">
+                                                <td rowspan="@week[i][j].SoTiet" style="border:solid">
                                                     <a href="@Url.Action("Index", "SoDauBai", new { id = week[i][j].id })">@week[i][j].TenMH</a>
                                                 </td>
                                             }
