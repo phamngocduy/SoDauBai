@@ -13,9 +13,11 @@ namespace SoDauBai.Controllers
     {
         public JsonResult Search(string term)
         {
-            return Json(db.AspNetUsers.Select(u => u.Email).ToArray().Select(s => s.ToLower())
-                .Where(e => e.EndsWith("@vanlanguni.vn") && e.Contains(term.ToLower())).ToArray(),
-                JsonRequestBehavior.AllowGet);
+            var result = db.AspNetUsers.Select(u => u.Email).ToArray().Select(s => s.ToLower())
+                .Where(e => e.EndsWith("@vanlanguni.vn") && e.Contains(term.ToLower())).ToArray();
+            if (result.Length == 0 && term.Trim().ToLower().EndsWith("@vanlanguni.vn"))
+                result = new string[] { term.Trim().ToLower() };
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult Index(int id)

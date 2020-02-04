@@ -59,7 +59,7 @@
                                     </a>
                                 </div>
                                 <span class="small">
-                                    @(GV != null ? (!String.IsNullOrEmpty(GV.HocVi) ? GV.HocVi : "GV" ) + " " + GV.HoTen : null)
+                                    @(GV != null ? (!String.IsNullOrEmpty(GV.HocVi) ? GV.HocVi : "GV") + " " + GV.HoTen : null)
                                 </span>
                                 <span class="badge badge-success">
                                     <i class="fas fa-book-open"></i>
@@ -99,7 +99,7 @@
     </div>
 }
 
-    <style>
+<style>
     .stamp {
         display: inline-block;
         padding: 0.25rem 1rem;
@@ -111,7 +111,7 @@
         transform: rotate(-14deg);
         float: right;
     }
-    </style>
+</style>
 
 @helper DisplayColorfulBadge(string text, Random rand)
 {
@@ -161,7 +161,7 @@
     </div>
 </div>
 
-<div class="row">
+<div class="row" style="@(Model.Count() == 0 ? "display:none" : null)">
     <span class="text-primary">Thời khóa biểu ngày hôm nay:</span>
     @{
         var today = new int[16];
@@ -185,7 +185,7 @@
                     var course = "" + letter;
                     for (i = i + 1; i < today.Length; i++)
                     {
-                        if (today[i] == today[i-1])
+                        if (today[i] == today[i - 1])
                         {
                             course = course + ' ' + letter;
                         }
@@ -308,12 +308,15 @@
 
 @if (Model.Count() == 0)
 {
-    <div class="alert alert-warning alert-dismissible fade show" role="alert">
-        Không tìm thấy lớp học phần nào của thầy/cô ở học kỳ hiện tại!
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
+    if (!User.Identity.Name.EndsWith("@vanlanguni.vn"))
+    {
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            Không tìm thấy lớp học phần nào của thầy/cô ở học kỳ hiện tại!
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    }
     <img src="~/Content/anh-co-so-3.jpg" style="max-width:100%" />
 }
 
