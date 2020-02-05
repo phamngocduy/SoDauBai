@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Data.Entity;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using SoDauBai.Models;
+using System.Transactions;
 using Microsoft.AspNet.Identity;
 
 namespace SoDauBai.Controllers
@@ -32,13 +31,22 @@ namespace SoDauBai.Controllers
         {
             try
             {
-                db.BanCanSus.Add(new BanCanSu
+                using (var scope = new TransactionScope())
                 {
-                    idTKB = id,
-                    Email = email
-                });
-                db.SaveChanges();
-                return String.Empty;
+                    db.BanCanSus.Add(new BanCanSu
+                    {
+                        idTKB = id,
+                        Email = email
+                    });
+                    db.SaveChanges();
+
+                    CauHinhController.SendEmail(User.Identity.Name, email, "[SĐB] Ban cán sự lớp học phần",
+                        String.Format("Bạn đã được phân công vào Ban cán sự lớp học phần {0}.\nBạn có thể ghi nhận thông tin mỗi buổi học tại địa chỉ:\n{1}\n(Lưu ý đăng nhập bằng địa chỉ email Văn Lang)",
+                            db.ThoiKhoaBieux.Find(id).TenMH, new UrlHelper(Request.RequestContext).Action("Index", "SoDauBai", new { id }, Request.Url.Scheme)), User.Identity.Name);
+
+                    scope.Complete();
+                    return String.Empty;
+                }
             }
             catch (Exception e)
             {
