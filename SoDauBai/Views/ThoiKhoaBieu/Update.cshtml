@@ -232,6 +232,11 @@
                 }
             });
             loadPhuGiang();
+
+            $('a[data-toggle=tab]').click(function () {
+                $('a[data-toggle=tab]').find('h6').removeClass('btn-warning');
+                $(this).find('h6').addClass('btn-warning');
+            });
         });
     </script>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>

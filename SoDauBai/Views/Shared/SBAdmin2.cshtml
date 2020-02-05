@@ -28,6 +28,13 @@
 
     <!-- Custom styles for this page -->
     <link href="~/Content/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+
+    <style>
+        .nav-link { color: white !important; }
+        .bg-black { background-color: rgba(40, 40, 40, .8) !important; }
+        .collapse-item { color: rgb(247, 247, 247) !important; }
+        .collapse-inner a:hover { background-color: rgba(179, 30, 11, 0.8) !important; }
+    </style>
 </head>
 
 <body id="page-top">
@@ -36,7 +43,7 @@
     <div id="wrapper">
 
         <!-- Sidebar -->
-        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar" style="background-color:#303ab2;background-image:none">
 
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="~/">
@@ -53,7 +60,7 @@
             <li class="nav-item active">
                 <a class="nav-link" href="@Url.Action("Index", "Home")">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Lớp học phần</span>
+                    <span>LỚP HỌC PHẦN</span>
                 </a>
             </li>
 
@@ -72,7 +79,7 @@
                         {
                             <i class="fas fa-fw fa-folder"></i>
                         }
-                        <span>Phòng dạy bù</span>
+                        <span>PHÒNG DẠY BÙ</span>
                     </a>
                 </li>
             }
@@ -85,10 +92,10 @@
                 <li class="nav-item">
                     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#DanhMuc">
                         <i class="fas fa-fw fa-cog"></i>
-                        <span>Danh mục</span>
+                        <span>DANH MỤC</span>
                     </a>
                     <div id="DanhMuc" class="collapse" data-parent="#accordionSidebar">
-                        <div class="bg-white py-2 collapse-inner rounded">
+                        <div class="bg-black py-2 collapse-inner rounded">
                             <a class="collapse-item" href="@Url.Action("Index", "CauHinh")">Cấu hình</a>
                             <a class="collapse-item" href="@Url.Action("Index", "NganhHoc")">Ngành học</a>
                             <a class="collapse-item" href="@Url.Action("Index", "GiangVien")">Giảng viên</a>
@@ -100,10 +107,10 @@
                 <li class="nav-item">
                     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#PhanQuyen">
                         <i class="fas fa-fw fa-wrench"></i>
-                        <span>Phân quyền</span>
+                        <span>PHÂN QUYỀN</span>
                     </a>
                     <div id="PhanQuyen" class="collapse" data-parent="#accordionSidebar">
-                        <div class="bg-white py-2 collapse-inner rounded">
+                        <div class="bg-black py-2 collapse-inner rounded">
                             <a class="collapse-item" href="@Url.Action("Index", "PhanQuyen", new { id = "HoTro" })">Nhóm Hỗ trợ</a>
                             <a class="collapse-item" href="@Url.Action("Index", "GiaoVu", new { id = "DaoTao" })">Tổ học vụ</a>
                             <a class="collapse-item" href="@Url.Action("Index", "PhanQuyen", new { id = "DaoTao" })">Phòng Đào tạo</a>
@@ -114,7 +121,7 @@
                 <li class="nav-item">
                     <a class="nav-link" href="@Url.Action("Index", "ThoiKhoaBieu")">
                         <i class="fas fa-fw fa-table"></i>
-                        <span>Thời khóa biểu</span>
+                        <span>THỜI KHÓA BIỂU</span>
                     </a>
                 </li>
 
@@ -128,10 +135,10 @@
                 <li class="nav-item">
                     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#ThongKe">
                         <i class="fas fa-fw fa-chart-area"></i>
-                        <span>Thống kê</span>
+                        <span>THỐNG KÊ</span>
                     </a>
                     <div id="ThongKe" class="collapse" data-parent="#accordionSidebar">
-                        <div class="bg-white py-2 collapse-inner rounded">
+                        <div class="bg-black py-2 collapse-inner rounded">
                             <a class="collapse-item" href="@Url.Action("LopDangDay", "ThongKe")">Lớp đang dạy</a>
                             <a class="collapse-item" href="@Url.Action("CacDeXuat", "ThongKe")">Các đề xuất</a>
                             <a class="collapse-item" href="@Url.Action("SoLopDay", "ThongKe")">Số lớp dạy</a>
@@ -151,7 +158,7 @@
                         {
                             <i class="fas fa-fw fa-folder"></i>
                         }
-                        <span>Phòng dạy bù</span>
+                        <span>PHÒNG DẠY BÙ</span>
                     </a>
                 </li>
 

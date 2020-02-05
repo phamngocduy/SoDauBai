@@ -170,9 +170,8 @@ namespace SoDauBai.Controllers
                 }
                 return buoiDay;
                 */
-                return TKB.Sum(tkb => tkb.TuanKT - tkb.TuanBD + 1);
             }
-            else return 0;
+            return TKB.Sum(tkb => tkb.TuanKT - tkb.TuanBD + 1);
         }
 
         public ActionResult ThongKe(int id)

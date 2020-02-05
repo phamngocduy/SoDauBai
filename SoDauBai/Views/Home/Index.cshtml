@@ -165,7 +165,7 @@
     <span class="text-primary">Thời khóa biểu ngày hôm nay:</span>
     @{
         var today = new int[16];
-        foreach (var tkb in Model.Where(tkb => tkb.ThuKieuSo == 3 || CONST.DAY[tkb.ThuKieuSo] == (int)DateTime.Today.DayOfWeek).OrderBy(tkb => tkb.TietBD))
+        foreach (var tkb in Model.Where(tkb => CONST.DAY[tkb.ThuKieuSo] == (int)DateTime.Today.DayOfWeek).OrderBy(tkb => tkb.TietBD))
         {
             if (User.IsInTKB(tkb.id))
             {

@@ -14,7 +14,8 @@
                     <tr>
                         <th>Mã GV</th>
                         <th>Họ tên</th>
-                        <th><abbr title="Số lớp">#</abbr></th>
+                        <th>Số lớp</th>
+                        <th>Số giờ</th>
                         <th>Lớp học phần</th>
                     </tr>
                 </thead>
@@ -24,9 +25,12 @@
                         var giangVien = GiangViens.FirstOrDefault(gv => gv.MaGV == group.Key);
                         if (giangVien != null) { GiangViens.Remove(giangVien); }
                         <tr>
-                            <td>@(giangVien?.MaGV)</td>
+                            <td>@(group.Key)</td>
                             <td>@(giangVien?.HoTen)</td>
                             <td>@group.Count()</td>
+                            <td>
+                                @group.Sum(tkb => (tkb.TuanKT - tkb.TuanBD + 1) * tkb.SoTiet)
+                            </td>
                             <td>
                                 @foreach (var item in group.GroupBy(tkb => tkb.MaMH))
                                 {
@@ -35,11 +39,12 @@
                             </td>
                         </tr>
                     }
-                    @foreach (var giangVien in GiangViens)
+                    @foreach (var giangVien in GiangViens.Where(gv => gv.MaGV != ""))
                     {
                         <tr>
                             <td>@giangVien.MaGV</td>
                             <td>@giangVien.HoTen</td>
+                            <td>0</td>
                             <td>0</td>
                             <td></td>
                         </tr>

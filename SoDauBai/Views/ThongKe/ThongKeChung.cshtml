@@ -13,7 +13,7 @@
     var buoiGhi = TKB.Count(tkb => tkb.SoGhiBais.Count(sdb => sdb.Loai == 0));
     var buoiNghi = TKB.Count(tkb => tkb.SoGhiBais.Count(sdb => sdb.Loai == 1));
     var buoiBu = TKB.Count(tkb => tkb.SoGhiBais.Count(sdb => sdb.Loai == 2));
-    var tietDay = TKB.Sum(tkb => tkb.SoGhiBais.Where(sdb => sdb.Loai != 1).Sum(sdb => sdb.SoTietDay));
+    //var tietDay = TKB.Sum(tkb => tkb.SoGhiBais.Where(sdb => sdb.Loai != 1).Sum(sdb => sdb.SoTietDay));
     var nhacNho = Emails.Count(e => e.Tag == item.id);
     var email = GV.FirstOrDefault(gv => gv.MaGV == item.MaGV).Init().Email;
     var buoiDay = SoDauBaiController.countSoBuoiDay(TKB.ToList());
@@ -29,7 +29,7 @@
         <td><i>@String.Join(", ", giangVien)</i></td>
         <td>@(buoiGhi+buoiBu+buoiNghi2)</td>
         <td>@buoiDay</td>
-        <td>@tietDay</td>
+        <!--td>tietDay</td-->
         <td data-order="@buoiBu.Div(buoiNghi)">@buoiBu/@buoiNghi</td>
         <td>
             <a href="#" id="@item.id" data-content="@String.Format("ThuKieuSo: {0}\nTietBD: {1}\nSoTiet: {2}\nMaPH: {3}\nMaLop: {4}\nTenLop: {5}", item.ThuKieuSo, item.TietBD, item.SoTiet, item.MaPH, item.MaLop, item.TenLop)" data-toggle="popover" data-placement="left">
@@ -64,15 +64,17 @@
                 <thead>
                     <tr>
                         <th>Lớp học phần</th>
-                        <th><abbr title="Ngành">N</abbr></th>
+                        <th id="Nganh">
+                            @Html.DropDownList("Nganh", new SelectList(Model.Select(tkb => tkb.MaNganh).Distinct().OrderBy(s => s)), "Ngành")
+                        </th>
                         <th>Giảng viên</th>
                         <!--th>Số SV</th-->
-                        <th>Ghi sổ</th>
-                        <th>
-                            <abbr title="Số buổi dạy theo kế hoạch (giả sử dạy 15 tuần nếu chưa có dữ liệu)">KH</abbr>
+                        <th id="GhiSo">Ghi sổ</th>
+                        <th id="KeHoach">
+                            <abbr title="Số buổi dạy theo kế hoạch (giả sử dạy 15 tuần nếu chưa có dữ liệu)">Kế hoạch</abbr>
                         </th>
-                        <th>Số giờ</th>
-                        <th>Dạy bù</th>
+                        <!--th id="SoGio">Số giờ</th-->
+                        <th id="DayBu">Dạy bù</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -82,6 +84,16 @@
                         @Display(group.ToArray(), GiangViens, GuiEmails)
                     }
                 </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="3" style="text-align:right">Tổng</td>
+                        <td id="GhiSo"></td>
+                        <td id="KeHoach"></td>
+                        <!--td id="SoGio"></td-->
+                        <td id="DayBu"></td>
+                        <td></td>
+                    </tr>
+                </tfoot>
             </table>
         </div>
     </div>
@@ -100,13 +112,40 @@
         // Call the dataTables jQuery plugin
         $(document).ready(function() {
             $('[data-toggle="popover"]').popover();
-            $('#dataTable').DataTable({
-                stateSave: true,
+            var table = $('#dataTable').DataTable({
+                //stateSave: true,
                 language: {
                     url: 'https://cdn.datatables.net/plug-ins/1.10.19/i18n/Vietnamese.json'
                 },
                 dom: '<"row"<"col-sm-12 col-md-4"l><"col-sm-12 col-md-4"B><"col-sm-12 col-md-4"f>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
-                buttons: [ 'copy', 'csv', 'excel', 'pdf', 'print' ]
+                buttons: ['copy', 'csv', 'excel', 'pdf', 'print'],
+                drawCallback: function () {
+                    var sum1 = 0, sum2 = 0;
+                    $.each(table.column('#GhiSo', { search: 'applied' }).data(), function () {
+                        sum1 += parseInt(this) || 0;
+                    });
+                    $('td#GhiSo').text(sum1);
+                    sum1 = 0;
+                    $.each(table.column('#KeHoach', { search: 'applied' }).data(), function () {
+                        sum1 += parseInt(this) || 0;
+                    });
+                    $('td#KeHoach').text(sum1);
+                    sum1 = 0;
+                    $.each(table.column('#SoGio', { search: 'applied' }).data(), function () {
+                        sum1 += parseInt(this) || 0;
+                    });
+                    $('td#SoGio').text(sum1);
+                    sum1 = 0;
+                    $.each(table.column('#DayBu', { search: 'applied' }).data(), function () {
+                        var value = this.split('/');
+                        sum1 += parseInt(value[0]) || 0;
+                        sum2 += parseInt(value[1]) || 0;
+                    });
+                    $('td#DayBu').text(sum1 + '/' + sum2);
+                }
+            });
+            $('[name=Nganh]').change(function () {
+                table.column('#Nganh').search($(this).val()).draw();
             });
         });
     </script>
