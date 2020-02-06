@@ -30,7 +30,7 @@
         }
 
         .bg-gradient-primary1 {
-            background: url('@Url.Content("~/Content/img/cs-3.jpg")');
+            background: url('@Url.Content("~/Content/img/h1.jpg")');
             background-position: center;
             background-size: cover;
         }
@@ -117,6 +117,11 @@
             border-bottom: 2px dotted wheat;
             position: relative;
         }
+        .btn-help {
+            background-color: #14821d;
+            border-color: #14821d;
+            color: #fff;
+        }
     </style>
 </head>
 
@@ -165,22 +170,22 @@
                                     </p>
                                     <form class="user">
                                         @*
-                                        <div class="form-group">
-                                            <input type="email" class="form-control form-control-user" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Nhập Email ..." disabled>
-                                        </div>
-                                        <div class="form-group">
-                                            <input type="password" class="form-control form-control-user" id="exampleInputPassword" placeholder="Mật khẩu" disabled>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <div class="custom-control custom-checkbox small">
-                                                <input type="checkbox" class="custom-control-input" id="customCheck" disabled>
-                                                <label class="custom-control-label" for="customCheck">Ghi nhớ đăng nhập</label>
+                                            <div class="form-group">
+                                                <input type="email" class="form-control form-control-user" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Nhập Email ..." disabled>
                                             </div>
-                                        </div>
+                                            <div class="form-group">
+                                                <input type="password" class="form-control form-control-user" id="exampleInputPassword" placeholder="Mật khẩu" disabled>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <div class="custom-control custom-checkbox small">
+                                                    <input type="checkbox" class="custom-control-input" id="customCheck" disabled>
+                                                    <label class="custom-control-label" for="customCheck">Ghi nhớ đăng nhập</label>
+                                                </div>
+                                            </div>
                                         *@
                                         <a href="#" class="btn btn-primary btn-user btn-block" style="visibility:hidden">Help</a>
-                                        <a href="@Url.Content("~/Content/HuongDanSuDung.htm")" class="btn btn-primary btn-user btn-block" target="_blank">
+                                        <a href="@Url.Content("~/Content/HuongDanSuDung.htm")" class="btn btn-help btn-user btn-block" target="_blank">
                                             <b>HƯỚNG DẪN SỬ DỤNG</b>
                                             <img src="@Url.Content("~/Content/new-logo.png")" height="25px" style="float:right" />
                                         </a>

@@ -402,7 +402,9 @@
     <Content Include="Content\HuongDanSuDung_files\image089.png" />
     <Content Include="Content\HuongDanSuDung_files\image090.png" />
     <Content Include="Content\img\cs-3.jpg" />
+    <Content Include="Content\img\h1.jpg" />
     <Content Include="Content\img\logo.png" />
+    <Content Include="Content\img\sidebar-2.jpg" />
     <Content Include="Content\img\undraw_posting_photo.svg" />
     <Content Include="Content\img_4574.jpg" />
     <Content Include="Content\new-logo.png" />
@@ -604,7 +606,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>51610</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>

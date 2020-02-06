@@ -30,10 +30,28 @@
     <link href="~/Content/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 
     <style>
-        .nav-link { color: white !important; }
-        .bg-black { background-color: rgba(40, 40, 40, .8) !important; }
-        .collapse-item { color: rgb(247, 247, 247) !important; }
-        .collapse-inner a:hover { background-color: rgba(179, 30, 11, 0.8) !important; }
+        .nav-link {
+            color: white !important;
+        }
+
+        .bg-black {
+            background-color: rgba(40, 40, 40, .8) !important;
+        }
+
+        .collapse-item {
+            color: rgb(247, 247, 247) !important;
+        }
+
+        .collapse-inner a:hover {
+            background-color: rgba(179, 30, 11, 0.8) !important;
+        }
+
+        .dropdown-section {
+            padding: 3px 15px;
+            border-radius: 5px;
+            margin-top: -10px;
+            margin-left: 10px;
+        }
     </style>
 </head>
 
@@ -43,14 +61,14 @@
     <div id="wrapper">
 
         <!-- Sidebar -->
-        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar" style="background-color:#303ab2;background-image:none">
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar" style="background: linear-gradient(180deg,rgba(0,0,0,.5),rgba(0,0,0,.8)),url(@Url.Content("~/Content/img/sidebar-2.jpg"))">
 
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="~/">
                 <div class="sidebar-brand-icon">
                     <img src="~/favicon.png" />
                 </div>
-                <div class="sidebar-brand-text mx-3">ĐẠI HỌC<br />VĂN LANG</div>
+                <div class="sidebar-brand-text mx-3">SỔ ĐẦU BÀI<br />VĂN LANG</div>
             </a>
 
             <!-- Divider -->
@@ -174,7 +192,7 @@
         </ul>
         <!-- End of Sidebar -->
         <!-- Content Wrapper -->
-        <div id="content-wrapper" class="d-flex flex-column">
+        <div id="content-wrapper" class="d-flex flex-column" style="background-color: #37383c26;">
 
             <!-- Main Content -->
             <div id="content">
@@ -188,9 +206,9 @@
                     </button>
 
                     <!-- Topbar Search -->
-                    <h1>SỔ ĐẦU BÀI</h1>
+                    <h5>NĂM HỌC - HỌC KỲ: </h5>
                     &nbsp;&nbsp;
-                    @Html.DropDownList("HocKy")
+                    @Html.DropDownList("HocKy", null, new { @class = "dropdown-section" })
 
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
