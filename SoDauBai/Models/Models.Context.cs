@@ -29,6 +29,7 @@ namespace SoDauBai.Models
         public virtual DbSet<AspNetUserClaim> AspNetUserClaims { get; set; }
         public virtual DbSet<AspNetUserLogin> AspNetUserLogins { get; set; }
         public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
+        public virtual DbSet<BanCanSu> BanCanSus { get; set; }
         public virtual DbSet<CauHinh> CauHinhs { get; set; }
         public virtual DbSet<GiangVien> GiangViens { get; set; }
         public virtual DbSet<GiaoVu> GiaoVus { get; set; }
@@ -37,10 +38,10 @@ namespace SoDauBai.Models
         public virtual DbSet<NganhHoc> NganhHocs { get; set; }
         public virtual DbSet<NhanXet> NhanXets { get; set; }
         public virtual DbSet<PhongDayBu> PhongDayBus { get; set; }
-        public virtual DbSet<SoGhiBai> SoGhiBais { get; set; }
-        public virtual DbSet<ThoiKhoaBieu> ThoiKhoaBieux { get; set; }
-        public virtual DbSet<BanCanSu> BanCanSus { get; set; }
         public virtual DbSet<PhuGiang> PhuGiangs { get; set; }
+        public virtual DbSet<SoGhiBai> SoGhiBais { get; set; }
         public virtual DbSet<SoGhiChu> SoGhiChus { get; set; }
+        public virtual DbSet<ThoiKhoaBieu> ThoiKhoaBieux { get; set; }
+        public virtual DbSet<TroGiang> TroGiangs { get; set; }
     }
 }

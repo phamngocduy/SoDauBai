@@ -5,6 +5,7 @@
         <li><a href="#ThongTin" data-toggle="tab"><h6 class="m-0 font-weight-bold text-primary btn btn-warning">Cập nhật Thông tin lớp</h6></a></li>
         <li><a href="#BanCanSu" data-toggle="tab"><h6 class="m-0 font-weight-bold text-primary btn">Danh sách Ban cán sự</h6></a></li>
         <li><a href="#PhuGiang" data-toggle="tab"><h6 class="m-0 font-weight-bold text-primary btn">Giảng viên cùng giảng</h6></a></li>
+        <li><a href="#TroGiang" data-toggle="tab"><h6 class="m-0 font-weight-bold text-primary btn">SV Hỗ trợ học thuật</h6></a></li>
     </ul>
     <div class="card-body tab-content">
         <div class="tab-pane fade active show" id="ThongTin">
@@ -145,6 +146,21 @@
             <div class="my-2"></div>
             <a href="@Url.Action("Index", "SoDauBai", new { id = Model.id })" class="btn btn-secondary">Quay lại</a>
         </div>
+        <div class="tab-pane fade" id="TroGiang">
+            <div class="form-group">
+                <select id="searchTroGiang" class="form-control"></select>
+            </div>
+            <div id="TGS">
+                <a href="#" class="btn btn-light btn-icon-split" v-for="sv in TroGiang">
+                    <span class="text">{{ sv }}</span>
+                    <span class="icon text-gray-600" onclick="deleteTroGiang(this)" :email="sv">
+                        <i class="fas fa-times"></i>
+                    </span>
+                </a>
+            </div>
+            <div class="my-2"></div>
+            <a href="@Url.Action("Index", "SoDauBai", new { id = Model.id })" class="btn btn-secondary">Quay lại</a>
+        </div>
     </div>
 </div>
 
@@ -233,6 +249,45 @@
             });
             loadPhuGiang();
 
+            $('#searchTroGiang').select2({
+                dataType: 'json',
+                placeholder: 'Nhập thông tin email sinh viên',
+                minimumInputLength: 5,
+                theme: 'bootstrap',
+                ajax: {
+                    delay: 250,
+                    transport: function (params, success, failure) {
+                        $.getJSON('@Url.Action("Search", "BanCanSu")', params.data)
+                            .done(success).fail(failure);
+                    },
+                    processResults: function (data, params) {
+                        return {
+                            results: $.map(data, function (e, i) {
+                                return {
+                                    id: e,
+                                    text: e.replace(params.term, '<b><u>' + params.term + '</u></b>')
+                                };
+                            })
+                        };
+                    }
+                },
+                escapeMarkup: function (markup) {
+                    return markup;
+                }
+            }).change(function () {
+                if ($(this).val() != null) {
+                    if (confirm('Thêm SV này vào danh sách ?')) {
+                        $.post('@Url.Action("Insert", "TroGiang", new { id = Model.id })?email=' + $(this).val(), function (data) {
+                            if (data.length > 0)
+                                alert(data);
+                            else loadTroGiang();
+                        });
+                    }
+                    $(this).val(null).trigger('change');
+                }
+            });
+            loadTroGiang();
+
             $('a[data-toggle=tab]').click(function () {
                 $('a[data-toggle=tab]').find('h6').removeClass('btn-warning');
                 $(this).find('h6').addClass('btn-warning');
@@ -277,6 +332,25 @@
                 if (data.length > 0)
                     alert(data);
                 else loadPhuGiang();
+            });
+        }
+        var tgs = new Vue({
+            el: '#TGS',
+            data: {
+                TroGiang: []
+            }
+        });
+        function loadTroGiang() {
+            $.getJSON('@Url.Action("Index", "TroGiang", new { id = Model.id })')
+                .done(function (json) { tgs.TroGiang = json; });
+        }
+        function deleteTroGiang(span) {
+            var email = $(span).attr('email');
+            if (confirm('Xóa SV này khỏi danh sách ?'))
+            $.post('@Url.Action("Remove", "TroGiang", new { id = Model.id })?email=' + email, function (data) {
+                if (data.length > 0)
+                    alert(data);
+                else loadTroGiang();
             });
         }
     </script>

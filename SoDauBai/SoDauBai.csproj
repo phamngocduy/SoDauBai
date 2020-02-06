@@ -207,6 +207,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\TroGiangController.cs" />
     <Compile Include="Controllers\PhuGiangController.cs" />
     <Compile Include="Controllers\BanCanSuController.cs" />
     <Compile Include="Controllers\CauHinhController.cs" />
@@ -297,6 +298,9 @@
       <DependentUpon>Models.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ThoiKhoaBieu.cs">
+      <DependentUpon>Models.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TroGiang.cs">
       <DependentUpon>Models.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />

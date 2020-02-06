@@ -89,16 +89,20 @@ namespace SoDauBai.Controllers
             {
                 var database = new
                 {
+                    BanCanSu = db.BanCanSus.ToList(),
+                    CauHinh = db.CauHinhs.ToList(),
                     GiangVien = db.GiangViens.ToList(),
                     GiaoVu = db.GiaoVus.ToList(),
+                    GuiEmail = db.GuiEmails.ToList(),
                     LienHe = db.LienHes.ToList(),
                     NganhHoc = db.NganhHocs.ToList(),
                     NhanXet = db.NhanXets.ToList(),
                     PhongDayBu = db.PhongDayBus.ToList(),
+                    PhuGiang = db.PhuGiangs.ToList(),
                     SoGhiBai = db.SoGhiBais.ToList(),
+                    SoGhiChu = db.SoGhiChus.ToList(),
                     ThoiKhoaBieu = db.ThoiKhoaBieux.ToList(),
-                    GuiEmail = db.GuiEmails.ToList(),
-                    CauHinh = db.CauHinhs.ToList()
+                    TroGiang = db.TroGiangs.ToList()
                 };
 
                 var path = Server.MapPath("~/App_Data");

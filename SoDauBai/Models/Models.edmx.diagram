@@ -5,31 +5,33 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="749e54586acb48e3aca34ef13440bc5b" Name="Diagram1">
-        <EntityTypeShape EntityType="SoDauBaiModel.AspNetRole" Width="1.5" PointX="0.75" PointY="2.5" />
-        <EntityTypeShape EntityType="SoDauBaiModel.AspNetUserClaim" Width="1.5" PointX="5.25" PointY="3.625" />
-        <EntityTypeShape EntityType="SoDauBaiModel.AspNetUserLogin" Width="1.5" PointX="5.25" PointY="1" />
-        <EntityTypeShape EntityType="SoDauBaiModel.AspNetUser" Width="1.5" PointX="3" PointY="1.375" />
-        <EntityTypeShape EntityType="SoDauBaiModel.CauHinh" Width="1.5" PointX="7.75" PointY="0.75" />
-        <EntityTypeShape EntityType="SoDauBaiModel.GiangVien" Width="1.5" PointX="7.75" PointY="3.75" />
-        <EntityTypeShape EntityType="SoDauBaiModel.GiaoVu" Width="1.5" PointX="9.75" PointY="0.75" />
-        <EntityTypeShape EntityType="SoDauBaiModel.GuiEmail" Width="1.5" PointX="10.75" PointY="3.75" />
-        <EntityTypeShape EntityType="SoDauBaiModel.LienHe" Width="1.5" PointX="10.75" PointY="7.75" />
-        <EntityTypeShape EntityType="SoDauBaiModel.NganhHoc" Width="1.5" PointX="11.75" PointY="0.75" />
-        <EntityTypeShape EntityType="SoDauBaiModel.NhanXet" Width="1.5" PointX="10.75" PointY="11.75" />
-        <EntityTypeShape EntityType="SoDauBaiModel.PhongDayBu" Width="1.5" PointX="3" PointY="12.25" />
-        <EntityTypeShape EntityType="SoDauBaiModel.SoGhiBai" Width="1.5" PointX="3" PointY="7.25" />
-        <EntityTypeShape EntityType="SoDauBaiModel.ThoiKhoaBieu" Width="1.5" PointX="0.75" PointY="9.125" />
+        <EntityTypeShape EntityType="SoDauBaiModel.AspNetRole" Width="1.5" PointX="5.75" PointY="2.5" />
+        <EntityTypeShape EntityType="SoDauBaiModel.AspNetUserClaim" Width="1.5" PointX="10.25" PointY="3.625" />
+        <EntityTypeShape EntityType="SoDauBaiModel.AspNetUserLogin" Width="1.5" PointX="10.25" PointY="1" />
+        <EntityTypeShape EntityType="SoDauBaiModel.AspNetUser" Width="1.5" PointX="8" PointY="1.375" />
+        <EntityTypeShape EntityType="SoDauBaiModel.BanCanSu" Width="1.5" PointX="3" PointY="1.875" />
+        <EntityTypeShape EntityType="SoDauBaiModel.CauHinh" Width="1.5" PointX="5.75" PointY="6.75" />
+        <EntityTypeShape EntityType="SoDauBaiModel.GiangVien" Width="1.5" PointX="7.75" PointY="6.75" />
+        <EntityTypeShape EntityType="SoDauBaiModel.GiaoVu" Width="1.5" PointX="5.75" PointY="9.75" />
+        <EntityTypeShape EntityType="SoDauBaiModel.GuiEmail" Width="1.5" PointX="9.75" PointY="6.75" />
+        <EntityTypeShape EntityType="SoDauBaiModel.LienHe" Width="1.5" PointX="7.75" PointY="10.75" />
+        <EntityTypeShape EntityType="SoDauBaiModel.NganhHoc" Width="1.5" PointX="9.75" PointY="10.75" />
+        <EntityTypeShape EntityType="SoDauBaiModel.NhanXet" Width="1.5" PointX="11.75" PointY="6.75" />
+        <EntityTypeShape EntityType="SoDauBaiModel.PhongDayBu" Width="1.5" PointX="3" PointY="13.125" />
+        <EntityTypeShape EntityType="SoDauBaiModel.PhuGiang" Width="1.5" PointX="3" PointY="10.625" />
+        <EntityTypeShape EntityType="SoDauBaiModel.SoGhiBai" Width="1.5" PointX="3" PointY="17.625" />
+        <EntityTypeShape EntityType="SoDauBaiModel.SoGhiChu" Width="1.5" PointX="3" PointY="6.875" />
+        <EntityTypeShape EntityType="SoDauBaiModel.ThoiKhoaBieu" Width="1.5" PointX="0.75" PointY="9" />
+        <EntityTypeShape EntityType="SoDauBaiModel.TroGiang" Width="1.5" PointX="3" PointY="4.375" />
         <AssociationConnector Association="SoDauBaiModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" />
         <AssociationConnector Association="SoDauBaiModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" />
-        <AssociationConnector Association="SoDauBaiModel.FK_PhongDayBu_ThoiKhoaBieu" />
-        <AssociationConnector Association="SoDauBaiModel.FK_SoDauBai_ThoiKhoaBieu" />
-        <AssociationConnector Association="SoDauBaiModel.AspNetUserRoles" />
-        <EntityTypeShape EntityType="SoDauBaiModel.BanCanSu" Width="1.5" PointX="3" PointY="16.875" />
         <AssociationConnector Association="SoDauBaiModel.FK__BanCanSu__idTKB__04E4BC85" />
-        <EntityTypeShape EntityType="SoDauBaiModel.PhuGiang" Width="1.5" PointX="3" PointY="20" />
+        <AssociationConnector Association="SoDauBaiModel.FK_PhongDayBu_ThoiKhoaBieu" />
         <AssociationConnector Association="SoDauBaiModel.FK__PhuGiang__idTKB__07C12930" />
-        <EntityTypeShape EntityType="SoDauBaiModel.SoGhiChu" Width="1.5" PointX="3" PointY="23.5" />
+        <AssociationConnector Association="SoDauBaiModel.FK_SoDauBai_ThoiKhoaBieu" />
         <AssociationConnector Association="SoDauBaiModel.FK__SoGhiChu__idTKB__114A936A" />
+        <AssociationConnector Association="SoDauBaiModel.FK__TroGiang__idTKB__29221CFB" />
+        <AssociationConnector Association="SoDauBaiModel.AspNetUserRoles" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
