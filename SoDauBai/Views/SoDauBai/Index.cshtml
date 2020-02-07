@@ -120,22 +120,22 @@
                     </span>
                 </div>
             </div>
-            if (DateTime.Today.AddDays(1) < ngayKT || true)
+        }
+        @if (DateTime.Today.AddDays(1) < ngayKT || ngayKT == DateTime.MinValue)
+        {
+            foreach (var tkb in TKBs)
             {
-                foreach (var tkb in TKBs)
+                var thuKieuSo = CONST.THU[(int)DateTime.Today.DayOfWeek];
+                if (tkb.ThuKieuSo == thuKieuSo && User.IsInBCS(tkb.id))
                 {
-                    var thuKieuSo = CONST.THU[(int)DateTime.Today.DayOfWeek];
-                    if (tkb.ThuKieuSo == thuKieuSo && User.IsInBCS(tkb.id))
+                    isBanCanSu = true;
+                    var email = User.Identity.Name;
+                    if (tkb.SoGhiChus.Count(sgc => sgc.NgayGhi.Date == DateTime.Today && sgc.Email == email) == 0)
                     {
-                        isBanCanSu = true;
-                        var email = User.Identity.Name;
-                        if (tkb.SoGhiChus.Count(sgc => sgc.NgayGhi.Date == DateTime.Today && sgc.Email == email) == 0)
-                        {
-                            <div style="margin-top:1rem">
-                                <a href="@Url.Action("Create", "BanCanSu", new { id = tkb.id })">[<b>BanCánSự</b>] Ghi thông tin về buổi học T@(thuKieuSo) ngày @DateTime.Today.ToString("dd/MM/yyyy") (<i class="text-warning">click here</i>)</a>
-                            </div>
-                            break;
-                        }
+                        <div style="margin-top:1rem">
+                            <a href="@Url.Action("Create", "BanCanSu", new { id = tkb.id })">[<b>BanCánSự</b>] Ghi thông tin về buổi học T@(thuKieuSo) ngày @DateTime.Today.ToString("dd/MM/yyyy") (<i class="text-warning">click here</i>)</a>
+                        </div>
+                        break;
                     }
                 }
             }
