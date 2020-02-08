@@ -101,9 +101,11 @@ namespace SoDauBai.Controllers
                         if (row.SoTiet < 0 || row.SoTiet > 12)
                             throw new Exception("SoTiet không trong khoảng [1-12]!");
                         i++;
-                        row.MaGV = reader.GetText(i);
+                        row.MaGV = reader.GetText(i) ?? "";
                         if (row.MaGV.Length > 10)
                             throw new Exception("MaGV dài hơn 10 ký tự!");
+                        if (row.MaGV.Length == 0)
+                            throw new Exception("Chưa có thông tin MaGV!");
                         i++;
                         if (db.GiangViens.SingleOrDefault(gv => gv.MaGV == row.MaGV) == null)
                         {
