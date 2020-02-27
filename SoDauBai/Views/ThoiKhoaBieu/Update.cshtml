@@ -108,7 +108,7 @@
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-10">
                         <input type="submit" value="Cập nhật" class="btn btn-primary" /> |
-                        <a href="@Url.Action("Index", "SoDauBai", new { id = Model.id })" class="btn btn-default">Quay lại</a>
+                        <a href="@Url.Action("Index", "SoDauBai", new { id = ViewData["Back"] ?? Model.id })" class="btn btn-default">Quay lại</a>
                     </div>
                 </div>
             }
@@ -129,7 +129,7 @@
                 </a>
             </div>
             <div class="my-2"></div>
-            <a href="@Url.Action("Index", "SoDauBai", new { id = Model.id })" class="btn btn-secondary">Quay lại</a>
+            <a href="@Url.Action("Index", "SoDauBai", new { id = ViewData["Back"] ?? Model.id })" class="btn btn-secondary">Quay lại</a>
         </div>
         <div class="tab-pane fade" id="PhuGiang">
             <div class="form-group">
@@ -144,7 +144,7 @@
                 </a>
             </div>
             <div class="my-2"></div>
-            <a href="@Url.Action("Index", "SoDauBai", new { id = Model.id })" class="btn btn-secondary">Quay lại</a>
+            <a href="@Url.Action("Index", "SoDauBai", new { id = ViewData["Back"] ?? Model.id })" class="btn btn-secondary">Quay lại</a>
         </div>
         <div class="tab-pane fade" id="TroGiang">
             <div class="form-group">
@@ -159,7 +159,7 @@
                 </a>
             </div>
             <div class="my-2"></div>
-            <a href="@Url.Action("Index", "SoDauBai", new { id = Model.id })" class="btn btn-secondary">Quay lại</a>
+            <a href="@Url.Action("Index", "SoDauBai", new { id = ViewData["Back"] ?? Model.id })" class="btn btn-secondary">Quay lại</a>
         </div>
     </div>
 </div>

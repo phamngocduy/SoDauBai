@@ -206,11 +206,12 @@ namespace SoDauBai.Controllers
         }
 
         [OverrideAuthorization]
-        public ActionResult Update(int id)
+        public ActionResult Update(int id, int? back)
         {
             var model = db.ThoiKhoaBieux.Find(id);
             if (model == null)
                 return HttpNotFound();
+            ViewBag.Back = back;
             return View(model);
         }
 
@@ -218,7 +219,7 @@ namespace SoDauBai.Controllers
         [OverrideAuthorization]
         [ValidateAntiForgeryToken]
         [TKBAuthorization]
-        public ActionResult Update(ThoiKhoaBieu model)
+        public ActionResult Update(ThoiKhoaBieu model, int? back)
         {
             ValidateTKB(model);
             if (ModelState.IsValid)
@@ -237,12 +238,13 @@ namespace SoDauBai.Controllers
 
                     db.Entry(tkb).State = EntityState.Modified;
                     db.SaveChanges();
-                    return RedirectToAction("Index", "SoDauBai", new { model.id });
+                    return RedirectToAction("Index", "SoDauBai", new { id = back ?? model.id });
                 }
                 catch (Exception e)
                 {
                     ModelState.AddModelError("", e.GetBaseException().Message);
                 }
+            ViewBag.Back = back;
             return View(model);
         }
 

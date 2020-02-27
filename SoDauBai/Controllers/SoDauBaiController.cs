@@ -50,7 +50,7 @@ namespace SoDauBai.Controllers
         }
 
         [TKBAuthorization]
-        public ActionResult Create(int id)
+        public ActionResult Create(int id, int? back)
         {
             var tkb = db.ThoiKhoaBieux.Find(id);
             var model = new SoGhiBai
@@ -65,13 +65,14 @@ namespace SoDauBai.Controllers
                 idTKB = tkb.id
             };
             ViewBag.NhanXets = db.NhanXets.ToList();
+            ViewBag.Back = back;
             return View(model);
         }
 
         [HttpPost]
         [TKBAuthorization]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(SoGhiBai model)
+        public ActionResult Create(SoGhiBai model, int? back)
         {
             Validate(model);
             if (ModelState.IsValid)
@@ -82,30 +83,32 @@ namespace SoDauBai.Controllers
                     model.Email = User.Identity.GetUserName();
                     db.SoGhiBais.Add(model);
                     db.SaveChanges();
-                    return RedirectToAction("Index", new { id = model.idTKB });
+                    return RedirectToAction("Index", new { id = back ?? model.idTKB });
                 }
                 catch (Exception e)
                 {
                     ModelState.AddModelError("", e.GetBaseException().Message);
                 }
             ViewBag.NhanXets = db.NhanXets.ToList();
+            ViewBag.Back = back;
             return View(model);
         }
 
         [SDBAuthorization]
-        public ActionResult Edit(int id)
+        public ActionResult Edit(int id, int? back)
         {
             var model = db.SoGhiBais.Find(id);
             if (model == null)
                 return HttpNotFound();
             ViewBag.NhanXets = db.NhanXets.ToList();
+            ViewBag.Back = back;
             return View("Update", model);
         }
 
         [HttpPost]
         [SDBAuthorization]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(SoGhiBai model)
+        public ActionResult Edit(SoGhiBai model, int? back)
         {
             Validate(model);
             if (ModelState.IsValid)
@@ -117,22 +120,24 @@ namespace SoDauBai.Controllers
                 return RedirectToAction("Index", new { id = model.idTKB });
             }
             ViewBag.NhanXets = db.NhanXets.ToList();
+            ViewBag.Back = back;
             return View("Update", model);
         }
 
         [SDBAuthorization]
-        public ActionResult Delete(int id)
+        public ActionResult Delete(int id, int? back)
         {
             var model = db.SoGhiBais.Find(id);
             if (model == null)
                 return HttpNotFound();
+            ViewBag.Back = back;
             return View(model);
         }
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         [SDBAuthorization]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult DeleteConfirmed(int id, int? back)
         {
             var KhoaSo = db.CauHinhs.Find(CONFIG.KHOA_SO).GiaTri.ToIntOrDefault(0);
             var model = db.SoGhiBais.Find(id);
@@ -141,7 +146,7 @@ namespace SoDauBai.Controllers
                 db.SoGhiBais.Remove(model);
                 db.SaveChanges();
             }
-            return RedirectToAction("Index", new { id = model.idTKB });
+            return RedirectToAction("Index", new { id = back ?? model.idTKB });
         }
 
         public static int countSoBuoiDay(List<ThoiKhoaBieu> TKB)

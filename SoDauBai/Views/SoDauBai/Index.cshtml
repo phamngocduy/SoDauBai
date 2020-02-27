@@ -19,15 +19,16 @@
     //BanCanSu
     var SoGhiChu = TKBs.Merge(tkb => tkb.SoGhiChus).Where(sgc => sgc.Email == User.Identity.Name).OrderBy(sgc => sgc.NgayGhi).ToList();
     var isBanCanSu = false; // La BanCanSu
+    var back = ViewContext.RouteData.Values["id"];
 }
-@helper DisplaySGC(SoGhiChu soGhiChu)
+@helper DisplaySGC(SoGhiChu soGhiChu, object back)
 {
     var KhoaSo = (int)ViewBag.KhoaSo;
     <tr style="font-style:italic">
         <td>
             @if (soGhiChu.Email == User.Identity.Name && (DateTime.Today - soGhiChu.NgayGhi).TotalDays < KhoaSo)
             {
-                <a href="@Url.Action("Update", "BanCanSu", new { id = soGhiChu.id })" class="btn btn-warning btn-circle btn-sm">
+                <a href="@Url.Action("Update", "BanCanSu", new { id = soGhiChu.id, back })" class="btn btn-warning btn-circle btn-sm">
                     <i class="fas fa-pencil-alt"></i>
                 </a>
             }
@@ -45,7 +46,7 @@
         <td>
             @if (soGhiChu.Email == User.Identity.Name && (DateTime.Today - soGhiChu.NgayGhi).TotalDays < KhoaSo)
             {
-                <a href="@Url.Action("Delete", "BanCanSu", new { id = soGhiChu.id })" class="btn btn-danger btn-circle btn-sm">
+                <a href="@Url.Action("Delete", "BanCanSu", new { id = soGhiChu.id, back })" class="btn btn-danger btn-circle btn-sm">
                     <i class="fas fa-trash"></i>
                 </a>
             }
@@ -93,7 +94,7 @@
             }
             if (User.IsInTKB(tkb.id))
             {
-                <a href="@Url.Action("Update", "ThoiKhoaBieu", new { tkb.id })" class="btn btn-warning btn-circle btn-sm">
+                <a href="@Url.Action("Update", "ThoiKhoaBieu", new { tkb.id, back })" class="btn btn-warning btn-circle btn-sm">
                     <i class="fas fa-pencil-alt"></i>
                 </a>
             }
@@ -133,7 +134,7 @@
                     if (tkb.SoGhiChus.Count(sgc => sgc.NgayGhi.Date == DateTime.Today && sgc.Email == email) == 0)
                     {
                         <div style="margin-top:1rem">
-                            <a href="@Url.Action("Create", "BanCanSu", new { id = tkb.id })">[<b>BanCánSự</b>] Ghi thông tin về buổi học T@(thuKieuSo) ngày @DateTime.Today.ToString("dd/MM/yyyy") (<i class="text-warning">click here</i>)</a>
+                            <a href="@Url.Action("Create", "BanCanSu", new { id = tkb.id, back })">[<b>BanCánSự</b>] Ghi thông tin về buổi học T@(thuKieuSo) ngày @DateTime.Today.ToString("dd/MM/yyyy") (<i class="text-warning">click here</i>)</a>
                         </div>
                         break;
                     }
@@ -156,7 +157,7 @@
                                 var myTKB = TKBs.Where(tkb => User.IsInTKB(tkb.id));
                                 if (myTKB.Count() == 1)
                                 {
-                                    <a href="@Url.Action("Create", new { myTKB.Single().id })" class="btn btn-success btn-circle btn-sm">
+                                    <a href="@Url.Action("Create", new { myTKB.Single().id, back })" class="btn btn-success btn-circle btn-sm">
                                         <i class="fas fa-plus"></i>
                                     </a>
                                 }
@@ -169,7 +170,7 @@
                                         <div class="dropdown-menu" aria-labelledby="ghiSoDauBai">
                                             @foreach (var tkb in myTKB)
                                             {
-                                                <a class="dropdown-item" href="@Url.Action("Create", new { tkb.id })">Lớp ngày Thứ @tkb.ThuKieuSo</a>
+                                                <a class="dropdown-item" href="@Url.Action("Create", new { tkb.id, back })">Lớp ngày Thứ @tkb.ThuKieuSo</a>
                                             }
                                         </div>
                                     </div>
@@ -188,7 +189,7 @@
                         var span = item.DeXuat.IsNullOrEmptyOrWhiteSpace() ? 1 : 2;
                         if (isBanCanSu && SoGhiChu.Count > 0 && SoGhiChu[0].NgayGhi < item.NgayDay)
                         {
-                            @DisplaySGC(SoGhiChu[0])
+                            @DisplaySGC(SoGhiChu[0], back)
                             SoGhiChu.RemoveAt(0);
                         }
                         <tr class="@style" style="@(prev != null && item.NgayDay == prev.NgayDay && item.ThoiGianBD == prev.ThoiGianBD ? "text-decoration:line-through" : null)">
@@ -231,10 +232,10 @@
                                 @if (User.IsInTKB(item.ThoiKhoaBieu.id) && User.IsInSDB(item.id)
                                         && (DateTime.Today - item.NgayDay).Days < KhoaSo)
                                 {
-                                    <a href="@Url.Action("Edit", new { id = item.id })" class="btn btn-warning btn-circle btn-sm">
+                                    <a href="@Url.Action("Edit", new { id = item.id, back })" class="btn btn-warning btn-circle btn-sm">
                                         <i class="fas fa-pencil-alt"></i>
                                     </a>
-                                    <a href="@Url.Action("Delete", new { id = item.id })" class="btn btn-danger btn-circle btn-sm">
+                                    <a href="@Url.Action("Delete", new { id = item.id, back })" class="btn btn-danger btn-circle btn-sm">
                                         <i class="fas fa-trash"></i>
                                     </a>
                                 }
@@ -263,7 +264,7 @@
                     {
                         foreach (var item in SoGhiChu)
                         {
-                            @DisplaySGC(item)
+                            @DisplaySGC(item, back)
                         }
                     }
                 </tbody>

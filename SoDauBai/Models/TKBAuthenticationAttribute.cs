@@ -25,7 +25,10 @@ namespace SoDauBai.Models
             {
                 var model = db.ThoiKhoaBieux.Find(id);
                 if (model == null) return false;
-                return db.GiangViens.SingleOrDefault(gv => gv.MaGV == model.MaGV).Init().Email.Trim().ToLower() == user.Identity.GetUserName().Trim().ToLower();
+                var maGVs = model.PhuGiangs.Select(pg => pg.MaGV).Union(new string[] { model.MaGV }).ToArray();
+                var email = user.Identity.GetUserName().Trim().ToLower();
+                return db.GiangViens.Where(gv => maGVs.Contains(gv.MaGV))
+                    .Count(gv => gv.Email.Trim().ToLower() == email) > 0;
             }
         }
     }
