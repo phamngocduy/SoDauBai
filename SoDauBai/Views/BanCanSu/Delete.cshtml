@@ -48,7 +48,7 @@
 
             <div class="form-actions no-color">
                 <input type="submit" value="Xóa luôn" class="btn btn-danger" /> |
-                <a href="@Url.Action("Index", "SoDauBai", new { id = Model.idTKB })" class="btn btn-default">Quay lại</a>
+                <a href="@Url.Action("Index", "SoDauBai", new { id = ViewData["Back"] ?? Model.idTKB })" class="btn btn-default">Quay lại</a>
             </div>
         }
     </div>

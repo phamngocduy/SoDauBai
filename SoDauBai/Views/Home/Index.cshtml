@@ -10,6 +10,9 @@
     var ngayBD = group.Min(tkb => tkb.SoGhiBais.Min(sdb => sdb.NgayDay, DateTime.MaxValue));
     int tuanBD = group.Min(tkb => tkb.TuanBD), tuanKT = group.Max(tkb => tkb.TuanKT);
     var ngayKT = ngayBD < DateTime.MaxValue ? ngayBD.AddDays((tuanKT - tuanBD + 1) * 7) : DateTime.MinValue;
+    // if one lecturer teach both LyThuyet and ThucHanh
+    int? oneId = (group.Count == 2 && group.Count(tkb => tkb.ToTH == null) == 1 && group.Count(tkb => tkb.ToTH != null) == 1
+               && group.Count(tkb => tkb.MaGV == item.MaGV) == 2) ? group.Single(tkb => tkb.ToTH != null).id : new Nullable<int>();
     <div class="col-xl-4 col-md-6 mb-4 course">
         <div class="card border-left-@(ngayKT < DateTime.Today && item.HocKy == 191 ? "info" : buoiGhi < buoiDay ? "danger" : buoiGhi == buoiDay ? "primary" : "warning") shadow py-2">
             <div class="card-body">
@@ -54,7 +57,7 @@
                                     <br />
                                 }
                                 <div style="font-weight:bold">
-                                    <a href="@Url.Action("Index", "SoDauBai", new { id = tkb.id })" class="btn btn-@(isInTKB ? "primary" : "info") @(!isInTKB ? "disabled" : null) filter">
+                                    <a href="@Url.Action("Index", "SoDauBai", new { id = oneId ?? tkb.id })" class="btn btn-@(isInTKB ? "primary" : "info") @(!isInTKB ? "disabled" : null) filter">
                                         @String.Format("Phòng {0}: Thứ {1} tiết {2} - {3}", tkb.MaPH, tkb.ThuKieuSo, tkb.TietBD, tkb.TietBD + tkb.SoTiet - 1)
                                     </a>
                                 </div>
@@ -74,7 +77,7 @@
                                 }
                                 @if (!isInTKB)
                                 {
-                                    <a href="@Url.Action("Index", "SoDauBai", new { id = tkb.id })">
+                                    <a href="@Url.Action("Index", "SoDauBai", new { id = oneId ?? tkb.id })">
                                         <span class="badge badge-default">
                                             <i class="fas fa-eye"></i>
                                         </span>

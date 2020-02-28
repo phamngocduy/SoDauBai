@@ -71,7 +71,7 @@
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Lưu" class="btn btn-primary" />
-                @Html.ActionLink("Quay lại", "Index", "SoDauBai", new { id = Model.idTKB }, null)
+                @Html.ActionLink("Quay lại", "Index", "SoDauBai", new { id = ViewData["Back"] ?? Model.idTKB }, null)
             </div>
         </div>
     </div>
