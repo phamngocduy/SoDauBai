@@ -167,7 +167,7 @@
 <div class="row" style="@(Model.Count() == 0 ? "display:none" : null)">
     <span class="text-primary">Thời khóa biểu ngày hôm nay:</span>
     @{
-        var today = new int[16];
+        var today = new int[18];
         foreach (var tkb in Model.Where(tkb => CONST.DAY[tkb.ThuKieuSo] == (int)DateTime.Today.DayOfWeek).OrderBy(tkb => tkb.TietBD))
         {
             if (User.IsInTKB(tkb.id))
@@ -244,7 +244,7 @@
                                 var week = new ThoiKhoaBieu[9][];
                                 for (int i = 0; i < week.Length; i++)
                                 {
-                                    week[i] = new ThoiKhoaBieu[16];
+                                    week[i] = new ThoiKhoaBieu[18];
                                 }
                                 foreach (var tkb in Model)
                                 {
