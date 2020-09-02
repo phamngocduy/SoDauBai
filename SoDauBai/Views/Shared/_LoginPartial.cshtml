@@ -1,4 +1,5 @@
 ﻿@using Microsoft.AspNet.Identity
+@using Microsoft.AspNet.Identity.Owin
 <!-- Nav Item - User Information -->
 <li class="nav-item dropdown no-arrow">
     @if (Request.IsAuthenticated)
@@ -6,9 +7,14 @@
         using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
         {
             @Html.AntiForgeryToken()
+            var loginInfo = Session["ExternalLoginInfo"] as ExternalLoginInfo;
 
             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="mr-2 d-none d-lg-inline text-gray-600 small">@User.Identity.GetUserName()</span>
+                <span class="mr-2 d-none d-lg-inline text-gray-600 small">
+                    <span title="@(loginInfo?.Email ?? User.Identity.GetUserName())">
+                        @(loginInfo?.DefaultUserName ?? User.Identity.GetUserName())
+                    </span>
+                </span>
             </a>
             <!-- Dropdown - User Information -->
             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">

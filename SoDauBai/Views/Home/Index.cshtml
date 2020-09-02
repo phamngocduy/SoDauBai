@@ -341,3 +341,10 @@
         }
     }
 </script>
+
+@if (ViewBag.Message != null)
+{
+    <script>
+        alert('@ViewBag.Message');
+    </script>
+}

@@ -1,10 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using SoDauBai.Models;
+using System.Data.Entity;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
 
 namespace SoDauBai.Controllers
 {
@@ -22,6 +22,32 @@ namespace SoDauBai.Controllers
         {
             var hk = this.GetHocKy(db);
             var email = User.Identity.GetUserName();
+            if (Session["ExternalLoginInfo"] is ExternalLoginInfo)
+            {
+                var loginInfo = Session["ExternalLoginInfo"] as ExternalLoginInfo;
+                if (loginInfo?.Email != email)
+                {
+                    var user = db.AspNetUsers.SingleOrDefault(u => u.Email == email);
+                    if (user != null)
+                    {
+                        user.UserName = user.Email = loginInfo.Email;
+                        db.Entry(user).State = EntityState.Modified;
+                    }
+                    var giangVien = db.GiangViens.SingleOrDefault(gv => gv.Email == email);
+                    if (giangVien != null)
+                    {
+                        giangVien.Email = loginInfo.Email;
+                        db.Entry(giangVien).State = EntityState.Modified;
+                    }
+                    var banCanSu = db.BanCanSus.Where(bcs => bcs.Email == email);
+                    banCanSu.ForEach(bcs => bcs.Email = loginInfo.Email);
+                    banCanSu.ForEach(bcs => db.Entry(bcs).State = EntityState.Modified);
+                    db.SaveChanges();
+                    email = loginInfo.Email;
+                    ViewBag.Message = "Successfully transfer to email: " + email;
+                }
+            }
+
             var MaMH_NhomTo = (from tkb in db.ThoiKhoaBieux join gv in db.GiangViens on tkb.MaGV equals gv.MaGV
                             where tkb.HocKy == hk && (gv.Email == email || tkb.BanCanSus.Count(bcs => bcs.Email == email) > 0)
                             select tkb) // next for PhuGiang
