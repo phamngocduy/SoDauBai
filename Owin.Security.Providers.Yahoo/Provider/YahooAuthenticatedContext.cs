@@ -31,11 +31,12 @@ namespace Owin.Security.Providers.Yahoo
             : base(context)
         {
             User = user;
-            UserId = (string)user.SelectToken("guid");
-            NickName = TryGetValue(user, "nickname");
+            UserId = (string)user.SelectToken("sub");
+            NickName = TryGetValue(user, "name");
             AccessToken = accessToken;
             AccessTokenSecret = accessTokenSecret;
-            Email = GetEmail(user);
+            //Email = GetEmail(user);
+            Email = (string)user.SelectToken("email");
         }
 
         /// <summary>

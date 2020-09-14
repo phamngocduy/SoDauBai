@@ -30,7 +30,8 @@ namespace Owin.Security.Providers.Yahoo
         private const string StateCookie = "__YahooState";
         private const string AuthenticationEndpoint = "https://api.login.yahoo.com/oauth2/request_auth";
         private const string AccessTokenEndpoint = "https://api.login.yahoo.com/oauth2/get_token";
-        private const string UserInformationEndpoint = "https://social.yahooapis.com/v1/user/me/profile";
+        private const string UserInformationEndpoint = "https://api.login.yahoo.com/openid/v1/userinfo";
+        //"https://social.yahooapis.com/v1/user/me/profile";
 
         private readonly HttpClient _httpClient;
         private readonly ILogger _logger;
@@ -398,7 +399,7 @@ namespace Owin.Security.Providers.Yahoo
             if (count <= 0) return null;
             var userCard = (JObject)queryObject.SelectToken("results.profile");
             */
-            return (JObject)responseObject.SelectToken("profile");
+            return responseObject; //(JObject)responseObject.SelectToken("profile");
         }
     }
 }

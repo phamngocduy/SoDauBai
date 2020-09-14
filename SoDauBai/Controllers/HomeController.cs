@@ -26,7 +26,7 @@ namespace SoDauBai.Controllers
             if (Session["ExternalLoginInfo"] is ExternalLoginInfo)
             {
                 var loginInfo = Session["ExternalLoginInfo"] as ExternalLoginInfo;
-                if (loginInfo?.Email != email)
+                if (loginInfo?.Email != null && loginInfo?.Email != email)
                 {
                     var user = db.AspNetUsers.SingleOrDefault(u => u.Email == email);
                     if (user != null)
