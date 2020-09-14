@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using System.Text;
 using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
@@ -82,6 +84,21 @@ namespace SoDauBai.Controllers
             db.GiangViens.Remove(model);
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        public FileResult Download()
+        {
+            using (var stream = new MemoryStream())
+            using (var writer = new StreamWriter(stream, Encoding.Unicode))
+            {
+                writer.WriteLine("MaGV\tHocVi\tHoTen\tEmail");
+                foreach (var gv in db.GiangViens)
+                    writer.WriteLine("\"=\"\"{0}\"\"\"\t\"{1}\"\t\"{2}\"\t\"{3}\"",
+                        gv.MaGV, gv.HocVi, gv.HoTen, gv.Email);
+                writer.Flush();
+                stream.Seek(0, SeekOrigin.Begin);
+                return File(stream.GetBuffer(), "text/x-csv", "GiangVien.csv");
+            }
         }
 
         protected override void Dispose(bool disposing)

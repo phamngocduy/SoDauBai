@@ -345,6 +345,7 @@
 @if (ViewBag.Message != null)
 {
     <script>
-        alert('@ViewBag.Message');
+        message = alert;
+        message('@ViewBag.Message');
     </script>
 }

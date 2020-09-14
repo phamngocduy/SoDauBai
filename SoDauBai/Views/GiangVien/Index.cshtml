@@ -3,9 +3,12 @@
 <div class="card shadow mb-4">
     <div class="card-header py-3">
         <h6 class="m-0 font-weight-bold text-primary d-inline">Danh sách Giảng viên</h6>
-        <a href="@Url.Action("Create")" class="btn btn-success btn-circle btn-sm float-right">
-            <i class="fas fa-plus"></i>
-        </a>
+        <div class="float-right">
+            <a href="@Url.Action("Download")" target="_blank">Download</a> |
+            <a href="@Url.Action("Create")" class="btn btn-success btn-circle btn-sm">
+                <i class="fas fa-plus"></i>
+            </a>
+        </div>
     </div>
     <div class="card-body">
         <div class="table-responsive">
