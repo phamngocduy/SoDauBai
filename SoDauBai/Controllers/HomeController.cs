@@ -36,18 +36,13 @@ namespace SoDauBai.Controllers
                         db.Entry(user).State = EntityState.Modified;
                     }
 
-                    var giangVien = db.GiangViens.SingleOrDefault(gv => gv.Email == email);
-                    if (giangVien != null)
-                    {
-                        giangVien.Email = loginInfo.Email;
-                        db.Entry(giangVien).State = EntityState.Modified;
-                    }
-                    var giaoVu = db.GiaoVus.SingleOrDefault(gv => gv.Email == email);
-                    if (giaoVu != null)
-                    {
-                        giaoVu.Email = loginInfo.Email;
-                        db.Entry(giaoVu).State = EntityState.Modified;
-                    }
+                    var giangVien = db.GiangViens.Where(gv => gv.Email == email);
+                    giangVien.ForEach(gv => gv.Email = loginInfo.Email);
+                    giangVien.ForEach(gv => db.Entry(gv).State = EntityState.Modified);
+
+                    var giaoVu = db.GiaoVus.Where(gv => gv.Email == email);
+                    giaoVu.ForEach(gv => gv.Email = loginInfo.Email);
+                    giaoVu.ForEach(gv => db.Entry(gv).State = EntityState.Modified);
 
                     var banCanSu = db.BanCanSus.Where(bcs => bcs.Email == email);
                     banCanSu.ForEach(bcs => bcs.Email = loginInfo.Email);
