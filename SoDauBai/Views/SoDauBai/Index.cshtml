@@ -56,6 +56,9 @@
 <link rel="stylesheet" href="~/Content/font-awesome-animation.min.css">
 <div class="card shadow mb-4">
     <div class="card-header py-3">
+        <span class="badge badge-info" style="float:right" onclick="$('#DSSV').modal()">
+            <a href="https://online.vanlanguni.edu.vn/" target="_blank" style="color:whitesmoke;cursor:help">DSSV ?</a>
+        </span>
         @foreach (var tkb in TKBs.OrderBy(tkb => tkb.ThuKieuSo))
         {
             var Tiet = new int[TKB.SoTiet];
@@ -89,7 +92,7 @@
             else
             {
                 <abbr title="Chưa chọn Ban cán sự lớp Học phần">
-                    <i class="fas fa-exclamation faa-flash animated text-danger"></i>
+                    <i class="fas fa-exclamation faa-flash /*animated*/ text-danger"></i>
                 </abbr>
             }
             if (User.IsInTKB(tkb.id))
@@ -286,3 +289,16 @@
         });
     </script>
 }
+
+<div class="modal fade" id="DSSV" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <img class="img-fluid img-rounded" src="~/Content/DSSVfromOnline.png" />
+            </div>
+        </div>
+    </div>
+</div>

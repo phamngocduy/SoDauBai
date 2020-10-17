@@ -77,6 +77,7 @@ namespace SoDauBai.Controllers
         {
             var hk = this.GetHocKy(db);
             var model = FilterGiaoVu(FilterHocKy(db.ThoiKhoaBieux, hk));
+            ViewBag.NganhHocs = db.NganhHocs.ToList();
             ViewBag.GiangViens = db.GiangViens.ToList();
             ViewBag.GuiEmails = db.GuiEmails.Where(e => e.Loai == EMAILS.GhiSo).ToList();
             return View(model.ToList());

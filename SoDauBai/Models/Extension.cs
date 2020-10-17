@@ -212,5 +212,10 @@ namespace SoDauBai.Models
         {
             return j != 0 ? i / (double)j : 0;
         }
+
+        public static string AsString(this IEnumerable<char> charSequence)
+        {
+            return charSequence.Count() > 0 ? new string(charSequence.ToArray()) : null;
+        }
     }
 }
