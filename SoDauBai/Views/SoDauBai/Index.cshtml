@@ -233,7 +233,7 @@
                             </td>
                             <td rowspan="@span">
                                 @if (User.IsInTKB(item.ThoiKhoaBieu.id) && User.IsInSDB(item.id)
-                                        && (DateTime.Today - item.NgayDay).Days < KhoaSo)
+                                        && (DateTime.Today - item.NgayDay).Days < KhoaSo + 1)
                                 {
                                     <a href="@Url.Action("Edit", new { id = item.id, back })" class="btn btn-warning btn-circle btn-sm">
                                         <i class="fas fa-pencil-alt"></i>
