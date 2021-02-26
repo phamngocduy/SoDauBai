@@ -13,9 +13,11 @@ namespace SoDauBai.Controllers
     {
         private SoDauBaiEntities db = new SoDauBaiEntities();
 
-        public ActionResult Index()
+        public ActionResult Index(bool showAll = false)
         {
-            return View(db.LienHes.ToList());
+            var model = showAll ? db.LienHes
+                : db.LienHes.Take(26);
+            return View(model.ToList());
         }
 
         public ActionResult Create()
