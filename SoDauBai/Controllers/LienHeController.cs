@@ -15,8 +15,8 @@ namespace SoDauBai.Controllers
 
         public ActionResult Index(bool showAll = false)
         {
-            var model = showAll ? db.LienHes
-                : db.LienHes.Take(26);
+            var model = (showAll ? db.LienHes : db.LienHes)
+                .OrderByDescending(lh => lh.on).Take(26);
             return View(model.ToList());
         }
 

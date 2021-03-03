@@ -10,7 +10,7 @@
             var loginInfo = Session["ExternalLoginInfo"] as ExternalLoginInfo;
 
             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-cog d-inline d-lg-none" style="color:darkblue"></i>
+                <i class="fas fa-cog d-inline d-lg-none faa-spin animated" style="color:darkblue"></i>
                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">
                     <span title="@(loginInfo?.Email ?? User.Identity.GetUserName())">
                         @(loginInfo?.DefaultUserName ?? User.Identity.GetUserName())
