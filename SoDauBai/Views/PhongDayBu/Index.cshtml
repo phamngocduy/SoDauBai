@@ -108,6 +108,12 @@
                 </tbody>
             </table>
         </div>
+        @if (ViewContext.RouteData.Values["action"].ToString().ToLower() == "index2")
+        {
+            <div class="text-center">
+                <a href="@Url.Action("Index2", new { showAll = true })"><i>Hiển thị tất cả...</i></a>
+            </div>
+        }
     </div>
 </div>
 

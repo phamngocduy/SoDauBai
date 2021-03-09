@@ -6,6 +6,7 @@ using System.Data;
 using System.Web.Mvc;
 using System.Security.Principal;
 using System.Text;
+using System.Web;
 
 namespace SoDauBai.Models
 {
@@ -169,7 +170,7 @@ namespace SoDauBai.Models
 
         public static byte GetHocKy(this Controller controller, SoDauBaiEntities db)
         {
-            return (byte)(controller.Session[CONST.HocKy] ?? db.ThoiKhoaBieux.MaxOrDefault(tkb => tkb.HocKy));
+            return (byte)(HttpContext.Current.Session[CONST.HocKy] ?? db.ThoiKhoaBieux.MaxOrDefault(tkb => tkb.HocKy));
         }
 
         public static T Parse<T>(this string text, string errorMessage) where T : IComparable, IFormattable, IConvertible, IComparable<T>, IEquatable<T>

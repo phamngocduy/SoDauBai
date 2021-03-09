@@ -1,0 +1,105 @@
+﻿@model IEnumerable<SoGhiBai>
+@{
+    Layout = null;
+    var count = 1;
+    var start = Model.Count() > 0 ? Model.Min(s => s.NgayDay) : DateTime.MinValue;
+    var BORDER = "border:1px solid;border-collapse:collapse;padding:0.3rem";
+}
+
+<div>
+    TRƯỜNG ĐẠI HỌC VĂN LANG
+    <br />KHOA: ...
+</div>
+
+<center><h2>SỔ ĐẦU BÀI</h2></center>
+
+<table width="100%">
+    <tr>
+        <td>
+            Học phần: <b>@ViewBag.TKB_TenMH</b><br />
+            Họ và tên Giảng viên: <b>@ViewBag.GV_HocVi @ViewBag.GV_HoTen</b>
+        </td>
+    </tr>
+</table>
+
+<table style="text-align:left;@BORDER" width="100%">
+    <thead>
+        <tr style="@BORDER">
+            <th style="@BORDER">STT</th>
+            <th style="@BORDER">Thời gian</th>
+            <th style="@BORDER">Phòng</th>
+            <th style="@BORDER">Nội dung giảng dạy</th>
+            <th style="@BORDER">Nhận xét sinh viên</th>
+            <th style="@BORDER">Giáo vụ</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{ SoGhiBai prev = null; }
+        @foreach (var item in Model.OrderBy(s => s.NgayDay))
+        {
+            var span = item.DeXuat.IsNullOrEmptyOrWhiteSpace() ? 1 : 2;
+            <tr style="@(prev != null && item.NgayDay == prev.NgayDay && item.ThoiGianBD == prev.ThoiGianBD ? "text-decoration:line-through" : null)@BORDER">
+                <td rowspan="@span" style="@BORDER">
+                    <span style="white-space:nowrap">Buổi @(count++)</span>
+                    <br />
+                    <span style="white-space:nowrap">Tuần @((int)(item.NgayDay - start).TotalDays / 7 + 1)</span>
+                </td>
+                <td rowspan="@span" style="@BORDER">
+                    @item.NgayDay.DayOfWeek
+                    <br />
+                    @item.NgayDay.ToString("dd/MM/yyyy")
+                    <br />
+                    <span style="white-space:nowrap">@item.ThoiGianBD.ToString(@"hh\:mm") - @item.ThoiGianKT.ToString(@"hh\:mm")</span>
+                </td>
+                <td rowspan="@span" style="@BORDER">
+                    P#@item.MaPhong
+                    <br />
+                    @item.TongSoSV<span>SV</span>
+                </td>
+                <td style="@BORDER">
+                    @foreach (var line in (item.NDGiangDay ?? "").Split('\n'))
+                    {
+                        if (!String.IsNullOrEmpty((line ?? "").Trim()))
+                        {
+                            <span>@line</span><br />
+                        }
+                    }
+                </td>
+                <td style="@BORDER">
+                    @foreach (var line in (item.NhanXetSV ?? "").Split('\n'))
+                    {
+                        if (!String.IsNullOrEmpty((line ?? "").Trim()))
+                        {
+                            <span>@line</span><br />
+                        }
+                    }
+                </td>
+                <td rowspan="@span" style="@BORDER">
+                </td>
+            </tr>
+            if (span == 2)
+            {
+                <tr style="@BORDER">
+                    <td colspan="@span" style="@BORDER">
+                        @item.DeXuat
+                        @if (!String.IsNullOrEmpty(item.XemDeXuat))
+                        {
+                            <a data-content="Đã được tiếp nhận bởi @item.XemDeXuat" data-toggle="popover" class="btn btn-success btn-circle btn-sm">
+                                <i class="fas fa-user-check"></i>
+                            </a>
+                        }
+                    </td>
+                </tr>
+            }
+            prev = item;
+        }
+    </tbody>
+</table>
+
+<br />
+<table width="100%" style="text-align:center">
+    <tr>
+        <td>BAN CHỦ NHIỆM KHOA</td>
+        <td>GIÁO VỤ KHOA</td>
+    </tr>
+</table>

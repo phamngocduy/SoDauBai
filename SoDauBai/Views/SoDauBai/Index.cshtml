@@ -64,6 +64,10 @@
             var Tiet = new int[TKB.SoTiet];
             Tiet.For(0, TKB.SoTiet - 1, i => Tiet[i] = TKB.TietBD + i);
             var GV = GVs.FirstOrDefault(gv => gv.MaGV == tkb.MaGV).Init();
+            ViewBag.TKB_MaMH = ViewData["TKB_MaMH"] ?? tkb.MaMH;
+            ViewBag.TKB_TenMH = ViewData["TKB_TenMH"] ?? tkb.TenMH;
+            ViewBag.GV_HocVi = ViewData["GV_HocVi"] ?? GV.HocVi;
+            ViewBag.GV_HoTen = ViewData["GV_HoTen"] ?? GV.HoTen;
             <h6 class="m-0 font-weight-bold text-primary d-inline">
                 @tkb.NhomTo - @tkb.TenMH -
                 <abbr title="Giảng viên @GV.HocVi @GV.HoTen">
@@ -276,6 +280,13 @@
                 </tbody>
             </table>
         </div>
+
+        <form action="@Url.Action("Export")" method="post">
+            @{ var id = Request.RequestContext.RouteData.Values["id"]; }
+            <input type="hidden" name="Name" value="@ViewBag.TKB_MaMH" />
+            <input type="hidden" name="Content" value="@Html.Partial("Export", Model).ToString()" />
+            <input type="submit" value="Export..." onclick="setTimeout($.unblockUI,0)" />
+        </form>
     </div>
 </div>
 

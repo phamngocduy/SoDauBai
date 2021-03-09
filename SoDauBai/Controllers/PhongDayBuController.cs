@@ -26,6 +26,8 @@ namespace SoDauBai.Controllers
                 var maNganh = (GV.Init().MaNganh ?? "").Split(',');
                 Phong = Phong.Where(p => maNganh.Contains(p.ThoiKhoaBieu.MaNganh));
             }
+            var hk = Extension.GetHocKy(null, db); // filter by HK
+            Phong = Phong.Where(p => p.ThoiKhoaBieu.HocKy == hk);
             return Phong;
         }
 
@@ -50,9 +52,10 @@ namespace SoDauBai.Controllers
         }
 
         [Authorize(Roles = "DaoTao,GiaoVu")]
-        public ActionResult Index2()
+        public ActionResult Index2(bool showAll = false)
         {
-            var model = FilterGiaoVu(db.PhongDayBus, User, db);
+            var model = FilterGiaoVu(db.PhongDayBus, User, db)
+                .Where(p => showAll || !p.status.HasValue);
             ViewBag.GV = db.GiangViens.ToList();
             return View("Index", model.ToList());
         }

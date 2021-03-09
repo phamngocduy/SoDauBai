@@ -199,6 +199,27 @@ namespace SoDauBai.Controllers
             return false;
         }
 
+
+        public ActionResult Export(int id)
+        {
+            return View((Index(id) as ViewResult).Model);
+        }
+
+        [HttpPost]
+        [ValidateInput(false)]
+        public EmptyResult Export(string content, string name = "SDB")
+        {
+            Response.Clear();
+            Response.Buffer = true;
+            Response.AddHeader("content-disposition", "attachment;filename=" + name + ".doc");
+            Response.Charset = "";
+            Response.ContentType = "application/vnd.ms-word";
+            Response.Output.Write(content);
+            Response.Flush();
+            Response.End();
+            return new EmptyResult();
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

@@ -606,6 +606,7 @@
     <Content Include="Views\BanCanSu\Delete.cshtml" />
     <Content Include="Views\ThongKe\SoLopDay.cshtml" />
     <Content Include="Views\ThongKe\GhiSDBTre.cshtml" />
+    <Content Include="Views\SoDauBai\Export.cshtml" />
     <None Include="Web.CNTT.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
