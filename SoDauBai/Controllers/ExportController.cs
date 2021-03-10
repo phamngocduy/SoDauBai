@@ -5,6 +5,7 @@ using System.Web.Mvc;
 using SoDauBai.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using System.Data.Entity;
 using System.Reflection;
 
 namespace SoDauBai.Controllers
@@ -113,6 +114,25 @@ namespace SoDauBai.Controllers
                         new JsonSerializerSettings { ContractResolver = new VirtualContractResolver() }));
                 }
                 return View();
+            }
+        }
+
+        public ActionResult Index()
+        {
+            using (var db = new SoDauBaiEntities())
+                return View(db.NganhHocs.ToList());
+        }
+
+        public ActionResult Details(int id)
+        {
+            using (var db = new SoDauBaiEntities())
+            {
+                var nganhHoc = db.NganhHocs.Find(id);
+                ViewBag.GVs = db.GiangViens.ToList();
+                var hocKy = Extension.GetHocKy(null, db);
+                ViewBag.MaNganh = nganhHoc.MaNganh; ViewBag.HocKy = hocKy;
+                return View(db.ThoiKhoaBieux.Include(tkb => tkb.SoGhiBais).Where(tkb => 
+                    tkb.MaNganh == nganhHoc.MaNganh && tkb.HocKy == hocKy).ToList());
             }
         }
     }

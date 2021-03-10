@@ -1,0 +1,39 @@
+﻿@model IEnumerable<ThoiKhoaBieu>
+@{ 
+    Layout = null;
+    var GVs = ViewBag.GVs as List<GiangVien>;
+}
+
+<form action="@Url.Action("Export", "SoDauBai")" method="post">
+    <label>KHOA:</label>
+    <input type="text" name="Khoa" autofocus />
+    <input type="submit" value="Export" />
+    <input type="hidden" name="Content" id="Content" />
+    <input type="hidden" name="Name" value="SDB_@(ViewBag.MaNganh)_@(ViewBag.HocKy)" />
+</form>
+<hr />
+<div id="Export">
+    @foreach (var tkb in Model)
+    {
+        var GV = GVs.FirstOrDefault(gv => gv.MaGV == tkb.MaGV).Init();
+        ViewBag.GV_HocVi = GV.HocVi; ViewBag.GV_HoTen = GV.HoTen;
+        ViewBag.TKB_MaMH = tkb.MaMH; ViewBag.TKB_TenMH = tkb.TenMH;
+        @Html.Partial("~/Views/SoDauBai/Export.cshtml", tkb.SoGhiBais)
+        <hr style="margin-top:2em" />
+    }
+</div>
+
+<!--script src="~/Content/vendor/vue.global.js"></script-->
+<script src="~/Content/vendor/jquery/jquery.min.js"></script>
+<script>
+    $(function () {
+        $('form').submit(function () {
+            var content = $('#Export').clone();
+            content.find('hr').replaceWith('<br style="mso-special-character:line-break;page-break-before:always">');
+            $('#Content').val(content.html());
+        });
+        $('input[name=Khoa]').change(function () {
+            $('span[name=Khoa]').text($(this).val());
+        })
+    });
+</script>

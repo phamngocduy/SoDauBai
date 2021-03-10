@@ -66,6 +66,7 @@
             var GV = GVs.FirstOrDefault(gv => gv.MaGV == tkb.MaGV).Init();
             ViewBag.TKB_MaMH = ViewData["TKB_MaMH"] ?? tkb.MaMH;
             ViewBag.TKB_TenMH = ViewData["TKB_TenMH"] ?? tkb.TenMH;
+            ViewBag.TKB_HocKy = ViewData["TKB_HocKy"] ?? tkb.HocKy;
             ViewBag.GV_HocVi = ViewData["GV_HocVi"] ?? GV.HocVi;
             ViewBag.GV_HoTen = ViewData["GV_HoTen"] ?? GV.HoTen;
             <h6 class="m-0 font-weight-bold text-primary d-inline">
@@ -283,7 +284,7 @@
 
         <form action="@Url.Action("Export")" method="post">
             @{ var id = Request.RequestContext.RouteData.Values["id"]; }
-            <input type="hidden" name="Name" value="@ViewBag.TKB_MaMH" />
+            <input type="hidden" name="Name" value="SDB_@(ViewBag.TKB_MaMH)_@(ViewBag.TKB_HocKy)" />
             <input type="hidden" name="Content" value="@Html.Partial("Export", Model).ToString()" />
             <input type="submit" value="Export..." onclick="setTimeout($.unblockUI,0)" />
         </form>

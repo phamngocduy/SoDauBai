@@ -466,6 +466,7 @@
     <Content Include="Content\new-logo.png" />
     <Content Include="Content\select2-bootstrap.min.css" />
     <Content Include="Content\select2.min.css" />
+    <Content Include="Content\vendor\vue.global.js" />
     <Content Include="Scripts\autosize.min.js" />
     <Content Include="Scripts\bootstrap-rating.js" />
     <Content Include="Scripts\jquery-ui.min.js" />
@@ -607,6 +608,8 @@
     <Content Include="Views\ThongKe\SoLopDay.cshtml" />
     <Content Include="Views\ThongKe\GhiSDBTre.cshtml" />
     <Content Include="Views\SoDauBai\Export.cshtml" />
+    <Content Include="Views\Export\Index.cshtml" />
+    <Content Include="Views\Export\Details.cshtml" />
     <None Include="Web.CNTT.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
@@ -615,7 +618,6 @@
   <ItemGroup>
     <Folder Include="Content\css\" />
     <Folder Include="Content\js\" />
-    <Folder Include="Content\vendor\" />
     <Folder Include="Views\Backup\" />
   </ItemGroup>
   <ItemGroup>

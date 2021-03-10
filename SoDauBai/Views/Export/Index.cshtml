@@ -1,0 +1,50 @@
+﻿@model IEnumerable<NganhHoc>
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary d-inline">Các Ngành đào tạo</h6>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Mã ngành</th>
+                        <th>Tên ngành</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.MaNganh)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.TenNganh)
+                            </td>
+                            <td>
+                                <a href="@Url.Action("Details", new { item.id })" target="_blank">Xuất dữ liệu...</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Call the dataTables jQuery plugin
+        $(document).ready(function() {
+            $('#dataTable').DataTable({
+                stateSave: true,
+                language: {
+                    url: 'https://cdn.datatables.net/plug-ins/1.10.19/i18n/Vietnamese.json'
+                }
+            });
+        });
+    </script>
+}
