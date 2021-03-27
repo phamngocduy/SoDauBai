@@ -26,8 +26,10 @@
                 @if (item.ToTH != null) { <span class="badge badge-primary">TH</span> }
             </a>
         </td>
+        <td style="display:none">@item.NhomTo</td>
         <td>@(N.Find(n => n.MaNganh == item.MaNganh)?.TenNganh ?? item.MaNganh)</td>
         <td><i>@String.Join(", ", giangVien)</i></td>
+        <td style="display:none">@String.Join(",", giangVien.Select(gv => gv?.Split('-').Last().Trim()))</td>
         <td>@(buoiGhi+buoiBu+buoiNghi2)/@buoiDay</td>
         <td data-order="@TKB.Min(tkb => tkb.TuanBD)" data-search="Tuan_@TKB.Min(tkb => tkb.TuanBD)">
             @TKB.Min(tkb => tkb.TuanBD) - @TKB.Max(tkb => tkb.TuanKT)
@@ -68,13 +70,14 @@
                 <thead>
                     <tr>
                         <th>Lớp học phần</th>
+                        <th style="display:none">Nhóm tổ</th>
                         <th id="Nganh">
                             @Html.DropDownList("Nganh", new SelectList(Model.Select(tkb => tkb.MaNganh).Distinct()
                                  .Select(m => NganhHocs.Find(n => n.MaNganh == m)?.TenNganh.Take(15).AsString() ?? m)
                                  .OrderBy(s => s)), "Ngành")
                         </th>
                         <th>Giảng viên</th>
-                        <!--th>Số SV</th-->
+                        <th style="display:none">Mã GV</th>
                         <th id="GhiSo">Ghi sổ</th>
                         <th id="KeHoach">
                             <abbr title="Số buổi dạy theo kế hoạch (giả sử dạy 15 tuần nếu chưa có dữ liệu)">Kế hoạch</abbr>
